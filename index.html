@@ -108,14 +108,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
         
@@ -348,5 +348,106 @@
         </div>
     </div>
     
+    <script>
+        let selectedLocation = '';
+        let selectedArea = '';
+
+        const areaData = {
+            kitchen: {
+                name: 'キッチン',
+                areas: [
+                    { id: 'sink', name: 'シンク・排水口', icon: '🚰' },
+                    { id: 'gas', name: 'ガスコンロ', icon: '🔥' },
+                    { id: 'ih', name: 'IHクッキングヒーター', icon: '⚡' },
+                    { id: 'ventilation', name: '換気扇・レンジフード', icon: '💨' }
+                ]
+            },
+            bathroom: {
+                name: '浴室',
+                areas: [
+                    { id: 'bathtub', name: '浴槽', icon: '🛁' },
+                    { id: 'washstand', name: '洗い場', icon: '🚿' },
+                    { id: 'drain', name: '排水口', icon: '🌀' },
+                    { id: 'ventilation', name: '換気扇', icon: '💨' },
+                    { id: 'shower', name: 'シャワーヘッド', icon: '🚿' },
+                    { id: 'toilet', name: '浴室内トイレ', icon: '🚽' }
+                ]
+            },
+            toilet: {
+                name: 'トイレ',
+                areas: [
+                    { id: 'toilet', name: '便器', icon: '🚽' },
+                    { id: 'floor', name: '床・壁', icon: '🏠' }
+                ]
+            },
+            living: {
+                name: 'リビング',
+                areas: [
+                    { id: 'sofa', name: 'ソファ', icon: '🛋️' },
+                    { id: 'table', name: 'テーブル', icon: '🪑' },
+                    { id: 'carpet', name: 'カーペット・ラグ', icon: '🟦' },
+                    { id: 'wall', name: '壁・壁紙', icon: '🏠' }
+                ]
+            },
+            window: {
+                name: '窓',
+                areas: [
+                    { id: 'glass', name: '窓ガラス', icon: '🪟' },
+                    { id: 'sash', name: '窓枠・サッシ', icon: '🔲' }
+                ]
+            },
+            floor: {
+                name: '床',
+                areas: [
+                    { id: 'flooring', name: 'フローリング', icon: '🪵' },
+                    { id: 'tatami', name: '畳', icon: '🟨' },
+                    { id: 'carpet', name: 'カーペット', icon: '🟦' },
+                    { id: 'tile', name: 'タイル', icon: '⬜' }
+                ]
+            }
+        };
+
+        function selectLocation(location) {
+            selectedLocation = location;
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            
+            const areaSelection = document.getElementById('areaSelection');
+            areaSelection.innerHTML = '';
+            
+            const areas = areaData[location].areas;
+            areas.forEach(area => {
+                const button = document.createElement('button');
+                button.className = 'selection-button';
+                button.onclick = () => selectArea(area.id);
+                button.innerHTML = `
+                    <span class="selection-icon">${area.icon}</span>
+                    <span class="selection-title">${area.name}</span>
+                `;
+                areaSelection.appendChild(button);
+            });
+        }
+
+        function selectArea(area) {
+            selectedArea = area;
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+        }
+
+        function selectLevel(level) {
+            const url = `${selectedLocation}/${selectedArea}-${level}.html`;
+            window.location.href = url;
+        }
+
+        function backToStep1() {
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+        }
+
+        function backToStep2() {
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
