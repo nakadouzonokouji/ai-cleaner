@@ -17,9 +17,9 @@ jobs:
     - name: Deploy to server via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: ${{ secrets.XSERVER_FTP_HOST }}
+        username: ${{ secrets.XSERVER_FTP_USER }}
+        password: ${{ secrets.XSERVER_FTP_PASS }}
         server-dir: /public_html/tools/ai-cleaner/
         exclude: |
           **/.git*
