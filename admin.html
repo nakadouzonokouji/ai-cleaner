@@ -321,6 +321,63 @@
             color: white;
         }
 
+        /* コメント表示用スタイル */
+        .comment-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .comment-item.good {
+            border-left-color: #27ae60;
+        }
+
+        .comment-item.bad {
+            border-left-color: #e74c3c;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .comment-method {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .comment-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .comment-text {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .comment-rating {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .comment-rating.good {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .comment-rating.bad {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -352,7 +409,8 @@
             <nav class="nav-links">
                 <a href="index.html">ホーム</a>
                 <a href="#products">商品管理</a>
-                <a href="#feedback">フィードバック</a>
+                <a href="#feedback">商品フィードバック</a>
+                <a href="#method-feedback">掃除方法フィードバック</a>
                 <a href="#export">エクスポート</a>
             </nav>
         </div>
@@ -444,6 +502,91 @@
                         <!-- フィードバックデータは動的に生成 -->
                     </tbody>
                 </table>
+            </div>
+        </section>
+
+        <!-- 掃除方法フィードバックセクション -->
+        <section class="section" id="method-feedback">
+            <h2>掃除方法フィードバック</h2>
+            
+            <!-- 統計サマリー -->
+            <div class="stats-grid" style="margin-bottom: 20px;">
+                <div class="stat-card">
+                    <h3>総フィードバック数</h3>
+                    <div class="number" id="totalMethodFeedback">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Good評価</h3>
+                    <div class="number" id="goodMethodCount" style="color: #27ae60;">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Bad評価</h3>
+                    <div class="number" id="badMethodCount" style="color: #e74c3c;">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>満足度</h3>
+                    <div class="number" id="methodSatisfactionRate">0%</div>
+                </div>
+            </div>
+
+            <!-- 掃除方法別チャート -->
+            <div style="margin-bottom: 30px;">
+                <h3>掃除方法別評価チャート</h3>
+                <div class="feedback-chart" id="methodFeedbackChart" style="height: 400px;">
+                    <!-- チャートは動的に生成 -->
+                </div>
+            </div>
+
+            <!-- フィードバック詳細テーブル -->
+            <div style="margin-bottom: 30px;">
+                <h3>掃除方法別フィードバック詳細</h3>
+                <div class="toolbar">
+                    <input type="text" placeholder="掃除方法を検索..." id="methodSearchInput">
+                    <select id="methodCategoryFilter">
+                        <option value="">すべてのカテゴリー</option>
+                        <option value="kitchen">キッチン</option>
+                        <option value="bathroom">バスルーム</option>
+                        <option value="living">リビング</option>
+                        <option value="floor">床</option>
+                        <option value="toilet">トイレ</option>
+                        <option value="window">窓</option>
+                    </select>
+                    <button onclick="exportMethodData()">方法データエクスポート</button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>掃除方法</th>
+                                <th>カテゴリー</th>
+                                <th>Good 👍</th>
+                                <th>Bad 👎</th>
+                                <th>満足度</th>
+                                <th>コメント数</th>
+                                <th>最新コメント</th>
+                            </tr>
+                        </thead>
+                        <tbody id="methodFeedbackTableBody">
+                            <!-- データは動的に生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ユーザーコメントセクション -->
+            <div>
+                <h3>最新のユーザーコメント</h3>
+                <div class="toolbar">
+                    <select id="commentFilter">
+                        <option value="">すべてのコメント</option>
+                        <option value="good">Good評価のみ</option>
+                        <option value="bad">Bad評価のみ</option>
+                    </select>
+                    <button onclick="refreshComments()">更新</button>
+                </div>
+                <div id="methodCommentsList" style="max-height: 400px; overflow-y: auto; margin-top: 10px;">
+                    <!-- コメントは動的に生成 -->
+                </div>
             </div>
         </section>
     </div>
@@ -755,6 +898,238 @@
 
         // 初期化
         loadProducts();
+
+        // ===== 掃除方法フィードバック関連の関数 =====
+        let methodFeedbackData = {};
+        let methodCommentsData = [];
+
+        // 掃除方法フィードバックデータの読み込み
+        function loadMethodFeedback() {
+            // ローカルストレージから読み込み
+            const storedFeedback = localStorage.getItem('methodFeedback');
+            const storedComments = localStorage.getItem('methodComments');
+            
+            if (storedFeedback) {
+                methodFeedbackData = JSON.parse(storedFeedback);
+            }
+            
+            if (storedComments) {
+                methodCommentsData = JSON.parse(storedComments);
+            }
+
+            // デモデータの生成（実データがない場合）
+            if (Object.keys(methodFeedbackData).length === 0) {
+                generateDemoMethodData();
+            }
+
+            updateMethodStats();
+            renderMethodFeedbackChart();
+            renderMethodFeedbackTable();
+            renderMethodComments();
+        }
+
+        // デモデータの生成
+        function generateDemoMethodData() {
+            const methods = [
+                { id: 'kitchen-sink-light', name: 'キッチンシンク（軽い汚れ）', category: 'kitchen' },
+                { id: 'kitchen-sink-heavy', name: 'キッチンシンク（頑固な汚れ）', category: 'kitchen' },
+                { id: 'bathroom-bathtub-light', name: '浴槽（軽い汚れ）', category: 'bathroom' },
+                { id: 'bathroom-bathtub-heavy', name: '浴槽（頑固な汚れ）', category: 'bathroom' },
+                { id: 'toilet-floor-light', name: 'トイレ床（軽い汚れ）', category: 'toilet' },
+                { id: 'living-carpet-light', name: 'カーペット（軽い汚れ）', category: 'living' },
+                { id: 'window-glass-light', name: '窓ガラス（軽い汚れ）', category: 'window' },
+                { id: 'floor-tile-heavy', name: 'タイル床（頑固な汚れ）', category: 'floor' }
+            ];
+
+            methods.forEach(method => {
+                const good = Math.floor(Math.random() * 50) + 10;
+                const bad = Math.floor(Math.random() * 10) + 1;
+                methodFeedbackData[method.id] = {
+                    name: method.name,
+                    category: method.category,
+                    good: good,
+                    bad: bad,
+                    comments: []
+                };
+            });
+
+            // デモコメントの生成
+            const demoComments = [
+                { methodId: 'kitchen-sink-light', rating: 'good', text: 'とても分かりやすい手順でした。10分で綺麗になりました！', date: new Date().toISOString() },
+                { methodId: 'kitchen-sink-heavy', rating: 'good', text: '重曹とクエン酸の組み合わせが効果的でした。', date: new Date().toISOString() },
+                { methodId: 'bathroom-bathtub-light', rating: 'bad', text: '思ったより時間がかかりました。', date: new Date(Date.now() - 86400000).toISOString() },
+                { methodId: 'toilet-floor-light', rating: 'good', text: '安全対策の説明が丁寧で助かりました。', date: new Date(Date.now() - 172800000).toISOString() }
+            ];
+
+            methodCommentsData = demoComments;
+            saveMethodData();
+        }
+
+        // 掃除方法統計の更新
+        function updateMethodStats() {
+            let totalGood = 0;
+            let totalBad = 0;
+
+            Object.values(methodFeedbackData).forEach(data => {
+                totalGood += data.good || 0;
+                totalBad += data.bad || 0;
+            });
+
+            const total = totalGood + totalBad;
+            const satisfactionRate = total > 0 ? (totalGood / total * 100).toFixed(1) : 0;
+
+            document.getElementById('totalMethodFeedback').textContent = total;
+            document.getElementById('goodMethodCount').textContent = totalGood;
+            document.getElementById('badMethodCount').textContent = totalBad;
+            document.getElementById('methodSatisfactionRate').textContent = satisfactionRate + '%';
+        }
+
+        // 掃除方法フィードバックチャートのレンダリング
+        function renderMethodFeedbackChart() {
+            const chart = document.getElementById('methodFeedbackChart');
+            const methodArray = Object.entries(methodFeedbackData)
+                .map(([id, data]) => ({
+                    id,
+                    name: data.name,
+                    good: data.good || 0,
+                    bad: data.bad || 0,
+                    total: (data.good || 0) + (data.bad || 0)
+                }))
+                .sort((a, b) => b.total - a.total)
+                .slice(0, 8);
+
+            const maxTotal = Math.max(...methodArray.map(m => m.total), 1);
+
+            chart.innerHTML = methodArray.map(method => {
+                const goodHeight = (method.good / maxTotal) * 350;
+                const badHeight = (method.bad / maxTotal) * 350;
+                return `
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 80px;">
+                        <div style="display: flex; align-items: flex-end; height: 350px;">
+                            <div style="width: 30px; background: #27ae60; height: ${goodHeight}px; margin-right: 2px; border-radius: 4px 4px 0 0;"></div>
+                            <div style="width: 30px; background: #e74c3c; height: ${badHeight}px; border-radius: 4px 4px 0 0;"></div>
+                        </div>
+                        <div class="chart-label" style="text-align: center; margin-top: 10px; font-size: 11px;">
+                            ${method.name.length > 10 ? method.name.substring(0, 10) + '...' : method.name}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 掃除方法フィードバックテーブルのレンダリング
+        function renderMethodFeedbackTable() {
+            const tbody = document.getElementById('methodFeedbackTableBody');
+            const searchTerm = document.getElementById('methodSearchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('methodCategoryFilter').value;
+
+            const filtered = Object.entries(methodFeedbackData)
+                .filter(([id, data]) => {
+                    const matchesSearch = data.name.toLowerCase().includes(searchTerm);
+                    const matchesCategory = !categoryFilter || data.category === categoryFilter;
+                    return matchesSearch && matchesCategory;
+                })
+                .map(([id, data]) => {
+                    const good = data.good || 0;
+                    const bad = data.bad || 0;
+                    const total = good + bad;
+                    const satisfaction = total > 0 ? (good / total * 100).toFixed(1) : '-';
+                    const comments = methodCommentsData.filter(c => c.methodId === id);
+                    const latestComment = comments.length > 0 ? comments[0].text.substring(0, 30) + '...' : '-';
+
+                    return {
+                        name: data.name,
+                        category: data.category,
+                        good,
+                        bad,
+                        satisfaction,
+                        commentCount: comments.length,
+                        latestComment
+                    };
+                });
+
+            tbody.innerHTML = filtered.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td style="color: #27ae60; font-weight: bold;">${item.good}</td>
+                    <td style="color: #e74c3c; font-weight: bold;">${item.bad}</td>
+                    <td>${item.satisfaction}%</td>
+                    <td>${item.commentCount}</td>
+                    <td>${item.latestComment}</td>
+                </tr>
+            `).join('');
+        }
+
+        // コメントのレンダリング
+        function renderMethodComments() {
+            const container = document.getElementById('methodCommentsList');
+            const filter = document.getElementById('commentFilter').value;
+
+            const filtered = methodCommentsData
+                .filter(comment => !filter || comment.rating === filter)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">コメントがありません</p>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(comment => {
+                const method = methodFeedbackData[comment.methodId];
+                const date = new Date(comment.date).toLocaleDateString('ja-JP');
+                return `
+                    <div class="comment-item ${comment.rating}">
+                        <div class="comment-header">
+                            <div>
+                                <span class="comment-method">${method ? method.name : 'Unknown'}</span>
+                                <span class="comment-rating ${comment.rating}">${comment.rating === 'good' ? 'Good 👍' : 'Bad 👎'}</span>
+                            </div>
+                            <span class="comment-date">${date}</span>
+                        </div>
+                        <div class="comment-text">${comment.text}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 掃除方法データの保存
+        function saveMethodData() {
+            localStorage.setItem('methodFeedback', JSON.stringify(methodFeedbackData));
+            localStorage.setItem('methodComments', JSON.stringify(methodCommentsData));
+        }
+
+        // 掃除方法データのエクスポート
+        function exportMethodData() {
+            const exportData = {
+                feedback: methodFeedbackData,
+                comments: methodCommentsData,
+                exportDate: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `method-feedback-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        // コメントの更新
+        function refreshComments() {
+            renderMethodComments();
+        }
+
+        // イベントリスナーの追加
+        document.getElementById('methodSearchInput').addEventListener('input', renderMethodFeedbackTable);
+        document.getElementById('methodCategoryFilter').addEventListener('change', renderMethodFeedbackTable);
+        document.getElementById('commentFilter').addEventListener('change', renderMethodComments);
+
+        // 掃除方法フィードバックデータも読み込む
+        setTimeout(loadMethodFeedback, 100);
     </script>
 </body>
 </html>
