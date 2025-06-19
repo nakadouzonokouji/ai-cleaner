@@ -688,7 +688,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-<script>
+
+    <h2>おすすめ商品</h2>
+    <div id="product-container" class="product-container">
+        <!-- 商品はJavaScriptで動的に読み込まれます -->
+    </div>
+
+    <script>
 // 商品データを外部から読み込む
 async function loadProducts() {
     try {
