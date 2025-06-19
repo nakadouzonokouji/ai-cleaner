@@ -1,84 +1,24 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IHクッキングヒーターひどい汚れ掃除ガイド</title>
-    <meta name="description" content="IHクッキングヒーターのひどい汚れを落とす10ステップと掃除用品">
-    <style>
-        body{font-family:sans-serif;margin:0;padding:20px;background:#f5f5f5}
-        h1{color:#667eea;font-size:24px}
-        .container{max-width:800px;margin:0 auto}
-        .section{background:white;padding:20px;margin-bottom:20px;border-radius:8px}
-        .step{display:flex;align-items:center;margin-bottom:10px}
-        .step-number{background:#667eea;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:10px}
-        .products{overflow-x:auto}
-        .product-list{display:flex;gap:15px;padding-bottom:10px}
-        .product{flex:0 0 200px;border:1px solid #ddd;padding:15px;border-radius:5px}
-        .product img{width:100%;height:150px;object-fit:contain}
-        .product h4{margin:10px 0 5px;font-size:14px}
-        .price{color:#667eea;font-weight:bold}
-        .amazon-btn{display:block;background:#ff9500;color:white;text-align:center;padding:8px;border-radius:5px;text-decoration:none;margin-top:10px}
-        .warning{background:#ffe4e1;padding:15px;border-radius:5px;margin-bottom:20px;border-left:4px solid #ff6b6b}
-    </style>
-</head>
-<body data-category="kitchen-ih-heavy">
-    <div class="container">
-        <h1>IHクッキングヒーターひどい汚れ掃除ガイド</h1>
-        
-        <div class="section warning">
-            <h3>安全上の注意</h3>
-            <p>・必ず電源を切り、冷めてから掃除を開始してください<br>
-            ・金属たわしや研磨剤は絶対に使用しないでください（ガラストップに傷がつきます）<br>
-            ・アルカリ性洗剤を使用する場合は必ず換気してください<br>
-            ・ガラストップのひび割れがある場合は使用を中止し、メーカーに相談してください</p>
-        </div>
-        
-        <div class="section">
-            <h2>掃除手順</h2>
-            <div class="step">
-                <span class="step-number">1</span>
-                <span>IHの電源を切り、ブレーカーも落として安全確保</span>
-            </div>
-            <div class="step">
-                <span class="step-number">2</span>
-                <span>天板が完全に冷めているか手で確認</span>
-            </div>
-            <div class="step">
-                <span class="step-number">3</span>
-                <span>重曹ペーストまたはIH専用クリーナーを準備</span>
-            </div>
-            <div class="step">
-                <span class="step-number">4</span>
-                <span>焦げ付きに重曹ペーストを厚めに塗布</span>
-            </div>
-            <div class="step">
-                <span class="step-number">5</span>
-                <span>ラップでパックし、30分～1時間放置</span>
-            </div>
-            <div class="step">
-                <span class="step-number">6</span>
-                <span>プラスチック製スクレーパーで焦げを優しく削る</span>
-            </div>
-            <div class="step">
-                <span class="step-number">7</span>
-                <span>メラミンスポンジで残った汚れを丁寧に除去</span>
-            </div>
-            <div class="step">
-                <span class="step-number">8</span>
-                <span>水で湿らせたクロスで洗剤成分を完全に拭き取る</span>
-            </div>
-            <div class="step">
-                <span class="step-number">9</span>
-                <span>乾いたマイクロファイバークロスで磨き上げる</span>
-            </div>
-            <div class="step">
-                <span class="step-number">10</span>
-                <span>排気口や周辺部分も含めて最終確認</span>
-            </div>
-        </div>
-        
-        <div class="section">
+#!/usr/bin/env node
+
+const fs = require('fs');
+
+// ih-heavy.htmlを読み込み
+let content = fs.readFileSync('kitchen/ih-heavy.html', 'utf8');
+
+// 静的な商品リストセクションを見つける（必要な掃除アイテムセクション全体）
+const productSectionStart = content.indexOf('<div class="section">\n            <h2>必要な掃除アイテム</h2>');
+const productSectionEnd = content.indexOf('</div>', content.indexOf('<h3>保護具</h3>')) + 6;
+
+if (productSectionStart === -1 || productSectionEnd === -1) {
+    console.error('商品セクションが見つかりません');
+    process.exit(1);
+}
+
+// 元の商品セクション
+const originalProductSection = content.substring(productSectionStart, productSectionEnd);
+
+// 新しい動的商品セクション
+const newProductSection = `<div class="section">
             <h2>必要な掃除アイテム</h2>
             <div id="product-container" class="product-grid">
                 <!-- 商品はJavaScriptで動的に読み込まれます -->
@@ -307,32 +247,32 @@
         
         // 商品カードを生成
         function createProductCard(product) {
-            return `
-                <div class="product-card" data-product-id="${product.id}">
-                    <img src="${product.image}" alt="${product.name}" class="product-image" 
+            return \`
+                <div class="product-card" data-product-id="\${product.id}">
+                    <img src="\${product.image}" alt="\${product.name}" class="product-image" 
                          onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                    <h4 class="product-title">${product.name}</h4>
+                    <h4 class="product-title">\${product.name}</h4>
                     <div class="product-rating">
-                        <span class="stars">★${product.rating}</span>
-                        <span class="review-count">(${product.reviews.toLocaleString()})</span>
+                        <span class="stars">★\${product.rating}</span>
+                        <span class="review-count">(\${product.reviews.toLocaleString()})</span>
                     </div>
-                    <div class="product-price">¥${product.price.toLocaleString()}</div>
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
+                    <div class="product-price">¥\${product.price.toLocaleString()}</div>
+                    <a href="\${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
                         Amazonで見る
                     </a>
                     <div class="feedback-section">
                         <div class="feedback-buttons">
-                            <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
+                            <button class="feedback-btn good-btn" onclick="submitProductFeedback('\${product.id}', 'good', this)">
                                 👍
                             </button>
-                            <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
+                            <button class="feedback-btn bad-btn" onclick="submitProductFeedback('\${product.id}', 'bad', this)">
                                 👎
                             </button>
                         </div>
-                        <div class="feedback-count" id="feedback-${product.id}"></div>
+                        <div class="feedback-count" id="feedback-\${product.id}"></div>
                     </div>
                 </div>
-            `;
+            \`;
         }
         
         // 商品フィードバック送信
@@ -374,7 +314,7 @@
         // フィードバック数を更新
         function updateFeedbackCount(productId) {
             const feedbackData = JSON.parse(localStorage.getItem('productFeedback') || '{}');
-            const element = document.getElementById(`feedback-${productId}`);
+            const element = document.getElementById(\`feedback-\${productId}\`);
             
             if (element && feedbackData[productId]) {
                 const { good, bad } = feedbackData[productId];
@@ -382,7 +322,7 @@
                 
                 if (total > 0) {
                     const percentage = Math.round((good / total) * 100);
-                    element.innerHTML = `👍 ${percentage}% (${total}人)`;
+                    element.innerHTML = \`👍 \${percentage}% (\${total}人)\`;
                 }
             }
         }
@@ -409,7 +349,17 @@
         document.addEventListener('DOMContentLoaded', () => {
             displayProducts();
         });
-        </script>
-    </div>
-</body>
-</html>
+        </script>`;
+
+// コンテンツを置換
+content = content.substring(0, productSectionStart) + 
+          newProductSection + 
+          content.substring(productSectionEnd);
+
+// ファイルを保存
+fs.writeFileSync('kitchen/ih-heavy.html', content, 'utf8');
+
+console.log('✅ kitchen/ih-heavy.htmlの商品セクションを動的読み込みに更新しました');
+console.log('- 10ステップの掃除手順は維持');
+console.log('- 商品は3カテゴリに整理して表示');
+console.log('- 実在する商品のみを動的に読み込み');
