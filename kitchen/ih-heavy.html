@@ -20,11 +20,39 @@
         .price{color:#667eea;font-weight:bold}
         .amazon-btn{display:block;background:#ff9500;color:white;text-align:center;padding:8px;border-radius:5px;text-decoration:none;margin-top:10px}
         .warning{background:#ffe4e1;padding:15px;border-radius:5px;margin-bottom:20px;border-left:4px solid #ff6b6b}
+    
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #5a67d8;
+        }
+        .button-back {
+            background: #718096;
+        }
+        .button-back:hover {
+            background: #4a5568;
+        }
     </style>
 </head>
 <body data-category="kitchen-ih-heavy">
     <div class="container">
         <h1>IHクッキングヒーターひどい汚れ掃除ガイド</h1>
+        <div class="button-group">
+            <a href="../index.html" class="button button-back">← 場所選択に戻る</a>
+            <a href="index.html" class="button button-back">← 詳細箇所選択に戻る</a>
+        </div>
         
         <div class="section warning">
             <h3>安全上の注意</h3>
@@ -80,334 +108,259 @@
         
         <div class="section">
             <h2>必要な掃除アイテム</h2>
-            <div id="product-container" class="product-grid">
-                <!-- 商品はJavaScriptで動的に読み込まれます -->
+            <div class="product-section">
+                <h3>洗剤</h3>
+                <div class="products">
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B000TGNG0W.01.LZZZZZZZ.jpg" alt="花王 マジックリン ハンディスプレー 400ml">
+                        <h4>花王 マジックリン ハンディスプレー 400ml</h4>
+                        <p>¥298</p>
+                        <a href="https://www.amazon.co.jp/dp/B000TGNG0W?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B004XEOM2Q.01.LZZZZZZZ.jpg" alt="花王 キュキュット クリア除菌 詰替 770ml">
+                        <h4>花王 キュキュット クリア除菌 詰替 770ml</h4>
+                        <p>¥298</p>
+                        <a href="https://www.amazon.co.jp/dp/B004XEOM2Q?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B079YNFVKT.01.LZZZZZZZ.jpg" alt="花王 キュキュット 泡スプレー 本体 300ml">
+                        <h4>花王 キュキュット 泡スプレー 本体 300ml</h4>
+                        <p>¥328</p>
+                        <a href="https://www.amazon.co.jp/dp/B079YNFVKT?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B00W2FA0SM.01.LZZZZZZZ.jpg" alt="ジョイ W除菌 食器用洗剤 詰替 440ml">
+                        <h4>ジョイ W除菌 食器用洗剤 詰替 440ml</h4>
+                        <p>¥218</p>
+                        <a href="https://www.amazon.co.jp/dp/B00W2FA0SM?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B001TM6J2I.01.LZZZZZZZ.jpg" alt="激落ちくん アルカリ電解水 500ml">
+                        <h4>激落ちくん アルカリ電解水 500ml</h4>
+                        <p>¥398</p>
+                        <a href="https://www.amazon.co.jp/dp/B001TM6J2I?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <h3>道具</h3>
+                <div class="products">
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B001TM6FAW.01.LZZZZZZZ.jpg" alt="激落ちくん メラミンスポンジ">
+                        <h4>激落ちくん メラミンスポンジ</h4>
+                        <p>¥298</p>
+                        <a href="https://www.amazon.co.jp/dp/B001TM6FAW?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B08L9Z4D7V.01.LZZZZZZZ.jpg" alt="3M スコッチブライト 抗菌スポンジ 5個">
+                        <h4>3M スコッチブライト 抗菌スポンジ 5個</h4>
+                        <p>¥498</p>
+                        <a href="https://www.amazon.co.jp/dp/B08L9Z4D7V?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B07DHLBGW6.01.LZZZZZZZ.jpg" alt="マーナ 掃除の達人 すみっこブラシ">
+                        <h4>マーナ 掃除の達人 すみっこブラシ</h4>
+                        <p>¥398</p>
+                        <a href="https://www.amazon.co.jp/dp/B07DHLBGW6?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B001V7OL4S.01.LZZZZZZZ.jpg" alt="亀の子たわし 1号">
+                        <h4>亀の子たわし 1号</h4>
+                        <p>¥328</p>
+                        <a href="https://www.amazon.co.jp/dp/B001V7OL4S?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B000FQL7RA.01.LZZZZZZZ.jpg" alt="スコッチブライト ハイブリッドネットスポンジ">
+                        <h4>スコッチブライト ハイブリッドネットスポンジ</h4>
+                        <p>¥428</p>
+                        <a href="https://www.amazon.co.jp/dp/B000FQL7RA?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-section">
+                <h3>保護具</h3>
+                <div class="products">
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B000FQTJZW.01.LZZZZZZZ.jpg" alt="エステー ニトリル手袋 粉なし 100枚">
+                        <h4>エステー ニトリル手袋 粉なし 100枚</h4>
+                        <p>¥798</p>
+                        <a href="https://www.amazon.co.jp/dp/B000FQTJZW?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B07GWXSXF1.01.LZZZZZZZ.jpg" alt="ショーワグローブ ビニール極薄手 100枚">
+                        <h4>ショーワグローブ ビニール極薄手 100枚</h4>
+                        <p>¥498</p>
+                        <a href="https://www.amazon.co.jp/dp/B07GWXSXF1?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B08QV9BB4J.01.LZZZZZZZ.jpg" alt="ダンロップ 天然ゴム手袋 M">
+                        <h4>ダンロップ 天然ゴム手袋 M</h4>
+                        <p>¥398</p>
+                        <a href="https://www.amazon.co.jp/dp/B08QV9BB4J?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B075M7FDX5.01.LZZZZZZZ.jpg" alt="3M 使い捨てマスク 50枚入">
+                        <h4>3M 使い捨てマスク 50枚入</h4>
+                        <p>¥598</p>
+                        <a href="https://www.amazon.co.jp/dp/B075M7FDX5?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                    <div class="product">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/B08XPZ8G5Q.01.LZZZZZZZ.jpg" alt="保護メガネ 曇り止め加工">
+                        <h4>保護メガネ 曇り止め加工</h4>
+                        <p>¥980</p>
+                        <a href="https://www.amazon.co.jp/dp/B08XPZ8G5Q?tag=asdfghj12-22" class="amazon-btn">Amazonで購入</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section method-feedback">
+            <h3>この掃除方法は役に立ちましたか？</h3>
+            <div class="feedback-container">
+                <button class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
+                    <span class="emoji">👍</span>
+                    <span class="text">Good</span>
+                    <span class="count" id="goodCount">0</span>
+                </button>
+                <button class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
+                    <span class="emoji">👎</span>
+                    <span class="text">Bad</span>
+                    <span class="count" id="badCount">0</span>
+                </button>
             </div>
         </div>
         
         <style>
-        .product-grid {
-            margin-top: 20px;
+        .method-feedback {
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
         }
         
-        .product-grid h3 {
-            margin: 30px 0 15px 0;
-            font-size: 1.1rem;
-            color: #333;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 8px;
-        }
-        
-        .product-grid h3:first-child {
-            margin-top: 10px;
-        }
-        
-        .product-list {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
+        .method-feedback h3 {
             margin-bottom: 20px;
+            color: #333;
         }
         
-        .product-card {
-            flex: 0 0 200px;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            background: white;
+        .feedback-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
         }
         
-        .product-image {
-            width: 100%;
-            height: 150px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
-        
-        .product-title {
-            font-size: 14px;
-            margin: 10px 0 5px;
-            line-height: 1.3;
-            height: 36px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-        
-        .product-rating {
+        .method-feedback-btn {
             display: flex;
             align-items: center;
-            gap: 5px;
-            margin: 5px 0;
-        }
-        
-        .stars {
-            color: #ff9800;
-            font-size: 14px;
-        }
-        
-        .review-count {
-            color: #666;
-            font-size: 12px;
-        }
-        
-        .product-price {
-            color: #667eea;
-            font-weight: bold;
-            margin: 8px 0;
-        }
-        
-        .amazon-button {
-            display: block;
-            background: #ff9500;
-            color: white;
-            text-align: center;
-            padding: 8px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        
-        .amazon-button:hover {
-            background: #e88600;
-        }
-        
-        .feedback-section {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #eee;
-        }
-        
-        .feedback-buttons {
-            display: flex;
             gap: 10px;
-        }
-        
-        .feedback-btn {
-            flex: 1;
-            padding: 5px;
-            border: 1px solid #ddd;
+            padding: 12px 30px;
+            border: 2px solid #ddd;
             background: white;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            font-size: 16px;
         }
         
-        .feedback-btn:hover {
-            background: #f5f5f5;
+        .method-feedback-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
-        .feedback-btn.active {
+        .method-feedback-btn .emoji {
+            font-size: 24px;
+        }
+        
+        .method-feedback-btn .count {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            min-width: 30px;
+        }
+        
+        .method-feedback-btn.active {
+            border-color: #667eea;
             background: #667eea;
             color: white;
-            border-color: #667eea;
         }
         
-        .feedback-count {
-            font-size: 11px;
-            color: #666;
-            margin-top: 5px;
-            text-align: center;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
+        .method-feedback-btn.active .count {
+            background: rgba(255,255,255,0.3);
         }
         </style>
         
         <script>
-        // 商品データを外部から読み込む
-        async function loadProducts() {
-            try {
-                const response = await fetch('../products-master.json');
-                const data = await response.json();
-                return data.products;
-            } catch (error) {
-                console.error('商品データの読み込みに失敗しました:', error);
-                return [];
-            }
+        // ページのキーを取得
+        function getPageKey() {
+            return window.location.pathname.split('/').pop().replace('.html', '');
         }
         
-        // カテゴリーに基づいて商品を取得
-        function getProductsByCategory(products, category) {
-            return products.filter(p => p.category === category);
-        }
-        
-        // 商品をカテゴリごとにグループ化して表示
-        async function displayProducts() {
-            const currentCategory = document.body.getAttribute('data-category');
-            const container = document.getElementById('product-container');
+        // メソッドフィードバックを送信
+        function sendMethodFeedback(type) {
+            const pageKey = getPageKey();
+            const feedbackData = JSON.parse(localStorage.getItem('methodFeedback') || '{}');
+            const userFeedback = JSON.parse(localStorage.getItem('userMethodFeedback') || '{}');
             
-            if (!container) return;
-            
-            // ローディング表示
-            container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
-            
-            const products = await loadProducts();
-            const categoryProducts = getProductsByCategory(products, currentCategory);
-            
-            // カテゴリごとにグループ化
-            const cleaners = categoryProducts.filter(p => 
-                p.name.includes('クリーナー') || 
-                p.name.includes('洗剤') || 
-                p.name.includes('重曹') ||
-                p.name.includes('セスキ') ||
-                p.name.includes('マジックリン') ||
-                p.name.includes('キュキュット')
-            ).slice(0, 5);
-            
-            const tools = categoryProducts.filter(p => 
-                p.name.includes('スポンジ') || 
-                p.name.includes('ブラシ') || 
-                p.name.includes('スクレーパー') ||
-                p.name.includes('クロス') ||
-                p.name.includes('タオル') ||
-                p.name.includes('パッド')
-            ).slice(0, 5);
-            
-            const protective = categoryProducts.filter(p => 
-                p.name.includes('手袋') || 
-                p.name.includes('マスク') || 
-                p.name.includes('メガネ') ||
-                p.name.includes('グローブ')
-            ).slice(0, 5);
-            
-            // HTMLを生成
-            let html = '';
-            
-            if (cleaners.length > 0) {
-                html += '<h3>洗剤</h3><div class="product-list">';
-                html += cleaners.map(p => createProductCard(p)).join('');
-                html += '</div>';
+            // 初期化
+            if (!feedbackData[pageKey]) {
+                feedbackData[pageKey] = { good: 0, bad: 0 };
             }
             
-            if (tools.length > 0) {
-                html += '<h3>スポンジ・ブラシ</h3><div class="product-list">';
-                html += tools.map(p => createProductCard(p)).join('');
-                html += '</div>';
-            }
-            
-            if (protective.length > 0) {
-                html += '<h3>保護具</h3><div class="product-list">';
-                html += protective.map(p => createProductCard(p)).join('');
-                html += '</div>';
-            }
-            
-            container.innerHTML = html;
-            
-            // フィードバック数を更新
-            updateAllFeedbackCounts();
-        }
-        
-        // 商品カードを生成
-        function createProductCard(product) {
-            return `
-                <div class="product-card" data-product-id="${product.id}">
-                    <img src="${product.image}" alt="${product.name}" class="product-image" 
-                         onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                    <h4 class="product-title">${product.name}</h4>
-                    <div class="product-rating">
-                        <span class="stars">★${product.rating}</span>
-                        <span class="review-count">(${product.reviews.toLocaleString()})</span>
-                    </div>
-                    <div class="product-price">¥${product.price.toLocaleString()}</div>
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
-                        Amazonで見る
-                    </a>
-                    <div class="feedback-section">
-                        <div class="feedback-buttons">
-                            <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
-                                👍
-                            </button>
-                            <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
-                                👎
-                            </button>
-                        </div>
-                        <div class="feedback-count" id="feedback-${product.id}"></div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // 商品フィードバック送信
-        function submitProductFeedback(productId, type, button) {
-            const feedbackData = JSON.parse(localStorage.getItem('productFeedback') || '{}');
-            const userFeedback = JSON.parse(localStorage.getItem('userProductFeedback') || '{}');
-            
-            // ユーザーが既にフィードバックしている場合は変更を許可
-            if (userFeedback[productId] && userFeedback[productId] !== type) {
-                // 以前のフィードバックを取り消す
-                const previousType = userFeedback[productId];
-                if (feedbackData[productId] && feedbackData[productId][previousType] > 0) {
-                    feedbackData[productId][previousType]--;
+            // ユーザーが既に投票している場合
+            if (userFeedback[pageKey]) {
+                const previousType = userFeedback[pageKey];
+                if (previousType !== type) {
+                    feedbackData[pageKey][previousType]--;
+                } else {
+                    return; // 同じボタンを再度クリックした場合は何もしない
                 }
             }
             
-            // フィードバックデータを初期化
-            if (!feedbackData[productId]) {
-                feedbackData[productId] = { good: 0, bad: 0 };
-            }
-            
-            // 新しいフィードバックを追加
-            feedbackData[productId][type]++;
-            userFeedback[productId] = type;
+            // フィードバックを追加
+            feedbackData[pageKey][type]++;
+            userFeedback[pageKey] = type;
             
             // 保存
-            localStorage.setItem('productFeedback', JSON.stringify(feedbackData));
-            localStorage.setItem('userProductFeedback', JSON.stringify(userFeedback));
+            localStorage.setItem('methodFeedback', JSON.stringify(feedbackData));
+            localStorage.setItem('userMethodFeedback', JSON.stringify(userFeedback));
             
             // 表示を更新
-            updateFeedbackCount(productId);
-            
-            // ボタンの状態を更新
-            const card = button.closest('.product-card');
-            card.querySelectorAll('.feedback-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
+            displayMethodFeedbackCounts();
+            updateButtonStates();
         }
         
-        // フィードバック数を更新
-        function updateFeedbackCount(productId) {
-            const feedbackData = JSON.parse(localStorage.getItem('productFeedback') || '{}');
-            const element = document.getElementById(`feedback-${productId}`);
+        // フィードバック数を表示
+        function displayMethodFeedbackCounts() {
+            const pageKey = getPageKey();
+            const feedbackData = JSON.parse(localStorage.getItem('methodFeedback') || '{}');
+            const pageFeedback = feedbackData[pageKey] || { good: 0, bad: 0 };
             
-            if (element && feedbackData[productId]) {
-                const { good, bad } = feedbackData[productId];
-                const total = good + bad;
-                
-                if (total > 0) {
-                    const percentage = Math.round((good / total) * 100);
-                    element.innerHTML = `👍 ${percentage}% (${total}人)`;
-                }
+            document.getElementById('goodCount').textContent = pageFeedback.good;
+            document.getElementById('badCount').textContent = pageFeedback.bad;
+        }
+        
+        // ボタンの状態を更新
+        function updateButtonStates() {
+            const pageKey = getPageKey();
+            const userFeedback = JSON.parse(localStorage.getItem('userMethodFeedback') || '{}');
+            const feedback = userFeedback[pageKey];
+            
+            document.querySelectorAll('.method-feedback-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if (feedback === 'good') {
+                document.querySelector('.good-btn').classList.add('active');
+            } else if (feedback === 'bad') {
+                document.querySelector('.bad-btn').classList.add('active');
             }
         }
         
-        // すべてのフィードバック数を更新
-        function updateAllFeedbackCounts() {
-            const cards = document.querySelectorAll('.product-card');
-            const userFeedback = JSON.parse(localStorage.getItem('userProductFeedback') || '{}');
-            
-            cards.forEach(card => {
-                const productId = card.dataset.productId;
-                updateFeedbackCount(productId);
-                
-                // ユーザーの選択を反映
-                if (userFeedback[productId]) {
-                    const btnClass = userFeedback[productId] === 'good' ? '.good-btn' : '.bad-btn';
-                    const btn = card.querySelector(btnClass);
-                    if (btn) btn.classList.add('active');
-                }
-            });
-        }
-        
-        // ページ読み込み時に商品を表示
-        document.addEventListener('DOMContentLoaded', () => {
-            displayProducts();
+        // ページ読み込み時の初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            displayMethodFeedbackCounts();
+            updateButtonStates();
         });
         </script>
     </div>
