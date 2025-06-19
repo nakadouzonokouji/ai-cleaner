@@ -6,26 +6,40 @@ const path = require('path');
 // 商品マスターデータを読み込む
 const productsData = JSON.parse(fs.readFileSync('products-master.json', 'utf8'));
 
-// HTMLテンプレート
+// HTMLテンプレート（外部JSONから読み込む方式）
 const rinkerTemplate = `
 <script>
-// 商品データ
-const productsDatabase = ${JSON.stringify(productsData.products)};
+// 商品データを外部から読み込む
+async function loadProducts() {
+    try {
+        const response = await fetch('../products-master.json');
+        const data = await response.json();
+        return data.products;
+    } catch (error) {
+        console.error('商品データの読み込みに失敗しました:', error);
+        return [];
+    }
+}
 
 // カテゴリーに基づいて商品を取得
-function getProductsByCategory(category) {
-    return productsDatabase.filter(p => p.category === category);
+function getProductsByCategory(products, category) {
+    return products.filter(p => p.category === category);
 }
 
 // 商品を表示
-function displayProducts() {
+async function displayProducts() {
     const currentCategory = document.body.getAttribute('data-category');
-    const products = getProductsByCategory(currentCategory);
     const container = document.getElementById('product-container');
     
     if (!container) return;
     
-    container.innerHTML = products.map(product => \`
+    // ローディング表示
+    container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
+    
+    const products = await loadProducts();
+    const categoryProducts = getProductsByCategory(products, currentCategory);
+    
+    container.innerHTML = categoryProducts.map(product => \`
         <div class="product-card" data-product-id="\${product.id}">
             <div class="product-image-wrapper">
                 <img src="\${product.image}" alt="\${product.name}" class="product-image" 
@@ -48,257 +62,189 @@ function displayProducts() {
                     </a>
                 </div>
                 <div class="feedback-section">
-                    <button class="feedback-btn good-btn" onclick="sendFeedback('\${product.id}', 'good')">
-                        👍 Good
-                    </button>
-                    <button class="feedback-btn bad-btn" onclick="sendFeedback('\${product.id}', 'bad')">
-                        👎 Bad
-                    </button>
+                    <div class="feedback-buttons">
+                        <button class="feedback-btn good-btn" onclick="submitProductFeedback('\${product.id}', 'good', this)">
+                            👍 役立った
+                        </button>
+                        <button class="feedback-btn bad-btn" onclick="submitProductFeedback('\${product.id}', 'bad', this)">
+                            👎 微妙
+                        </button>
+                    </div>
+                    <div class="feedback-count" id="feedback-\${product.id}"></div>
                 </div>
             </div>
         </div>
     \`).join('');
+    
+    // フィードバック数を更新
+    updateAllFeedbackCounts();
 }
 
-// フィードバック送信
-function sendFeedback(productId, type) {
-    const feedback = JSON.parse(localStorage.getItem('productFeedback') || '{}');
-    if (!feedback[productId]) {
-        feedback[productId] = { good: 0, bad: 0 };
-    }
-    feedback[productId][type]++;
-    localStorage.setItem('productFeedback', JSON.stringify(feedback));
+// 商品フィードバック送信
+function submitProductFeedback(productId, type, button) {
+    const feedbackData = JSON.parse(localStorage.getItem('productFeedback') || '{}');
+    const userFeedback = JSON.parse(localStorage.getItem('userProductFeedback') || '{}');
     
-    // フィードバックアニメーション
-    const btn = event.target;
-    btn.classList.add('feedback-sent');
-    btn.textContent = type === 'good' ? '👍 Thanks!' : '👎 Noted';
+    // ユーザーが既にフィードバックしている場合は変更を許可
+    if (userFeedback[productId] && userFeedback[productId] !== type) {
+        // 以前のフィードバックを取り消す
+        const previousType = userFeedback[productId];
+        if (feedbackData[productId] && feedbackData[productId][previousType] > 0) {
+            feedbackData[productId][previousType]--;
+        }
+    }
+    
+    // フィードバックデータを初期化
+    if (!feedbackData[productId]) {
+        feedbackData[productId] = { good: 0, bad: 0 };
+    }
+    
+    // 新しいフィードバックを追加
+    feedbackData[productId][type]++;
+    userFeedback[productId] = type;
+    
+    // 保存
+    localStorage.setItem('productFeedback', JSON.stringify(feedbackData));
+    localStorage.setItem('userProductFeedback', JSON.stringify(userFeedback));
+    
+    // 表示を更新
+    updateFeedbackCount(productId);
+    
+    // ボタンの状態を更新
+    const card = button.closest('.product-card');
+    card.querySelectorAll('.feedback-btn').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    
+    // フィードバックメッセージ
+    const message = type === 'good' ? 'フィードバックありがとうございます！' : 'ご意見ありがとうございます。';
+    showFeedbackMessage(button, message);
+}
+
+// フィードバック数を更新
+function updateFeedbackCount(productId) {
+    const feedbackData = JSON.parse(localStorage.getItem('productFeedback') || '{}');
+    const element = document.getElementById(\`feedback-\${productId}\`);
+    
+    if (element && feedbackData[productId]) {
+        const { good, bad } = feedbackData[productId];
+        const total = good + bad;
+        
+        if (total > 0) {
+            const percentage = Math.round((good / total) * 100);
+            element.innerHTML = \`
+                <span class="feedback-stats">
+                    👍 \${percentage}% (\${total}人中\${good}人)
+                </span>
+            \`;
+        }
+    }
+}
+
+// すべてのフィードバック数を更新
+function updateAllFeedbackCounts() {
+    const cards = document.querySelectorAll('.product-card');
+    const userFeedback = JSON.parse(localStorage.getItem('userProductFeedback') || '{}');
+    
+    cards.forEach(card => {
+        const productId = card.dataset.productId;
+        updateFeedbackCount(productId);
+        
+        // ユーザーの選択を反映
+        if (userFeedback[productId]) {
+            const btnClass = userFeedback[productId] === 'good' ? '.good-btn' : '.bad-btn';
+            const btn = card.querySelector(btnClass);
+            if (btn) btn.classList.add('active');
+        }
+    });
+}
+
+// フィードバックメッセージ表示
+function showFeedbackMessage(button, message) {
+    const existingMessage = button.parentElement.querySelector('.feedback-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    const messageEl = document.createElement('div');
+    messageEl.className = 'feedback-message';
+    messageEl.textContent = message;
+    button.parentElement.appendChild(messageEl);
+    
     setTimeout(() => {
-        btn.classList.remove('feedback-sent');
-        btn.textContent = type === 'good' ? '👍 Good' : '👎 Bad';
+        messageEl.remove();
     }, 2000);
 }
 
 // ページ読み込み時に商品を表示
-document.addEventListener('DOMContentLoaded', displayProducts);
+document.addEventListener('DOMContentLoaded', () => {
+    displayProducts();
+});
 </script>
-
-<style>
-.product-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    margin: 40px 0;
-}
-
-.product-card {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.product-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.product-image-wrapper {
-    position: relative;
-    background: #f8f8f8;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.product-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-.prime-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #ff6b6b;
-    color: white;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.product-info {
-    padding: 15px;
-}
-
-.product-title {
-    font-size: 14px;
-    margin: 0 0 10px 0;
-    color: #333;
-    line-height: 1.4;
-    height: 40px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.product-rating {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 8px;
-}
-
-.stars {
-    color: #ff9800;
-    font-weight: bold;
-}
-
-.review-count {
-    color: #666;
-    font-size: 13px;
-}
-
-.product-price {
-    font-size: 20px;
-    color: #b12704;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.product-status {
-    margin-bottom: 12px;
-}
-
-.in-stock {
-    color: #007600;
-    font-size: 13px;
-}
-
-.out-stock {
-    color: #cc0000;
-    font-size: 13px;
-}
-
-.amazon-button {
-    display: block;
-    background: #ff9900;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-
-.amazon-button:hover {
-    background: #e47911;
-}
-
-.feedback-section {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.feedback-btn {
-    flex: 1;
-    padding: 6px;
-    border: 1px solid #ddd;
-    background: white;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 13px;
-}
-
-.good-btn:hover {
-    background: #e8f5e9;
-    border-color: #4caf50;
-}
-
-.bad-btn:hover {
-    background: #ffebee;
-    border-color: #f44336;
-}
-
-.feedback-sent {
-    background: #2196f3 !important;
-    color: white !important;
-    border-color: #2196f3 !important;
-}
-</style>
 `;
 
-// HTMLファイルを処理する関数
-function processHTMLFile(filePath) {
-    const dir = path.dirname(filePath);
-    const filename = path.basename(filePath, '.html');
-    const category = `${path.basename(dir)}-${filename}`;
+// 処理対象のHTMLファイルを収集
+function findHtmlFiles(dir, files = []) {
+    const items = fs.readdirSync(dir);
     
-    // index.htmlはスキップ
-    if (filename === 'index') return;
+    items.forEach(item => {
+        const fullPath = path.join(dir, item);
+        const stat = fs.statSync(fullPath);
+        
+        if (stat.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
+            findHtmlFiles(fullPath, files);
+        } else if (stat.isFile() && item.endsWith('.html') && 
+                   !['index.html', 'admin.html', 'test-load.html'].includes(item)) {
+            files.push(fullPath);
+        }
+    });
     
+    return files;
+}
+
+// HTMLファイルを更新
+function updateHtmlFile(filePath) {
+    let content = fs.readFileSync(filePath, 'utf8');
+    
+    // カテゴリーを取得
+    const categoryMatch = content.match(/data-category="([^"]+)"/);
+    if (!categoryMatch) {
+        console.log(`⚠️  ${filePath} にカテゴリーが見つかりません`);
+        return false;
+    }
+    
+    const category = categoryMatch[1];
     console.log(`処理中: ${filePath} (カテゴリー: ${category})`);
     
-    let html = fs.readFileSync(filePath, 'utf8');
+    // 既存のスクリプトセクションを削除（productsDatabase を含む部分）
+    content = content.replace(/<script>\s*\/\/\s*商品データ[\s\S]*?<\/script>/g, '');
     
-    // body要素にdata-category属性を追加
-    html = html.replace(/<body[^>]*>/, `<body data-category="${category}">`);
-    
-    // 既存の商品セクションを新しいコンテナに置き換え
-    // <h2>おすすめ商品</h2>から次の<h2>または</main>まで
-    html = html.replace(
-        /<h2[^>]*>おすすめ商品<\/h2>[\s\S]*?(?=<h2|<\/main>)/,
-        `<h2>おすすめ商品</h2>
-        <div id="product-container" class="product-container">
-            <!-- 商品は動的に読み込まれます -->
-        </div>
-        `
-    );
-    
-    // </body>の前にスクリプトを追加
-    if (!html.includes('productsDatabase')) {
-        html = html.replace('</body>', rinkerTemplate + '\n</body>');
+    // 新しいスクリプトを挿入（</body>の前）
+    if (!content.includes('loadProducts()')) {
+        content = content.replace('</body>', rinkerTemplate + '\n</body>');
     }
     
     // ファイルを保存
-    fs.writeFileSync(filePath, html, 'utf8');
+    fs.writeFileSync(filePath, content, 'utf8');
     console.log(`✅ ${filePath} を更新しました`);
+    
+    return true;
 }
 
-// すべてのディレクトリを処理
-const directories = ['kitchen', 'bathroom', 'living', 'floor', 'toilet', 'window'];
+// メイン処理
+function main() {
+    const htmlFiles = findHtmlFiles('.');
+    
+    console.log(`${htmlFiles.length}個のHTMLファイルを処理します...\n`);
+    
+    let updatedCount = 0;
+    htmlFiles.forEach(file => {
+        if (updateHtmlFile(file)) {
+            updatedCount++;
+        }
+    });
+    
+    console.log(`\n✅ ${updatedCount}個のファイルの変換が完了しました！`);
+}
 
-directories.forEach(dir => {
-    const dirPath = path.join(__dirname, dir);
-    if (fs.existsSync(dirPath)) {
-        const files = fs.readdirSync(dirPath);
-        files.forEach(file => {
-            if (file.endsWith('.html') && file !== 'index.html') {
-                processHTMLFile(path.join(dirPath, file));
-            }
-        });
-    }
-});
-
-// 特殊ファイルも処理
-const specialFiles = [
-    'kitchen/sink.html',
-    'bathroom/bathtub.html'
-];
-
-specialFiles.forEach(file => {
-    const filePath = path.join(__dirname, file);
-    if (fs.existsSync(filePath)) {
-        processHTMLFile(filePath);
-    }
-});
-
-console.log('\n✅ すべてのファイルの変換が完了しました！');
+// 実行
+main();
