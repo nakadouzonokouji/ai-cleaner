@@ -551,42 +551,42 @@ function getProductsForCategory(category, subcategory) {
     const products = [];
     const isHeavy = subcategory.includes('heavy');
     
-    // 各カテゴリーに応じて適切な商品を選択
+    // 各カテゴリーに応じて適切な商品を選択（各グループ5種類ずつ）
     if (category === 'kitchen') {
         // キッチンカテゴリー
         if (subcategory.includes('sink')) {
-            products.push(...realProducts.kitchenCleaners.slice(0, 5));
-            products.push(...realProducts.sponges.slice(0, 5));
-            products.push(...realProducts.gloves.slice(0, 5));
+            products.push(...realProducts.kitchenCleaners);  // 5種類すべて
+            products.push(...realProducts.sponges);          // 5種類すべて
+            products.push(...realProducts.gloves);           // 5種類すべて
         } else if (subcategory.includes('gas') || subcategory.includes('ih')) {
-            products.push(...realProducts.kitchenCleaners.slice(0, 5));
-            products.push(...realProducts.brushes.slice(0, 5));
-            products.push(...realProducts.gloves.slice(0, 5));
+            products.push(...realProducts.kitchenCleaners);  // 5種類すべて
+            products.push(...realProducts.brushes);          // 5種類すべて
+            products.push(...realProducts.gloves);           // 5種類すべて
         } else if (subcategory.includes('ventilation')) {
-            products.push(...realProducts.kitchenCleaners.slice(0, 5));
-            products.push(...realProducts.brushes.slice(0, 5));
-            products.push(...realProducts.masks.slice(0, 5));
+            products.push(...realProducts.kitchenCleaners);  // 5種類すべて
+            products.push(...realProducts.brushes);          // 5種類すべて
+            products.push(...realProducts.masks);            // 5種類すべて
         }
     } else if (category === 'bathroom') {
         // バスルームカテゴリー
-        products.push(...realProducts.bathroomCleaners.slice(0, 5));
-        products.push(...realProducts.sponges.slice(0, 5));
-        products.push(...realProducts.gloves.slice(0, 5));
+        products.push(...realProducts.bathroomCleaners);    // 5種類すべて
+        products.push(...realProducts.sponges);             // 5種類すべて
+        products.push(...realProducts.gloves);              // 5種類すべて
     } else if (category === 'toilet') {
         // トイレカテゴリー
-        products.push(...realProducts.toiletCleaners.slice(0, 5));
-        products.push(...realProducts.brushes.slice(0, 5));
-        products.push(...realProducts.gloves.slice(0, 5));
+        products.push(...realProducts.toiletCleaners);      // 5種類すべて
+        products.push(...realProducts.brushes);             // 5種類すべて
+        products.push(...realProducts.gloves);              // 5種類すべて
     } else if (category === 'floor' || category === 'living') {
         // 床・リビングカテゴリー
-        products.push(...realProducts.floorCleaners.slice(0, 5));
-        products.push(...realProducts.microfiber.slice(0, 5));
-        products.push(...realProducts.gloves.slice(0, 5));
+        products.push(...realProducts.floorCleaners);       // 5種類すべて
+        products.push(...realProducts.microfiber);         // 5種類すべて
+        products.push(...realProducts.gloves);              // 5種類すべて
     } else if (category === 'window') {
         // 窓カテゴリー
-        products.push(...realProducts.windowCleaners.slice(0, 5));
-        products.push(...realProducts.microfiber.slice(0, 5));
-        products.push(...realProducts.gloves.slice(0, 5));
+        products.push(...realProducts.windowCleaners);      // 5種類すべて
+        products.push(...realProducts.microfiber);         // 5種類すべて
+        products.push(...realProducts.gloves);              // 5種類すべて
     }
     
     // カテゴリーとサブカテゴリーを追加
