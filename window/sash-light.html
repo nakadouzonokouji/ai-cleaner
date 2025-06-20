@@ -681,230 +681,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    <h2>おすすめ商品</h2>
-    <div id="product-container" class="product-container">
-        <div class="product-grid">
-            <div class="product-scroll">
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-                    <h4>タイトル不明</h4>
-                    <p class="price">価格不明</p>
-                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
-                        Amazonで購入
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-            </div>
-        </div>
-    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
-    
-    // フィードバック数を更新
-    updateAllFeedbackCounts();
-}
-
-// 商品フィードバック送信
-function submitProductFeedback(productId, type, button) {
-    const feedbackData = JSON.parse(localStorage.getItem('productFeedback') || '{}');
-    const userFeedback = JSON.parse(localStorage.getItem('userProductFeedback') || '{}');
-    
-    // ユーザーが既にフィードバックしている場合は変更を許可
-    if (userFeedback[productId] && userFeedback[productId] !== type) {
-        // 以前のフィードバックを取り消す
-        const previousType = userFeedback[productId];
-        if (feedbackData[productId] && feedbackData[productId][previousType] > 0) {
-            feedbackData[productId][previousType]--;
-        }
-    }
-    
-    // フィードバックデータを初期化
-    if (!feedbackData[productId]) {
-        feedbackData[productId] = { good: 0, bad: 0 };
-    }
-    
-    // 新しいフィードバックを追加
-    feedbackData[productId][type]++;
-    userFeedback[productId] = type;
-    
-    // 保存
-    localStorage.setItem('productFeedback', JSON.stringify(feedbackData));
-    localStorage.setItem('userProductFeedback', JSON.stringify(userFeedback));
-    
-    // 表示を更新
-    updateFeedbackCount(productId);
-    
-    // ボタンの状態を更新
-    const card = button.closest('.product-card');
-    card.querySelectorAll('.feedback-btn').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-    
-    // フィードバックメッセージ
-    const message = type === 'good' ? 'フィードバックありがとうございます！' : 'ご意見ありがとうございます。';
-    showFeedbackMessage(button, message);
-}
-
-// フィードバック数を更新
-function updateFeedbackCount(productId) {
-    const feedbackData = JSON.parse(localStorage.getItem('productFeedback') || '{}');
-    const element = document.getElementById(`feedback-${productId}`);
-    
-    if (element && feedbackData[productId]) {
-        const { good, bad } = feedbackData[productId];
-        const total = good + bad;
-        
-        if (total > 0) {
-            const percentage = Math.round((good / total) * 100);
-            element.innerHTML = `
-                <span class="feedback-stats">
-                    👍 ${percentage}% (${total}人中${good}人)
-                </span>
-            `;
-        }
-    }
-}
-
-// すべてのフィードバック数を更新
-function updateAllFeedbackCounts() {
-    const cards = document.querySelectorAll('.product-card');
-    const userFeedback = JSON.parse(localStorage.getItem('userProductFeedback') || '{}');
-    
-    cards.forEach(card => {
-        const productId = card.dataset.productId;
-        updateFeedbackCount(productId);
-        
-        // ユーザーの選択を反映
-        if (userFeedback[productId]) {
-            const btnClass = userFeedback[productId] === 'good' ? '.good-btn' : '.bad-btn';
-            const btn = card.querySelector(btnClass);
-            if (btn) btn.classList.add('active');
-        }
-    });
-}
-
-// フィードバックメッセージ表示
-function showFeedbackMessage(button, message) {
-    const existingMessage = button.parentElement.querySelector('.feedback-message');
-    if (existingMessage) {
-        existingMessage.remove();
-    }
-    
-    const messageEl = document.createElement('div');
-    messageEl.className = 'feedback-message';
-    messageEl.textContent = message;
-    button.parentElement.appendChild(messageEl);
-    
-    setTimeout(() => {
-        messageEl.remove();
-    }, 2000);
-}
-
-// ページ読み込み時に商品を表示
-document.addEventListener('DOMContentLoaded', () => {
-    displayProducts();
-});
-</script>
-
-
-                                <div class="section">
+    <div class="section">
             <h2>おすすめ商品</h2>
-            <h3>洗剤・クリーナー</h3>
+            <h3>その他</h3>
             <div class="product-grid">
                 <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41AqX0-dMFL._SL500_.jpg" alt="ウタマロ リキッド フローラル 400ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ウタマロ リキッド フローラル 400ml</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥387</p>
+        <a href="https://www.amazon.co.jp/dp/B0088B5GLQ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
     <div class="product-card">
         <img src="https://m.media-amazon.com/images/I/31U-oCEJidL._SL500_.jpg" alt="キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥646</p>
+        <p class="price">￥646</p>
         <a href="https://www.amazon.co.jp/dp/B0CG5JNV2N?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -914,10 +716,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/416YD31uPVL._SL500_.jpg" alt="カネヨ石鹸【大容量】 野菜・食器洗い 台所用洗剤 業務用 4L ライムの香り コック付 日本製" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>カネヨ石鹸【大容量】 野菜・食器洗い 台所用洗剤 業務用 4L ライムの香り コック付 日本製</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥962</p>
+        <p class="price">￥962</p>
         <a href="https://www.amazon.co.jp/dp/B00573XTYE?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -927,10 +729,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/31eHQyxM08L._SL500_.jpg" alt="キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥799</p>
+        <p class="price">￥799</p>
         <a href="https://www.amazon.co.jp/dp/B0CG5M15PQ?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -940,10 +742,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/41WtUFypSGL._SL500_.jpg" alt="花王プロシリーズ 【大容量】 花王 ワンダフル 4.5L 業務用 食器用洗剤 野菜洗浄可能 花王プロフェッショナル・サービス" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>花王プロシリーズ 【大容量】 花王 ワンダフル 4.5L 業務用 食器用洗剤 野菜洗浄可能 花王プロフェッショナル・サービス</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥991</p>
+        <p class="price">￥991</p>
         <a href="https://www.amazon.co.jp/dp/B000TGIBDS?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -953,28 +755,205 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/51dfdizKr1L._SL500_.jpg" alt="花王(Kao) 【大容量】 ファミリーフレッシュ 4.5L 業務用 食器用洗剤 野菜洗浄可能 プロフェッショナル・サービス" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>花王(Kao) 【大容量】 ファミリーフレッシュ 4.5L 業務用 食器用洗剤 野菜洗浄可能 プロフェッショナル・サービス</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥1,609</p>
+        <p class="price">￥1,609</p>
         <a href="https://www.amazon.co.jp/dp/B000TGMFK8?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
         </a>
     </div>
-                </div>
-            </div>
-            <h3>掃除道具</h3>
-            <div class="product-grid">
-                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41j2+-EiQQL._SL500_.jpg" alt="キュキュット マスカットの香り つめかえ用 700ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キュキュット マスカットの香り つめかえ用 700ml</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥329</p>
+        <a href="https://www.amazon.co.jp/dp/B0CHMD34NK?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31osHKLRXfL._SL500_.jpg" alt="ジョイ W除菌 食器用洗剤 さわやか微香 キャップ付き詰め替え 300mL" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ジョイ W除菌 食器用洗剤 さわやか微香 キャップ付き詰め替え 300mL</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥230</p>
+        <a href="https://www.amazon.co.jp/dp/B0CTTBMZHB?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41VXn02n3vL._SL500_.jpg" alt="3倍 濃縮タイプ 中性洗剤 5kg 松屋 業務用 洗剤店 食器洗剤 食器 台所 野菜 果物 洗浄 コック付" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>3倍 濃縮タイプ 中性洗剤 5kg 松屋 業務用 洗剤店 食器洗剤 食器 台所 野菜 果物 洗浄 コック付</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,739</p>
+        <a href="https://www.amazon.co.jp/dp/B0BN2XSG3C?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31Yzhu0ymKL._SL500_.jpg" alt="キュキュット CLEAR泡スプレー 食器用洗剤 奥・ミゾ・スキマまでこすらず洗浄! 無香性 本体 280ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キュキュット CLEAR泡スプレー 食器用洗剤 奥・ミゾ・スキマまでこすらず洗浄! 無香性 本体 280ml</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥264</p>
+        <a href="https://www.amazon.co.jp/dp/B0BSP81W1V?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41TUNuHOi-S._SL500_.jpg" alt="らくハピ アルコール除菌EX 無添加 日本製 つめかえ 大容量 5L アルコールスプレー キッチン用 除菌スプレー 詰め替え 大掃除" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>らくハピ アルコール除菌EX 無添加 日本製 つめかえ 大容量 5L アルコールスプレー キッチン用 除菌スプレー 詰め替え 大掃除</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,736</p>
+        <a href="https://www.amazon.co.jp/dp/B07G2F1FNG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/310Tz0TJkXL._SL500_.jpg" alt="【業務用 大容量】ライオン (LION) ハイアルコールスプレー 1L 75% 食添 本体 アルコールスプレー アルコール除菌 アルコール消毒液 高濃度" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【業務用 大容量】ライオン (LION) ハイアルコールスプレー 1L 75% 食添 本体 アルコールスプレー アルコール除菌 アルコール消毒液 高濃度</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥870</p>
+        <a href="https://www.amazon.co.jp/dp/B008GPPS12?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41Y22PfwWCL._SL500_.jpg" alt="フジアルコール 除菌75 5L 濃度75°" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>フジアルコール 除菌75 5L 濃度75°</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,560</p>
+        <a href="https://www.amazon.co.jp/dp/B00LVNPZBO?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41j75ASRY1L._SL500_.jpg" alt="食品添加物 エタノール製剤 75度 ユービコール75 5L アルコール製剤 摂津製油（サラヤ ニイタカ）" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>食品添加物 エタノール製剤 75度 ユービコール75 5L アルコール製剤 摂津製油（サラヤ ニイタカ）</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,320</p>
+        <a href="https://www.amazon.co.jp/dp/B0849PKFHG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41lK1Nf6KsL._SL500_.jpg" alt="ドーバー パストリーゼ77 5L" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ドーバー パストリーゼ77 5L</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥3,920</p>
+        <a href="https://www.amazon.co.jp/dp/B003G16MHK?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51wJwQYf+3L._SL500_.jpg" alt="カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,245</p>
+        <a href="https://www.amazon.co.jp/dp/B0CMPR42KM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51PdYCG4IvL._SL500_.jpg" alt="アルコール除菌 キッチン用 アルコール除菌スプレー つめかえ用 720ml×3個 フマキラー【まとめ買い】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>アルコール除菌 キッチン用 アルコール除菌スプレー つめかえ用 720ml×3個 フマキラー【まとめ買い】</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,532</p>
+        <a href="https://www.amazon.co.jp/dp/B085CXS42R?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41s6sPfxW0L._SL500_.jpg" alt="健栄製薬 2個セット 消毒用エタノールIPA 500ml (指定医薬部外品)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>健栄製薬 2個セット 消毒用エタノールIPA 500ml (指定医薬部外品)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,350</p>
+        <a href="https://www.amazon.co.jp/dp/B01NAYBLBL?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51uhiN2tH5S._SL500_.jpg" alt="除菌 ユービコール67 20L 摂津製油 バックインボックス (コック付き)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>除菌 ユービコール67 20L 摂津製油 バックインボックス (コック付き)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥5,100</p>
+        <a href="https://www.amazon.co.jp/dp/B095GSCJP9?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/410YAqNs1yL._SL500_.jpg" alt="セッツ 株 Settu ユービコール75 15kg C-106 ※軽減税率対象商品※ C106" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>セッツ 株 Settu ユービコール75 15kg C-106 ※軽減税率対象商品※ C106</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥4,920</p>
+        <a href="https://www.amazon.co.jp/dp/B00D2HV4QM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
     <div class="product-card">
         <img src="https://m.media-amazon.com/images/I/41ojPRXrx5L._SL500_.jpg" alt="リファ ハートブラシ ReFa HEART BRUSH (ローズゴールド)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>リファ ハートブラシ ReFa HEART BRUSH (ローズゴールド)</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥2,970</p>
+        <p class="price">￥2,970</p>
         <a href="https://www.amazon.co.jp/dp/B09R3ZD3PS?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -984,10 +963,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/311hzneU7lL._SL500_.jpg" alt="無印良品 ブナ材ヘアブラシ 全長20cm 82575156" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>無印良品 ブナ材ヘアブラシ 全長20cm 82575156</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥890</p>
+        <p class="price">￥890</p>
         <a href="https://www.amazon.co.jp/dp/B09RPKNQ4J?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -997,10 +976,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/41dGwUS+LrL._SL500_.jpg" alt="池本刷子工業 ヘアケアブラシS SEN-455 R" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>池本刷子工業 ヘアケアブラシS SEN-455 R</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥336</p>
+        <p class="price">￥336</p>
         <a href="https://www.amazon.co.jp/dp/B001FOQY82?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -1010,10 +989,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/31JcQ6MIyYL._SL500_.jpg" alt="リファ エールブラシ ReFa AILE BRUSH (ローズゴールド)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>リファ エールブラシ ReFa AILE BRUSH (ローズゴールド)</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥3,800</p>
+        <p class="price">￥3,800</p>
         <a href="https://www.amazon.co.jp/dp/B0C5WZMG4C?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -1023,29 +1002,726 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/31GajTWfjxL._SL500_.jpg" alt="Wet Brush スピードドライ ヘアブラシ ブラック 1本 (x 1)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>Wet Brush スピードドライ ヘアブラシ ブラック 1本 (x 1)</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥1,485</p>
+        <p class="price">￥1,485</p>
         <a href="https://www.amazon.co.jp/dp/B07Q12GWT7?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
         </a>
     </div>
-                </div>
-            </div>
-            <h3>保護具</h3>
-            <div class="product-grid">
-                <div class="product-grid-inner">
     <div class="product-card">
-        <img src="https://m.media-amazon.com/images/I/51wJwQYf+3L._SL500_.jpg" alt="カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
-        <h4>カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】</h4>
+        <img src="https://m.media-amazon.com/images/I/419e8vxx5UL._SL500_.jpg" alt="【Amazon.co.jp限定】2025 ヘアブラシ レディース Homry くし 髪の毛 サラサラ 静電気防止 シャンプーブラシ ヘアケアブラシ くし ソフト コンパクト ウェットブラシ 髪くし 乾湿両用 ス抜け髪予防 絡まない 髪質改善 バレンタイン 誕生日プレゼント 母の日 父の日(シルバー)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】2025 ヘアブラシ レディース Homry くし 髪の毛 サラサラ 静電気防止 シャンプーブラシ ヘアケアブラシ くし ソフト コンパクト ウェットブラシ 髪くし 乾湿両用 ス抜け髪予防 絡まない 髪質改善 バレンタイン 誕生日プレゼント 母の日 父の日(シルバー)</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥1,245</p>
-        <a href="https://www.amazon.co.jp/dp/B0CMPR42KM?tag=asdfghj12-22" 
+        <p class="price">￥2,698</p>
+        <a href="https://www.amazon.co.jp/dp/B0DYY9QX1S?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/311uKAj7HcL._SL500_.jpg" alt="貝印 KAI ヘアブラシ 豚毛 ミックス クッションブラシ 木製 天然毛 KQ3159" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>貝印 KAI ヘアブラシ 豚毛 ミックス クッションブラシ 木製 天然毛 KQ3159</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥753</p>
+        <a href="https://www.amazon.co.jp/dp/B07QDWVLL5?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31o5qD56s1L._SL500_.jpg" alt="貝印 KAI ヘアブラシ 髪と頭皮に心地よいブラシ クッションブラシ マイナスイオン KQ3109" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>貝印 KAI ヘアブラシ 髪と頭皮に心地よいブラシ クッションブラシ マイナスイオン KQ3109</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥400</p>
+        <a href="https://www.amazon.co.jp/dp/B07BN8C634?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/3140drECNbL._SL500_.jpg" alt="セデュウス ブラッシングブラシL R SEN705R" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>セデュウス ブラッシングブラシL R SEN705R</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥687</p>
+        <a href="https://www.amazon.co.jp/dp/B07S4J4RJB?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41SGFatFSXL._SL500_.jpg" alt="【美髪育てる頭皮ブラシ】Toolo ヘアブラシ くし ヘアケア ウェットブラシ レディース スカルプブラシ ブロードライコーム メンズ ブローブラシ 頭皮ブラシ もつれ解消 絡まない ツヤ出し ブラシ 静電気防止 髪の毛 サラサラ 乾湿両用 男女両用 誕生日 ギフト 静電気防止" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【美髪育てる頭皮ブラシ】Toolo ヘアブラシ くし ヘアケア ウェットブラシ レディース スカルプブラシ ブロードライコーム メンズ ブローブラシ 頭皮ブラシ もつれ解消 絡まない ツヤ出し ブラシ 静電気防止 髪の毛 サラサラ 乾湿両用 男女両用 誕生日 ギフト 静電気防止</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,994</p>
+        <a href="https://www.amazon.co.jp/dp/B0DY7QC98K?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/511Y32h3gyL._SL500_.jpg" alt="【Amazon.co.jp限定】クリニカ アドバンテージ 歯ブラシ 4列 超コンパクト ふつう 6本 +フロス付き まとめ買い 極薄ヘッド" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】クリニカ アドバンテージ 歯ブラシ 4列 超コンパクト ふつう 6本 +フロス付き まとめ買い 極薄ヘッド</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,314</p>
+        <a href="https://www.amazon.co.jp/dp/B0BRZK38N1?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31vMZzU5h7L._SL500_.jpg" alt="奇跡の歯ブラシ クリアブラック なぞるだけで汚れがおちる 【正規品】【公式】 3個 (x 1)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>奇跡の歯ブラシ クリアブラック なぞるだけで汚れがおちる 【正規品】【公式】 3個 (x 1)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,860</p>
+        <a href="https://www.amazon.co.jp/dp/B07W8SW6SN?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51SjTgKjOlL._SL500_.jpg" alt="【Amazon.co.jp限定】システマ ハブラシ コンパクト 4列 ふつう 歯ブラシ 歯周病 セット 6本(※色は選べません) +フロス付き" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】システマ ハブラシ コンパクト 4列 ふつう 歯ブラシ 歯周病 セット 6本(※色は選べません) +フロス付き</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,280</p>
+        <a href="https://www.amazon.co.jp/dp/B07XLS1V3S?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51okZgvb2YL._SL500_.jpg" alt="NONIO(ノニオ) ハブラシ TYPE-SHARP ふつう 極細毛 歯ブラシ セット 6本(※色は選べません)＋Y字フロス付き" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>NONIO(ノニオ) ハブラシ TYPE-SHARP ふつう 極細毛 歯ブラシ セット 6本(※色は選べません)＋Y字フロス付き</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,173</p>
+        <a href="https://www.amazon.co.jp/dp/B0DJ2R2Z3X?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51pd0gRgz-L._SL500_.jpg" alt="エビス プレミアムケアハブラシ 7列レギュラー ふつう 3本組 (色おまかせ)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>エビス プレミアムケアハブラシ 7列レギュラー ふつう 3本組 (色おまかせ)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥720</p>
+        <a href="https://www.amazon.co.jp/dp/B00BLEREMG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51pprATI0FL._SL500_.jpg" alt="【Amazon.co.jp限定】クリニカ アドバンテージ 歯ブラシ 4列 超コンパクト やわらかめ 6本 +フロス付き まとめ買い 極薄ヘッド" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】クリニカ アドバンテージ 歯ブラシ 4列 超コンパクト やわらかめ 6本 +フロス付き まとめ買い 極薄ヘッド</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,140</p>
+        <a href="https://www.amazon.co.jp/dp/B0BRZFXZRV?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61u3WOMOrSL._SL500_.jpg" alt="クリニカハブラシ フラットカット4列 ふつう セット 6本" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>クリニカハブラシ フラットカット4列 ふつう セット 6本</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥976</p>
+        <a href="https://www.amazon.co.jp/dp/B00F9WZ6OO?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41semWGy73L._SL500_.jpg" alt="FEED株式会社 歯科専売品 大人用歯ブラシ FEED Shu Shu α (シュシュアルファ) ×20本 M (ふつう)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>FEED株式会社 歯科専売品 大人用歯ブラシ FEED Shu Shu α (シュシュアルファ) ×20本 M (ふつう)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥976</p>
+        <a href="https://www.amazon.co.jp/dp/B07W91QWDB?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/411VWP1ujQL._SL500_.jpg" alt="キャップなし タフト24 歯ブラシ × 10本 (MS)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キャップなし タフト24 歯ブラシ × 10本 (MS)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,170</p>
+        <a href="https://www.amazon.co.jp/dp/B00DW2CRJU?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31QlsOl495L._SL500_.jpg" alt="シュミテクトブラシ やさしく歯周ケア3次元フィット 歯ブラシ 知覚過敏ケア 薄型コンパクト (ふつう) 1本 ※色はお選び頂けません" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>シュミテクトブラシ やさしく歯周ケア3次元フィット 歯ブラシ 知覚過敏ケア 薄型コンパクト (ふつう) 1本 ※色はお選び頂けません</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥167</p>
+        <a href="https://www.amazon.co.jp/dp/B07ZK72P4B?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51KAJUveOkL._SL500_.jpg" alt="【新登場】 ハンディクリーナー コードレス 強力吸引力【吹き飛ぶ/吸い込む/空気入れ/空気抜き】 多機能車用掃除機 Type-C 急速充電 乾湿両用小型掃除機 ご家庭のホコリ取り/キーボード掃除/車の内装掃除に最適 Svoko LT-136" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【新登場】 ハンディクリーナー コードレス 強力吸引力【吹き飛ぶ/吸い込む/空気入れ/空気抜き】 多機能車用掃除機 Type-C 急速充電 乾湿両用小型掃除機 ご家庭のホコリ取り/キーボード掃除/車の内装掃除に最適 Svoko LT-136</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,998</p>
+        <a href="https://www.amazon.co.jp/dp/B0DC6FB2C5?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31ez6wGCYyL._SL500_.jpg" alt="マキタ コードレス掃除機CL108 カプセル式 標準25分稼働/充電22分 軽量定番モデル 10.8Vバッテリ充電器付 CL108FDSHW" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>マキタ コードレス掃除機CL108 カプセル式 標準25分稼働/充電22分 軽量定番モデル 10.8Vバッテリ充電器付 CL108FDSHW</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥14,464</p>
+        <a href="https://www.amazon.co.jp/dp/B07GWY3HYD?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51oCm2d5DxL._SL500_.jpg" alt="クリーナー 復讐の女神" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>クリーナー 復讐の女神</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥400</p>
+        <a href="https://www.amazon.co.jp/dp/B0DPMNFZGG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41wRWzY9CrL._SL500_.jpg" alt="【新登場】ハンディクリーナー 多機能 車用掃除機 コードレス 25000Pa 強力吸引力 BeeTool【吹き飛ぶ/吸い込む/空気入れ/空気抜き】ハンディ掃除機 パワフル 長時間稼働 超軽量0.36kg 乾湿両用 USB充電式 メーカー保証付 人気 業務用/車用清掃/家具/家庭用 日本語説明書付 ZX-106" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【新登場】ハンディクリーナー 多機能 車用掃除機 コードレス 25000Pa 強力吸引力 BeeTool【吹き飛ぶ/吸い込む/空気入れ/空気抜き】ハンディ掃除機 パワフル 長時間稼働 超軽量0.36kg 乾湿両用 USB充電式 メーカー保証付 人気 業務用/車用清掃/家具/家庭用 日本語説明書付 ZX-106</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,724</p>
+        <a href="https://www.amazon.co.jp/dp/B0CT5JTH37?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41DXAdNG-ZL._SL500_.jpg" alt="エレコム クリーナー 超強力クロス グレー AVD-TVCC01" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>エレコム クリーナー 超強力クロス グレー AVD-TVCC01</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥999</p>
+        <a href="https://www.amazon.co.jp/dp/B01IHO9JPC?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/21heImbrfPL._SL500_.jpg" alt="TWINBIRD(ツインバード) 掃除機 コード式 スティック ハンディクリーナー サイクロン式 自立可能 軽量 パワフル吸引 2WAY 新生活 スケルトンブラック TC-E123SBK" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>TWINBIRD(ツインバード) 掃除機 コード式 スティック ハンディクリーナー サイクロン式 自立可能 軽量 パワフル吸引 2WAY 新生活 スケルトンブラック TC-E123SBK</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥4,480</p>
+        <a href="https://www.amazon.co.jp/dp/B0098D4GYG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41qyZjPd9UL._SL500_.jpg" alt="アイリスオーヤマ リンサークリーナー コンパクトモデル 【テレビ放映商品】RNS-300" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>アイリスオーヤマ リンサークリーナー コンパクトモデル 【テレビ放映商品】RNS-300</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥8,980</p>
+        <a href="https://www.amazon.co.jp/dp/B07ZQGDHP2?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/21gkSXSbtOL._SL500_.jpg" alt="Anker Eufy (ユーフィ) HomeVac H11（ハンディクリーナー）【コードレス/充電式/軽量設計 / 5500Paの吸引力 / USB充電/コンパクトサイズ/車用/コンビネーションノズル付属】ブラック" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>Anker Eufy (ユーフィ) HomeVac H11（ハンディクリーナー）【コードレス/充電式/軽量設計 / 5500Paの吸引力 / USB充電/コンパクトサイズ/車用/コンビネーションノズル付属】ブラック</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥4,990</p>
+        <a href="https://www.amazon.co.jp/dp/B08F1YV2T4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31B-j6J72mL._SL500_.jpg" alt="Anker Eufy (ユーフィ) HomeVac H20 （車用 ハンディクリーナー）【コードレス/充電式/軽量設計 / 14000Paの吸引力 / シガーソケット充電/コンパクトサイズ/カーチャージャー付属/ブラシノズル/ホースノズル付属】ブラック" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>Anker Eufy (ユーフィ) HomeVac H20 （車用 ハンディクリーナー）【コードレス/充電式/軽量設計 / 14000Paの吸引力 / シガーソケット充電/コンパクトサイズ/カーチャージャー付属/ブラシノズル/ホースノズル付属】ブラック</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥9,990</p>
+        <a href="https://www.amazon.co.jp/dp/B0B1M4X6RT?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51nq+NGsKzL._SL500_.jpg" alt="【新登場】 ハンディクリーナー コードレス 強力吸引力【吹き飛ぶ/吸い込む/空気入れ/空気抜き】 多機能車用掃除機 Type-C 急速充電 LEDライト付きミニ掃除機 ホコリ取り/キーボード掃除/車内掃除に最適 Svoko LT-135" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【新登場】 ハンディクリーナー コードレス 強力吸引力【吹き飛ぶ/吸い込む/空気入れ/空気抜き】 多機能車用掃除機 Type-C 急速充電 LEDライト付きミニ掃除機 ホコリ取り/キーボード掃除/車内掃除に最適 Svoko LT-135</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥3,798</p>
+        <a href="https://www.amazon.co.jp/dp/B0DD3CBZJ3?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51JsxjLh0ZL._SL500_.jpg" alt="addgood(アドグッド) HouseLab(ハウスラボ) ぞうきん 10枚 ガラス用" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>addgood(アドグッド) HouseLab(ハウスラボ) ぞうきん 10枚 ガラス用</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥477</p>
+        <a href="https://www.amazon.co.jp/dp/B00VK034LG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51YBp2Of45L._SL500_.jpg" alt="ユノックス ぞうきん 白 30枚セット(3枚×10個) 約20×30cm 綿100% 雑巾 掃除用品 掃除 学校 家庭 洗車 掃除 水拭き 乾拭き まとめ買い 業務用にも" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ユノックス ぞうきん 白 30枚セット(3枚×10個) 約20×30cm 綿100% 雑巾 掃除用品 掃除 学校 家庭 洗車 掃除 水拭き 乾拭き まとめ買い 業務用にも</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,100</p>
+        <a href="https://www.amazon.co.jp/dp/B0CH4QTDMC?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51yl0FChzoL._SL500_.jpg" alt="中村(Nakamura) 雑巾 丈夫なぞうきん 厚手 業務用 10枚入り プロ仕様 50g 綿100% お得用 20×30cm" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>中村(Nakamura) 雑巾 丈夫なぞうきん 厚手 業務用 10枚入り プロ仕様 50g 綿100% お得用 20×30cm</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥905</p>
+        <a href="https://www.amazon.co.jp/dp/B01ARD1AGM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41TR-GUCM7L._SL500_.jpg" alt="綿100% タオル ぞうきん 中厚タイプ 50枚組 業務用（20×30cm）" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>綿100% タオル ぞうきん 中厚タイプ 50枚組 業務用（20×30cm）</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥3,680</p>
+        <a href="https://www.amazon.co.jp/dp/B0162P5JN4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51VCQIQdzZL._SL500_.jpg" alt="シンプルフレッシュ(Simple Fresh) 雑巾 吸水性にすぐれたパイル地 約20×30cm 3枚入 掃除 車 学校 ぞうきん 業務用" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>シンプルフレッシュ(Simple Fresh) 雑巾 吸水性にすぐれたパイル地 約20×30cm 3枚入 掃除 車 学校 ぞうきん 業務用</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥253</p>
+        <a href="https://www.amazon.co.jp/dp/B0D2KLY27G?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51RACXNc0JL._SL500_.jpg" alt="超吸水 マイクロ ファイバー ぞうきん 50枚組 20×30cm 業務用＆家庭用 ふわふわ手触り加工" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>超吸水 マイクロ ファイバー ぞうきん 50枚組 20×30cm 業務用＆家庭用 ふわふわ手触り加工</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,880</p>
+        <a href="https://www.amazon.co.jp/dp/B018V9BA8C?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51Xeb5-H3eL._SL500_.jpg" alt="Amazonベーシック クリーニングクロス マイクロファイバー 多目的 掃除 洗車 ふきん 雑巾 24個 (40 x 30 cm) ブルー マルチカラー" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>Amazonベーシック クリーニングクロス マイクロファイバー 多目的 掃除 洗車 ふきん 雑巾 24個 (40 x 30 cm) ブルー マルチカラー</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,496</p>
+        <a href="https://www.amazon.co.jp/dp/B009FUF6DM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/418vuRc6i+L._SL500_.jpg" alt="ストリックスデザイン タオル ぞうきん 10枚 ホワイト 約20×30cm 綿 雑巾 学校 家庭 洗車 掃除 水拭き 乾拭き SB-043" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ストリックスデザイン タオル ぞうきん 10枚 ホワイト 約20×30cm 綿 雑巾 学校 家庭 洗車 掃除 水拭き 乾拭き SB-043</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥645</p>
+        <a href="https://www.amazon.co.jp/dp/B07C12NGZB?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/417K5FNNsXL._SL500_.jpg" alt="オカザキ ぞうきん 約縦20cm×横30cm 3枚" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>オカザキ ぞうきん 約縦20cm×横30cm 3枚</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥163</p>
+        <a href="https://www.amazon.co.jp/dp/B0CZSQZVH4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51ZCjOKgCnL._SL500_.jpg" alt="レック 激落ち マイクロファイバー ぞうきん 5枚入" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>レック 激落ち マイクロファイバー ぞうきん 5枚入</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥527</p>
+        <a href="https://www.amazon.co.jp/dp/B00E9OSQ2M?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51Xeb5-H3eL._SL500_.jpg" alt="Amazonベーシック クリーニングクロス マイクロファイバー 多目的 掃除 洗車 ふきん 雑巾 24個 (40 x 30 cm) ブルー マルチカラー" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>Amazonベーシック クリーニングクロス マイクロファイバー 多目的 掃除 洗車 ふきん 雑巾 24個 (40 x 30 cm) ブルー マルチカラー</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,496</p>
+        <a href="https://www.amazon.co.jp/dp/B009FUF6DM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41yWK6PhuRL._SL500_.jpg" alt="カークランド (KIRKLAND) マイクロファイバータオル 36枚 713160" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カークランド (KIRKLAND) マイクロファイバータオル 36枚 713160</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥3,150</p>
+        <a href="https://www.amazon.co.jp/dp/B00GARQKII?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/412vrsNzliL._SL500_.jpg" alt="【Amazon.co.jp限定】 レック 激落ちくん マイクロファイバー クロス 20枚入 (20×30cm) ベージュ&ホワイト ホワイト&ベージュ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】 レック 激落ちくん マイクロファイバー クロス 20枚入 (20×30cm) ベージュ&ホワイト ホワイト&ベージュ</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥980</p>
+        <a href="https://www.amazon.co.jp/dp/B0814JQQL3?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31VTTvejucL._SL500_.jpg" alt="カインズ(CAINZ) マイクロファイバークロス 20枚入 グレー 乾拭き 水拭き 使い捨て キッチンクロス キッチン掃除 洗面台 台所 ふきん ぞうきん クロス" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カインズ(CAINZ) マイクロファイバークロス 20枚入 グレー 乾拭き 水拭き 使い捨て キッチンクロス キッチン掃除 洗面台 台所 ふきん ぞうきん クロス</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,000</p>
+        <a href="https://www.amazon.co.jp/dp/B0CGRHYV7Z?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/518YnYuhHqL._SL500_.jpg" alt="HOMEXCEL マイクロファイバークロス 車 12枚 吸水速乾 クリーニングクロス 薄手 使い捨て可 コーティング ワックス ホイルなど用 洗車タオル 約32×32cm (グレー) Towel for Cars" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>HOMEXCEL マイクロファイバークロス 車 12枚 吸水速乾 クリーニングクロス 薄手 使い捨て可 コーティング ワックス ホイルなど用 洗車タオル 約32×32cm (グレー) Towel for Cars</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥749</p>
+        <a href="https://www.amazon.co.jp/dp/B0CYT2JKRP?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51kNZdYAwaL._SL500_.jpg" alt="HOMEXCEL マイクロファイバークロス タオル 12枚入 (キッチンクロス/洗車タオル/台拭き) ふきん ぞうきん, 約29.21×29.21cm (マルチカラー)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>HOMEXCEL マイクロファイバークロス タオル 12枚入 (キッチンクロス/洗車タオル/台拭き) ふきん ぞうきん, 約29.21×29.21cm (マルチカラー)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥749</p>
+        <a href="https://www.amazon.co.jp/dp/B098D79MQB?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51StIYa9jEL._SL500_.jpg" alt="カークランド マイクロファイバータオル 108枚 (36枚×3個) 713160 3点セット" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カークランド マイクロファイバータオル 108枚 (36枚×3個) 713160 3点セット</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥8,400</p>
+        <a href="https://www.amazon.co.jp/dp/B01EN369TK?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41Q2dl9YDSS._SL500_.jpg" alt="山善(YAMAZEN) マイクロファイバーウエス 1kg 大容量 (訳あり品) 拭き取り 吸水 速乾 家電 汚れ落とし 洗車 キッチン 掃除 クロス タオル MFW-1" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>山善(YAMAZEN) マイクロファイバーウエス 1kg 大容量 (訳あり品) 拭き取り 吸水 速乾 家電 汚れ落とし 洗車 キッチン 掃除 クロス タオル MFW-1</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥991</p>
+        <a href="https://www.amazon.co.jp/dp/B093268M4T?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51l7OHPrv+L._SL500_.jpg" alt="カークランド マイクロファイバータオル 144枚 (36枚×4個) 713161" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カークランド マイクロファイバータオル 144枚 (36枚×4個) 713161</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥11,000</p>
+        <a href="https://www.amazon.co.jp/dp/B01FFI8I50?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41TJ7+DquOL._SL500_.jpg" alt="KIRKLAND カークランド マイクロファイバータオル リニューアル版 36+1＝37枚" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>KIRKLAND カークランド マイクロファイバータオル リニューアル版 36+1＝37枚</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥3,280</p>
+        <a href="https://www.amazon.co.jp/dp/B08VGPMZLJ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41FwG9gMlQS._SL500_.jpg" alt="白十字 ファミリーケア FCファミリー綿棒 200本x2個" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>白十字 ファミリーケア FCファミリー綿棒 200本x2個</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥219</p>
+        <a href="https://www.amazon.co.jp/dp/B00E3NGKSG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/419K6d2j+gL._SL500_.jpg" alt="CARELAGE(ケアレージュ) 抗菌黒リング綿棒 200本" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>CARELAGE(ケアレージュ) 抗菌黒リング綿棒 200本</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥240</p>
+        <a href="https://www.amazon.co.jp/dp/B00WW0H48C?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41Y80IGZx7L._SL500_.jpg" alt="山洋 スゴふわっ綿棒 110本×2個パック" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>山洋 スゴふわっ綿棒 110本×2個パック</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥270</p>
+        <a href="https://www.amazon.co.jp/dp/B00A0G8C4K?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/413t1sEK5cL._SL500_.jpg" alt="CARELAGE(ケアレージュ) 抗菌ふつう綿棒 200本2個組" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>CARELAGE(ケアレージュ) 抗菌ふつう綿棒 200本2個組</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥255</p>
+        <a href="https://www.amazon.co.jp/dp/B00VONUX2M?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41MWZKgloPL._SL500_.jpg" alt="by Amazon 2WAY黒綿棒 200本x8個 (Presto!)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>by Amazon 2WAY黒綿棒 200本x8個 (Presto!)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,290</p>
+        <a href="https://www.amazon.co.jp/dp/B077Z99B3R?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41scpb33RBL._SL500_.jpg" alt="by Amazon キトサン加工綿棒 200本x10個 (Presto!)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>by Amazon キトサン加工綿棒 200本x10個 (Presto!)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,084</p>
+        <a href="https://www.amazon.co.jp/dp/B078DF9SLZ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51AD+3ROE3L._SL500_.jpg" alt="阿蘇製薬 綿棒 デルガード やみつき綿棒α 70本入 ブラック 61mm×61mm×85mm" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>阿蘇製薬 綿棒 デルガード やみつき綿棒α 70本入 ブラック 61mm×61mm×85mm</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥189</p>
+        <a href="https://www.amazon.co.jp/dp/B08BNCYD41?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41pVNUZG8fL._SL500_.jpg" alt="ジョンソンベビー 【リニューアル】 ジョンソン 綿棒 200本入 天然由来" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ジョンソンベビー 【リニューアル】 ジョンソン 綿棒 200本入 天然由来</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥324</p>
+        <a href="https://www.amazon.co.jp/dp/B0CBV9KJY4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51qizjMm2pL._SL500_.jpg" alt="山洋 よく取れるこだわり綿棒 150本" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>山洋 よく取れるこだわり綿棒 150本</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥222</p>
+        <a href="https://www.amazon.co.jp/dp/B017W21M14?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41tDkLGpvSL._SL500_.jpg" alt="by Amazon スパイラル綿棒 200本x6個 (Presto!)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>by Amazon スパイラル綿棒 200本x6個 (Presto!)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥757</p>
+        <a href="https://www.amazon.co.jp/dp/B078DFJ8XB?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
         </a>
@@ -1054,10 +1730,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/41P9507lp4L._SL500_.jpg" alt="[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥585</p>
+        <p class="price">￥585</p>
         <a href="https://www.amazon.co.jp/dp/B091XVQ2KG?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -1067,10 +1743,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/51JTpJAd2FL._SL500_.jpg" alt="川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア L" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア L</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥398</p>
+        <p class="price">￥398</p>
         <a href="https://www.amazon.co.jp/dp/B00FJWNFW4?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -1080,10 +1756,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/4109cn2SgyL._SL500_.jpg" alt="[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥695</p>
+        <p class="price">￥695</p>
         <a href="https://www.amazon.co.jp/dp/B0BW8T3V29?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
@@ -1093,11 +1769,219 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="https://m.media-amazon.com/images/I/41mKs5bhikL._SL500_.jpg" alt="ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
         <h4>ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)</h4>
         <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
+            <span class="stars"></span>
+            <span class="review-count"></span>
         </div>
-        <p class="price">¥1,100</p>
+        <p class="price">￥1,100</p>
         <a href="https://www.amazon.co.jp/dp/B01JFXQ29U?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51Fm4NqBDvL._SL500_.jpg" alt="川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア M" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア M</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥398</p>
+        <a href="https://www.amazon.co.jp/dp/B00FJWNFJ2?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41jeCTndWML._SL500_.jpg" alt="ファミリー お料理にぴったり 手袋 小さめ S~Mサイズ 半透明 100枚 内エンボス(凸凹)加工 左右両用タイプ 食品衛生法適合 調理 掃除 使い捨て" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ファミリー お料理にぴったり 手袋 小さめ S~Mサイズ 半透明 100枚 内エンボス(凸凹)加工 左右両用タイプ 食品衛生法適合 調理 掃除 使い捨て</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥519</p>
+        <a href="https://www.amazon.co.jp/dp/B07XB56C1Z?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31pKIGCaNRL._SL500_.jpg" alt="[マツヨシ] 使い捨て手袋 ニトリルグローブ ホワイト 粉なし 100枚入り 病院採用商品 (松吉医科器械) (M, 新パッケージ) Mサイズ ニトリル グローヴ グローブ 使い捨て ニトリル手袋" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[マツヨシ] 使い捨て手袋 ニトリルグローブ ホワイト 粉なし 100枚入り 病院採用商品 (松吉医科器械) (M, 新パッケージ) Mサイズ ニトリル グローヴ グローブ 使い捨て ニトリル手袋</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,222</p>
+        <a href="https://www.amazon.co.jp/dp/B08V263F2F?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41A6Ht8y7qL._SL500_.jpg" alt="宇都宮製作 ポリエチレン手袋 M 半透明 100枚入 食品衛生法適合 外面エンボス加工 滑りにくい 使い捨て手袋 ビニール手袋 クイン LPE0181SE-TBM" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>宇都宮製作 ポリエチレン手袋 M 半透明 100枚入 食品衛生法適合 外面エンボス加工 滑りにくい 使い捨て手袋 ビニール手袋 クイン LPE0181SE-TBM</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥260</p>
+        <a href="https://www.amazon.co.jp/dp/B018TDZ144?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31WxMKfloML._SL500_.jpg" alt="ミタニ 品質管理用手袋 スムス (マチなし) 12双入 Mサイズ 210081" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ミタニ 品質管理用手袋 スムス (マチなし) 12双入 Mサイズ 210081</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥782</p>
+        <a href="https://www.amazon.co.jp/dp/B0063AS5E4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51iyAcvEECS._SL500_.jpg" alt="ファミリー エステー 使いきり手袋 [まとめ買い] ポリエチレン 極うす手 Mサイズ 半透明 100枚×3個 使い捨て手袋 左右両用タイプ 調理 掃除 衛生対策 毛染め ポリエチレン手袋 使い捨て (食品衛生法適合)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ファミリー エステー 使いきり手袋 [まとめ買い] ポリエチレン 極うす手 Mサイズ 半透明 100枚×3個 使い捨て手袋 左右両用タイプ 調理 掃除 衛生対策 毛染め ポリエチレン手袋 使い捨て (食品衛生法適合)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥1,809</p>
+        <a href="https://www.amazon.co.jp/dp/B084CHZ5FF?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51ep0c2lZ6L._SL500_.jpg" alt="フィッティ 7DAYSマスクEXプラス 60枚入 ホワイト ふつうサイズ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>フィッティ 7DAYSマスクEXプラス 60枚入 ホワイト ふつうサイズ</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥942</p>
+        <a href="https://www.amazon.co.jp/dp/B08VJJWCR4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41EQWQhJA4L._SL500_.jpg" alt="[医食同源ドットコム] iSDG 立体型スパンレース不織布カラーマスク SPUN MASK (スパンマスク) 個包装 30枚入り グレージュ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[医食同源ドットコム] iSDG 立体型スパンレース不織布カラーマスク SPUN MASK (スパンマスク) 個包装 30枚入り グレージュ</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥675</p>
+        <a href="https://www.amazon.co.jp/dp/B09Z2CKZMT?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51S5YMnLMNL._SL500_.jpg" alt="[医食同源ドットコム] iSDG KUCHIRAKU MASK (クチラクマスク) ホワイト 30枚入 ダイヤモンド型 くちばし型 メイクが付きにくい" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[医食同源ドットコム] iSDG KUCHIRAKU MASK (クチラクマスク) ホワイト 30枚入 ダイヤモンド型 くちばし型 メイクが付きにくい</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥651</p>
+        <a href="https://www.amazon.co.jp/dp/B098T2BJM6?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51IMFuJ+O5L._SL500_.jpg" alt="レック(LEC) 日本製 不織布 マスク 白 さわやかフィット ふつうサイズ 60枚入 ( 個包装 ) 175×90mm /幅広ゴム/JIS規格適合/全国マスク工業会/VFE BFE PFE 99%ガード/ガードエンボス加工で頬にフィット/" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>レック(LEC) 日本製 不織布 マスク 白 さわやかフィット ふつうサイズ 60枚入 ( 個包装 ) 175×90mm /幅広ゴム/JIS規格適合/全国マスク工業会/VFE BFE PFE 99%ガード/ガードエンボス加工で頬にフィット/</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥755</p>
+        <a href="https://www.amazon.co.jp/dp/B09V2SSTM5?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51AekCCLnrL._SL500_.jpg" alt="[アイリスオーヤマ] ディスポーザブル マスク 不織布 ふつう 120枚" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[アイリスオーヤマ] ディスポーザブル マスク 不織布 ふつう 120枚</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥999</p>
+        <a href="https://www.amazon.co.jp/dp/B09FJLP6ML?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41lCb1sMfNL._SL500_.jpg" alt="by Amazon マスク ふつうサイズ (約165mm×約90mm) PM2.5対応 200枚(50枚×4パック) ホワイト 無地 (Presto!)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>by Amazon マスク ふつうサイズ (約165mm×約90mm) PM2.5対応 200枚(50枚×4パック) ホワイト 無地 (Presto!)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥2,200</p>
+        <a href="https://www.amazon.co.jp/dp/B07YY9T1FQ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/5197-+OXGBL._SL500_.jpg" alt="マスク(字幕版)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>マスク(字幕版)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥440</p>
+        <a href="https://www.amazon.co.jp/dp/B00I8ZOKWI?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41ydh-fAg6L._SL500_.jpg" alt="超快適マスク スマートカラー ナチュラルベージュ 風邪・花粉用 不織布マスク ふつうサイズ 20枚入 オールシーズン カラーマスク〔PM2.5対応〕（ウイルス飛沫カットフィルタ）〔JIS規格適合審査済み〕〔全国マスク工業会 会員マーク表示〕ユニチャーム" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>超快適マスク スマートカラー ナチュラルベージュ 風邪・花粉用 不織布マスク ふつうサイズ 20枚入 オールシーズン カラーマスク〔PM2.5対応〕（ウイルス飛沫カットフィルタ）〔JIS規格適合審査済み〕〔全国マスク工業会 会員マーク表示〕ユニチャーム</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥973</p>
+        <a href="https://www.amazon.co.jp/dp/B0BX3Q9VSH?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/418IrJpIWyL._SL500_.jpg" alt="アイリスオーヤマ(IRIS OHYAMA) 不織布マスク 大きめ 65枚入 ホワイト 耳が痛くならない PN-NV65LL 白 大きいサイズ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>アイリスオーヤマ(IRIS OHYAMA) 不織布マスク 大きめ 65枚入 ホワイト 耳が痛くならない PN-NV65LL 白 大きいサイズ</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥558</p>
+        <a href="https://www.amazon.co.jp/dp/B0979YV1KN?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41Gy0PrIbQL._SL500_.jpg" alt="[医食同源ドットコム] iSDG 不織布マスクPREMIUM 50枚入り (個包装) (ふつう)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[医食同源ドットコム] iSDG 不織布マスクPREMIUM 50枚入り (個包装) (ふつう)</h4>
+        <div class="product-rating">
+            <span class="stars"></span>
+            <span class="review-count"></span>
+        </div>
+        <p class="price">￥879</p>
+        <a href="https://www.amazon.co.jp/dp/B09LHTKS9W?tag=asdfghj12-22" 
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
         </a>
@@ -1105,5 +1989,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         </div>
-        </body>
+
+<!-- 掃除方法フィードバックセクション -->
+</body>
 </html>
