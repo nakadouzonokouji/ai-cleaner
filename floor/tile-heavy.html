@@ -691,72 +691,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <h2>おすすめ商品</h2>
     <div id="product-container" class="product-container">
-        <!-- 商品はJavaScriptで動的に読み込まれます -->
-    </div>
+        <div class="product-grid">
+            <div class="product-scroll">
 
-    <script>
-// 商品データを外部から読み込む
-async function loadProducts() {
-    try {
-        const response = await fetch('../products-master.json');
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('商品データの読み込みに失敗しました:', error);
-        return [];
-    }
-}
-
-// カテゴリーに基づいて商品を取得
-function getProductsByCategory(products, category) {
-    return products.filter(p => p.category === category);
-}
-
-// 商品を表示
-async function displayProducts() {
-    const currentCategory = document.body.getAttribute('data-category');
-    const container = document.getElementById('product-container');
-    
-    if (!container) return;
-    
-    // ローディング表示
-    container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
-    
-    const products = await loadProducts();
-    const categoryProducts = getProductsByCategory(products, currentCategory);
-    
-    container.innerHTML = categoryProducts.map(product => `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                ${product.prime ? '<div class="prime-badge">Prime</div>' : ''}
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-rating">
-                    <span class="stars">★${product.rating}</span>
-                    <span class="review-count">(${product.reviews.toLocaleString()})</span>
-                </div>
-                <div class="product-price">¥${product.price.toLocaleString()}</div>
-                <div class="product-status">
-                    ${product.inStock ? '<span class="in-stock">✓ 在庫あり</span>' : '<span class="out-stock">在庫なし</span>'}
-                </div>
-                <div class="product-actions">
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
-                        Amazonで見る
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
                     </a>
                 </div>
-                <div class="feedback-section">
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
-                            👍 役立った
-                        </button>
-                        <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
-                            👎 微妙
-                        </button>
-                    </div>
-                    <div class="feedback-count" id="feedback-${product.id}"></div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -867,5 +899,79 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-</body>
+
+                                <div class="section">
+            <h2>おすすめ商品</h2>
+            <h3>その他のおすすめ商品</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>タイトル不明</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥0</p>
+        <a href="?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>タイトル不明</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥0</p>
+        <a href="?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>タイトル不明</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥0</p>
+        <a href="?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>タイトル不明</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥0</p>
+        <a href="?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>タイトル不明</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥0</p>
+        <a href="?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+        </body>
 </html>

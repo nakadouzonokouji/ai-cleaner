@@ -114,6 +114,49 @@
             ・水や洗剤が内部に入らないよう注意してください</p>
         </div>
         
+        <div class="section">
+            <h2>掃除手順</h2>
+            <div class="step">
+                <span class="step-number">1</span>
+                <span>IHの電源を切って冷めるまで待つ</span>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <span>中性洗剤を水で薄めた液を準備</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <span>柔らかいクロスに洗剤液を含ませる</span>
+            </div>
+            <div class="step">
+                <span class="step-number">4</span>
+                <span>天板全体を優しく拭き掃除</span>
+            </div>
+            <div class="step">
+                <span class="step-number">5</span>
+                <span>吹きこぼれ跡は円を描くように拭く</span>
+            </div>
+            <div class="step">
+                <span class="step-number">6</span>
+                <span>水で固く絞ったクロスで洗剤を拭き取る</span>
+            </div>
+            <div class="step">
+                <span class="step-number">7</span>
+                <span>乾いたマイクロファイバーで仕上げ拭き</span>
+            </div>
+            <div class="step">
+                <span class="step-number">8</span>
+                <span>操作パネル部分も忘れずに清掃</span>
+            </div>
+            <div class="step">
+                <span class="step-number">9</span>
+                <span>電源を入れて動作確認</span>
+            </div>
+            <div class="step">
+                <span class="step-number">10</span>
+                <span>定期的な掃除で焦げ付きを予防</span>
+            </div>
+        </div>
         
             </div>
         </div>
@@ -549,72 +592,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <h2>おすすめ商品</h2>
     <div id="product-container" class="product-container">
-        <!-- 商品はJavaScriptで動的に読み込まれます -->
-    </div>
+        <div class="product-grid">
+            <div class="product-scroll">
 
-    <script>
-// 商品データを外部から読み込む
-async function loadProducts() {
-    try {
-        const response = await fetch('../products-master.json');
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('商品データの読み込みに失敗しました:', error);
-        return [];
-    }
-}
-
-// カテゴリーに基づいて商品を取得
-function getProductsByCategory(products, category) {
-    return products.filter(p => p.category === category);
-}
-
-// 商品を表示
-async function displayProducts() {
-    const currentCategory = document.body.getAttribute('data-category');
-    const container = document.getElementById('product-container');
-    
-    if (!container) return;
-    
-    // ローディング表示
-    container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
-    
-    const products = await loadProducts();
-    const categoryProducts = getProductsByCategory(products, currentCategory);
-    
-    container.innerHTML = categoryProducts.map(product => `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                ${product.prime ? '<div class="prime-badge">Prime</div>' : ''}
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-rating">
-                    <span class="stars">★${product.rating}</span>
-                    <span class="review-count">(${product.reviews.toLocaleString()})</span>
-                </div>
-                <div class="product-price">¥${product.price.toLocaleString()}</div>
-                <div class="product-status">
-                    ${product.inStock ? '<span class="in-stock">✓ 在庫あり</span>' : '<span class="out-stock">在庫なし</span>'}
-                </div>
-                <div class="product-actions">
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
-                        Amazonで見る
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41YufpGXw3L._SL500_.jpg" alt="東邦 ウタマロクリーナー 本体+詰替えセット 2個アソート" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>東邦 ウタマロクリーナー 本体+詰替えセット 2個アソート</h4>
+                    <p class="price">￥958</p>
+                    <a href="https://www.amazon.co.jp/dp/B08P4K36SJ" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
                     </a>
                 </div>
-                <div class="feedback-section">
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
-                            👍 役立った
-                        </button>
-                        <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
-                            👎 微妙
-                        </button>
-                    </div>
-                    <div class="feedback-count" id="feedback-${product.id}"></div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/4167etwcUSL._SL500_.jpg" alt="【まとめ買い】 ウタマロ クリーナー 詰替350ml×2個セット" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>【まとめ買い】 ウタマロ クリーナー 詰替350ml×2個セット</h4>
+                    <p class="price">￥670</p>
+                    <a href="https://www.amazon.co.jp/dp/B00IRY4G1A" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/31pymHsnxzL._SL500_.jpg" alt="【Amazon限定】【お得2袋セット】住宅用クリーナー ウタマロ 詰替え 350ml×2" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>【Amazon限定】【お得2袋セット】住宅用クリーナー ウタマロ 詰替え 350ml×2</h4>
+                    <p class="price">￥722</p>
+                    <a href="https://www.amazon.co.jp/dp/B0D3TND35H" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41NbHCBlC8L._SL500_.jpg" alt="ウタマロ キッチン 300mｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>ウタマロ キッチン 300mｌ</h4>
+                    <p class="price">￥345</p>
+                    <a href="https://www.amazon.co.jp/dp/B0088B5FMQ" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/51Lff8yYANL._SL500_.jpg" alt="【まとめ買い】東邦 ウタマロクリーナー 本体400ml×1個と詰替え350ml×1個セット 【オリジナルポケットティッシュ付き】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>【まとめ買い】東邦 ウタマロクリーナー 本体400ml×1個と詰替え350ml×1個セット 【オリジナルポケットティッシュ付き】</h4>
+                    <p class="price">￥990</p>
+                    <a href="https://www.amazon.co.jp/dp/B0DJKM98MG" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/51NkhBx8E+L._SL500_.jpg" alt="東邦 ウタマロクリーナー詰替 ３５０ｍｌ × 12個セット" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>東邦 ウタマロクリーナー詰替 ３５０ｍｌ × 12個セット</h4>
+                    <p class="price">￥3,058</p>
+                    <a href="https://www.amazon.co.jp/dp/B07K9Q7VNJ" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/51aVvDkByXL._SL500_.jpg" alt="【まとめ買い】東邦 ウタマロ クリーナー 本体×1個 + 詰替え×1個 つめかえ 洗剤" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>【まとめ買い】東邦 ウタマロ クリーナー 本体×1個 + 詰替え×1個 つめかえ 洗剤</h4>
+                    <p class="price">￥999</p>
+                    <a href="https://www.amazon.co.jp/dp/B0D9WWPKNY" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41+BN3tab6L._SL500_.jpg" alt="ウタマロ クリーナー 400mｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>ウタマロ クリーナー 400mｌ</h4>
+                    <p class="price">￥380</p>
+                    <a href="https://www.amazon.co.jp/dp/B0088B5G0M" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41XmU-M35PL._SL500_.jpg" alt="ウタマロリキッド 詰替 350ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>ウタマロリキッド 詰替 350ml</h4>
+                    <p class="price">￥249</p>
+                    <a href="https://www.amazon.co.jp/dp/B0088B5GX4" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41F0JPi46uL._SL500_.jpg" alt="【まとめ買い】ウタマロクリーナー 詰替 350ミリリットル (2個)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>【まとめ買い】ウタマロクリーナー 詰替 350ミリリットル (2個)</h4>
+                    <p class="price">￥750</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CNTQ1DWQ" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -725,5 +800,219 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-</body>
+
+                                                        <div class="section">
+            <h2>おすすめ商品</h2>
+            <h3>洗剤・クリーナー</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41YufpGXw3L._SL500_.jpg" alt="東邦 ウタマロクリーナー 本体+詰替えセット 2個アソート" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>東邦 ウタマロクリーナー 本体+詰替えセット 2個アソート</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥958</p>
+        <a href="https://www.amazon.co.jp/dp/B08P4K36SJ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/4167etwcUSL._SL500_.jpg" alt="【まとめ買い】 ウタマロ クリーナー 詰替350ml×2個セット" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【まとめ買い】 ウタマロ クリーナー 詰替350ml×2個セット</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥670</p>
+        <a href="https://www.amazon.co.jp/dp/B00IRY4G1A?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31pymHsnxzL._SL500_.jpg" alt="【Amazon限定】【お得2袋セット】住宅用クリーナー ウタマロ 詰替え 350ml×2" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon限定】【お得2袋セット】住宅用クリーナー ウタマロ 詰替え 350ml×2</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥722</p>
+        <a href="https://www.amazon.co.jp/dp/B0D3TND35H?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51Lff8yYANL._SL500_.jpg" alt="【まとめ買い】東邦 ウタマロクリーナー 本体400ml×1個と詰替え350ml×1個セット 【オリジナルポケットティッシュ付き】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【まとめ買い】東邦 ウタマロクリーナー 本体400ml×1個と詰替え350ml×1個セット 【オリジナルポケットティッシュ付き】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥990</p>
+        <a href="https://www.amazon.co.jp/dp/B0DJKM98MG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51NkhBx8E+L._SL500_.jpg" alt="東邦 ウタマロクリーナー詰替 ３５０ｍｌ × 12個セット" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>東邦 ウタマロクリーナー詰替 ３５０ｍｌ × 12個セット</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥3,058</p>
+        <a href="https://www.amazon.co.jp/dp/B07K9Q7VNJ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51akXYHBVDL._SL500_.jpg" alt="レック 激落ち ダブルポイポイ ( メラミンスポンジ )" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>レック 激落ち ダブルポイポイ ( メラミンスポンジ )</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥266</p>
+        <a href="https://www.amazon.co.jp/dp/B00OOCWSMI?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51fhPYJG-YL._SL500_.jpg" alt="レック 激落ち MEGA 4枚入 大容量パック メラミンスポンジ (1枚:18×2.9×31cm) 水だけで汚れ落とし S-809 ホワイト" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>レック 激落ち MEGA 4枚入 大容量パック メラミンスポンジ (1枚:18×2.9×31cm) 水だけで汚れ落とし S-809 ホワイト</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥945</p>
+        <a href="https://www.amazon.co.jp/dp/B01HEVDHXY?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51dOEXbZP5S._SL500_.jpg" alt="オーエ メラミン スポンジ ホワイト キューブ 約縦4×横4×奥行3.1cm 一撃くん 水だけで 汚れを落す 30個入" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>オーエ メラミン スポンジ ホワイト キューブ 約縦4×横4×奥行3.1cm 一撃くん 水だけで 汚れを落す 30個入</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥482</p>
+        <a href="https://www.amazon.co.jp/dp/B00FKNOVKW?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41OcJCfgmxL._SL500_.jpg" alt="レック(LEC) 激落ち パパ (メラミンスポンジ) マルチ 8.3×2.9×25cm S-693" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>レック(LEC) 激落ち パパ (メラミンスポンジ) マルチ 8.3×2.9×25cm S-693</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥195</p>
+        <a href="https://www.amazon.co.jp/dp/B00OOCWQ20?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/517PRhpJ6NL._SL500_.jpg" alt="高密度 メラミンスポンジ プレミアム 凄腕くん くずれにくく長持ち 茶渋 水アカ 湯アカ 黒ずみ 汚れ 3485" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>高密度 メラミンスポンジ プレミアム 凄腕くん くずれにくく長持ち 茶渋 水アカ 湯アカ 黒ずみ 汚れ 3485</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥443</p>
+        <a href="https://www.amazon.co.jp/dp/B0BZ3F5JQW?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51wJwQYf+3L._SL500_.jpg" alt="カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,245</p>
+        <a href="https://www.amazon.co.jp/dp/B0CMPR42KM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51LMtWPDDdL._SL500_.jpg" alt="【Amazon.co.jp 限定】 カビキラー アルコールスプレー キッチン用 詰め替え用 特大 630ml×2個 お掃除手袋つき 日本製 アルコール除菌 除菌スプレー 除菌剤 エタノール まとめ買い" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp 限定】 カビキラー アルコールスプレー キッチン用 詰め替え用 特大 630ml×2個 お掃除手袋つき 日本製 アルコール除菌 除菌スプレー 除菌剤 エタノール まとめ買い</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,206</p>
+        <a href="https://www.amazon.co.jp/dp/B0CMPS37C2?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41mKs5bhikL._SL500_.jpg" alt="ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,100</p>
+        <a href="https://www.amazon.co.jp/dp/B01JFXQ29U?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51e1S4sS6WL._SL500_.jpg" alt="ファミリー [まとめ買い] ビニール手袋 うす手 指先強化 Mサイズ 3双パック (ピンク×2双・グリーン×1双)×2個セット キッチン 食器洗い 掃除 洗濯 ビニール 手袋" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ファミリー [まとめ買い] ビニール手袋 うす手 指先強化 Mサイズ 3双パック (ピンク×2双・グリーン×1双)×2個セット キッチン 食器洗い 掃除 洗濯 ビニール 手袋</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥723</p>
+        <a href="https://www.amazon.co.jp/dp/B09DPQ98JM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41qhLG6+RpL._SL500_.jpg" alt="カシニーナ オカモト(Okamoto) 炊事手袋 薄手 チャコールグレー L 1双入 ポリマーコート加工で着脱スムーズ 指先補強タイプ ウイルス低減 日本製 KN-4" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カシニーナ オカモト(Okamoto) 炊事手袋 薄手 チャコールグレー L 1双入 ポリマーコート加工で着脱スムーズ 指先補強タイプ ウイルス低減 日本製 KN-4</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥114</p>
+        <a href="https://www.amazon.co.jp/dp/B09JYND792?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+        </body>
 </html>

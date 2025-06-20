@@ -114,6 +114,49 @@
             ・換気を十分に行いながら作業してください</p>
         </div>
         
+        <div class="section">
+            <h2>掃除手順</h2>
+            <div class="step">
+                <span class="step-number">1</span>
+                <span>ガスの元栓を閉めて安全確保</span>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <span>五徳とバーナーキャップを取り外す</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <span>重曹水または中性洗剤をスプレー</span>
+            </div>
+            <div class="step">
+                <span class="step-number">4</span>
+                <span>5分程度置いて汚れを浮かせる</span>
+            </div>
+            <div class="step">
+                <span class="step-number">5</span>
+                <span>スポンジで優しく擦り洗い</span>
+            </div>
+            <div class="step">
+                <span class="step-number">6</span>
+                <span>水拭きで洗剤成分を除去</span>
+            </div>
+            <div class="step">
+                <span class="step-number">7</span>
+                <span>乾いた布で水分を拭き取る</span>
+            </div>
+            <div class="step">
+                <span class="step-number">8</span>
+                <span>五徳とバーナーキャップを元に戻す</span>
+            </div>
+            <div class="step">
+                <span class="step-number">9</span>
+                <span>ガスの元栓を開けて点火確認</span>
+            </div>
+            <div class="step">
+                <span class="step-number">10</span>
+                <span>換気扇も忘れずに掃除</span>
+            </div>
+        </div>
         
             </div>
         </div>
@@ -549,72 +592,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <h2>おすすめ商品</h2>
     <div id="product-container" class="product-container">
-        <!-- 商品はJavaScriptで動的に読み込まれます -->
-    </div>
+        <div class="product-grid">
+            <div class="product-scroll">
 
-    <script>
-// 商品データを外部から読み込む
-async function loadProducts() {
-    try {
-        const response = await fetch('../products-master.json');
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('商品データの読み込みに失敗しました:', error);
-        return [];
-    }
-}
-
-// カテゴリーに基づいて商品を取得
-function getProductsByCategory(products, category) {
-    return products.filter(p => p.category === category);
-}
-
-// 商品を表示
-async function displayProducts() {
-    const currentCategory = document.body.getAttribute('data-category');
-    const container = document.getElementById('product-container');
-    
-    if (!container) return;
-    
-    // ローディング表示
-    container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
-    
-    const products = await loadProducts();
-    const categoryProducts = getProductsByCategory(products, currentCategory);
-    
-    container.innerHTML = categoryProducts.map(product => `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                ${product.prime ? '<div class="prime-badge">Prime</div>' : ''}
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-rating">
-                    <span class="stars">★${product.rating}</span>
-                    <span class="review-count">(${product.reviews.toLocaleString()})</span>
-                </div>
-                <div class="product-price">¥${product.price.toLocaleString()}</div>
-                <div class="product-status">
-                    ${product.inStock ? '<span class="in-stock">✓ 在庫あり</span>' : '<span class="out-stock">在庫なし</span>'}
-                </div>
-                <div class="product-actions">
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
-                        Amazonで見る
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/517KeuTpsDL._SL500_.jpg" alt="花王　マジックリン　除菌プラス　4.5L" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>花王　マジックリン　除菌プラス　4.5L</h4>
+                    <p class="price">￥1,791</p>
+                    <a href="https://www.amazon.co.jp/dp/B003B2VOSG" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
                     </a>
                 </div>
-                <div class="feedback-section">
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
-                            👍 役立った
-                        </button>
-                        <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
-                            👎 微妙
-                        </button>
-                    </div>
-                    <div class="feedback-count" id="feedback-${product.id}"></div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41gERZqFUZL._SL500_.jpg" alt="マジックリン ハンディスプレー 400mL" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>マジックリン ハンディスプレー 400mL</h4>
+                    <p class="price">￥252</p>
+                    <a href="https://www.amazon.co.jp/dp/B000TGMG3Y" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/61upJIwOyZL._SL500_.jpg" alt="マジックリン 【大容量】バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! グリーンハーブの香り 詰替え用 1600ml×2個" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>マジックリン 【大容量】バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! グリーンハーブの香り 詰替え用 1600ml×2個</h4>
+                    <p class="price">￥1,700</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CCGG4JPT" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/51doWQv6SFL._SL500_.jpg" alt="花王 マジックリン除菌プラス 4.5L×4本(ケース)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>花王 マジックリン除菌プラス 4.5L×4本(ケース)</h4>
+                    <p class="price">￥6,761</p>
+                    <a href="https://www.amazon.co.jp/dp/B00CQ5M8KW" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41X+geqj8EL._SL500_.jpg" alt="マジックリン バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! 香りが残らないタイプ 本体 350ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>マジックリン バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! 香りが残らないタイプ 本体 350ｍｌ</h4>
+                    <p class="price">￥288</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CCGXRM75" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41f5DgIR+CL._SL500_.jpg" alt="花王(Kao) 【業務用 浴室用洗剤】バスマジックリン 4.5L(プロフェッショナルシリーズ)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>花王(Kao) 【業務用 浴室用洗剤】バスマジックリン 4.5L(プロフェッショナルシリーズ)</h4>
+                    <p class="price">￥1,794</p>
+                    <a href="https://www.amazon.co.jp/dp/B000TGIB5Q" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41iQpGKOu2L._SL500_.jpg" alt="花王(Kao) 【大容量】 バスマジックリン SUPER泡洗浄 4.5L 業務用 浴室用 除菌 中性 プロフェッショナル・サービス" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>花王(Kao) 【大容量】 バスマジックリン SUPER泡洗浄 4.5L 業務用 浴室用 除菌 中性 プロフェッショナル・サービス</h4>
+                    <p class="price">￥1,885</p>
+                    <a href="https://www.amazon.co.jp/dp/B0186NPGHE" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/31PBvbgYqdL._SL500_.jpg" alt="マジックリンEX POWER 水アカ用スプレー 本体 400ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>マジックリンEX POWER 水アカ用スプレー 本体 400ml</h4>
+                    <p class="price">￥789</p>
+                    <a href="https://www.amazon.co.jp/dp/B0DJNT7YN3" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/419Kh45izoL._SL500_.jpg" alt="【業務用 トイレ洗剤】 花王 トイレマジックリン 消臭・洗浄スプレー 4.5L(プロフェッショナルシリーズ)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>【業務用 トイレ洗剤】 花王 トイレマジックリン 消臭・洗浄スプレー 4.5L(プロフェッショナルシリーズ)</h4>
+                    <p class="price">￥1,660</p>
+                    <a href="https://www.amazon.co.jp/dp/B003OBO25Q" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/61cRo0g3hbL._SL500_.jpg" alt="マジックリン 【まとめ買い】バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! 香りが残らないタイプ 本体 350ｍｌ+詰替え用 800ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>マジックリン 【まとめ買い】バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! 香りが残らないタイプ 本体 350ｍｌ+詰替え用 800ｍｌ</h4>
+                    <p class="price">￥748</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CCGWWTRX" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -725,5 +800,219 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-</body>
+
+                                                        <div class="section">
+            <h2>おすすめ商品</h2>
+            <h3>洗剤・クリーナー</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/517KeuTpsDL._SL500_.jpg" alt="花王　マジックリン　除菌プラス　4.5L" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>花王　マジックリン　除菌プラス　4.5L</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,791</p>
+        <a href="https://www.amazon.co.jp/dp/B003B2VOSG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41gERZqFUZL._SL500_.jpg" alt="マジックリン ハンディスプレー 400mL" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>マジックリン ハンディスプレー 400mL</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥252</p>
+        <a href="https://www.amazon.co.jp/dp/B000TGMG3Y?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61upJIwOyZL._SL500_.jpg" alt="マジックリン 【大容量】バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! グリーンハーブの香り 詰替え用 1600ml×2個" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>マジックリン 【大容量】バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! グリーンハーブの香り 詰替え用 1600ml×2個</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,700</p>
+        <a href="https://www.amazon.co.jp/dp/B0CCGG4JPT?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51doWQv6SFL._SL500_.jpg" alt="花王 マジックリン除菌プラス 4.5L×4本(ケース)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>花王 マジックリン除菌プラス 4.5L×4本(ケース)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥6,761</p>
+        <a href="https://www.amazon.co.jp/dp/B00CQ5M8KW?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41X+geqj8EL._SL500_.jpg" alt="マジックリン バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! 香りが残らないタイプ 本体 350ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>マジックリン バス SUPER泡洗浄 洗浄はもちろん、菌由来の汚れも防ぐ! 香りが残らないタイプ 本体 350ｍｌ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥288</p>
+        <a href="https://www.amazon.co.jp/dp/B0CCGXRM75?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41WqiHX+4NL._SL500_.jpg" alt="PAX NATURON(パックスナチュロン) キッチンスポンジ (ナチュラル / 5個セット) 台所 食器洗い 皿洗い スポンジ (泡立ち/水切れ/耐久性) 太陽油脂" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>PAX NATURON(パックスナチュロン) キッチンスポンジ (ナチュラル / 5個セット) 台所 食器洗い 皿洗い スポンジ (泡立ち/水切れ/耐久性) 太陽油脂</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥982</p>
+        <a href="https://www.amazon.co.jp/dp/B0CKLC8ZYW?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51QhmHUQHdL._SL500_.jpg" alt="【Amazon.co.jp限定】 3M スコッチブライト 泡立ちゆたか ソフト スポンジ 食器洗い キッチンスポンジ 食器用スポンジ キズつけない グレー 6個" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】 3M スコッチブライト 泡立ちゆたか ソフト スポンジ 食器洗い キッチンスポンジ 食器用スポンジ キズつけない グレー 6個</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥900</p>
+        <a href="https://www.amazon.co.jp/dp/B085QN7F53?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51O2CoqQN+L._SL500_.jpg" alt="【Amazon.co.jp限定】 3M スポンジ キッチン キズつけない 抗菌 ロング 6個 スコッチブライト SS-74K-6P" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】 3M スポンジ キッチン キズつけない 抗菌 ロング 6個 スコッチブライト SS-74K-6P</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥948</p>
+        <a href="https://www.amazon.co.jp/dp/B01N0655HN?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41uK499UoXL._SL500_.jpg" alt="【サンサンスポンジ】スポンジ 4個セット キッチンスポンジ 食器洗い お風呂 レンジ周り 用途いろいろ 驚きの水切れ＆泡立ち 丈夫で長持ち 台所用品 キッチン用品 シルキーグレー" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【サンサンスポンジ】スポンジ 4個セット キッチンスポンジ 食器洗い お風呂 レンジ周り 用途いろいろ 驚きの水切れ＆泡立ち 丈夫で長持ち 台所用品 キッチン用品 シルキーグレー</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,584</p>
+        <a href="https://www.amazon.co.jp/dp/B09NPRXV9V?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51D+EMdd1AL._SL500_.jpg" alt="【Amazon.co.jp限定】 3M スコッチブライト プレミアム ネット スポンジ 食器洗い キッチンスポンジ 食器用スポンジ フライパン グレー 6個" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】 3M スコッチブライト プレミアム ネット スポンジ 食器洗い キッチンスポンジ 食器用スポンジ フライパン グレー 6個</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,363</p>
+        <a href="https://www.amazon.co.jp/dp/B09DX2NNP6?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51wJwQYf+3L._SL500_.jpg" alt="カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,245</p>
+        <a href="https://www.amazon.co.jp/dp/B0CMPR42KM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31xavpaZc8L._SL500_.jpg" alt="[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Lサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Lサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥559</p>
+        <a href="https://www.amazon.co.jp/dp/B091Y628HY?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41A6Ht8y7qL._SL500_.jpg" alt="宇都宮製作 ポリエチレン手袋 M 半透明 100枚入 食品衛生法適合 外面エンボス加工 滑りにくい 使い捨て手袋 ビニール手袋 クイン LPE0181SE-TBM" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>宇都宮製作 ポリエチレン手袋 M 半透明 100枚入 食品衛生法適合 外面エンボス加工 滑りにくい 使い捨て手袋 ビニール手袋 クイン LPE0181SE-TBM</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥260</p>
+        <a href="https://www.amazon.co.jp/dp/B018TDZ144?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51JTpJAd2FL._SL500_.jpg" alt="川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア L" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア L</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥398</p>
+        <a href="https://www.amazon.co.jp/dp/B00FJWNFW4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51Fm4NqBDvL._SL500_.jpg" alt="川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア M" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア M</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥398</p>
+        <a href="https://www.amazon.co.jp/dp/B00FJWNFJ2?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+        </body>
 </html>

@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "generatedAt": "2025-06-20T12:29:40.108Z",
+    "totalProducts": 4400,
+    "collectedWith": "amazon-paapi-sdk-v2",
+    "description": "SDK版による実在商品データベース"
+  },
+  "products": [],
+  "statistics": {
+    "byLocation": {
+      "bathroom": 1200,
+      "floor": 800,
+      "kitchen": 800,
+      "living": 800,
+      "toilet": 400,
+      "window": 400
+    },
+    "byArea": {
+      "bathroom-bathtub": 200,
+      "bathroom-drain": 200,
+      "bathroom-shower": 200,
+      "bathroom-toilet": 200,
+      "bathroom-washstand": 200,
+      "bathroom-ventilation": 200,
+      "floor-flooring": 200,
+      "floor-tatami": 200,
+      "floor-carpet": 200,
+      "floor-tile": 200,
+      "kitchen-gas": 200,
+      "kitchen-ih": 200,
+      "kitchen-sink": 200,
+      "kitchen-ventilation": 200,
+      "living-sofa": 200,
+      "living-carpet": 200,
+      "living-table": 200,
+      "living-wall": 200,
+      "toilet-toilet": 200,
+      "toilet-floor": 200,
+      "window-glass": 200,
+      "window-sash": 200
+    },
+    "byLevel": {
+      "light": 2200,
+      "heavy": 2200
+    }
+  },
+  "lastUpdated": "2025-06-20T12:35:34.200Z"
+}

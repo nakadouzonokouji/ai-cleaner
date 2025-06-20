@@ -683,72 +683,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <h2>おすすめ商品</h2>
     <div id="product-container" class="product-container">
-        <!-- 商品はJavaScriptで動的に読み込まれます -->
-    </div>
+        <div class="product-grid">
+            <div class="product-scroll">
 
-    <script>
-// 商品データを外部から読み込む
-async function loadProducts() {
-    try {
-        const response = await fetch('../products-master.json');
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('商品データの読み込みに失敗しました:', error);
-        return [];
-    }
-}
-
-// カテゴリーに基づいて商品を取得
-function getProductsByCategory(products, category) {
-    return products.filter(p => p.category === category);
-}
-
-// 商品を表示
-async function displayProducts() {
-    const currentCategory = document.body.getAttribute('data-category');
-    const container = document.getElementById('product-container');
-    
-    if (!container) return;
-    
-    // ローディング表示
-    container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
-    
-    const products = await loadProducts();
-    const categoryProducts = getProductsByCategory(products, currentCategory);
-    
-    container.innerHTML = categoryProducts.map(product => `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                ${product.prime ? '<div class="prime-badge">Prime</div>' : ''}
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-rating">
-                    <span class="stars">★${product.rating}</span>
-                    <span class="review-count">(${product.reviews.toLocaleString()})</span>
-                </div>
-                <div class="product-price">¥${product.price.toLocaleString()}</div>
-                <div class="product-status">
-                    ${product.inStock ? '<span class="in-stock">✓ 在庫あり</span>' : '<span class="out-stock">在庫なし</span>'}
-                </div>
-                <div class="product-actions">
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
-                        Amazonで見る
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
                     </a>
                 </div>
-                <div class="feedback-section">
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
-                            👍 役立った
-                        </button>
-                        <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
-                            👎 微妙
-                        </button>
-                    </div>
-                    <div class="feedback-count" id="feedback-${product.id}"></div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -859,5 +891,219 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-</body>
+
+                                <div class="section">
+            <h2>おすすめ商品</h2>
+            <h3>洗剤・クリーナー</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31U-oCEJidL._SL500_.jpg" alt="キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥646</p>
+        <a href="https://www.amazon.co.jp/dp/B0CG5JNV2N?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/416YD31uPVL._SL500_.jpg" alt="カネヨ石鹸【大容量】 野菜・食器洗い 台所用洗剤 業務用 4L ライムの香り コック付 日本製" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カネヨ石鹸【大容量】 野菜・食器洗い 台所用洗剤 業務用 4L ライムの香り コック付 日本製</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥962</p>
+        <a href="https://www.amazon.co.jp/dp/B00573XTYE?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31eHQyxM08L._SL500_.jpg" alt="キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥799</p>
+        <a href="https://www.amazon.co.jp/dp/B0CG5M15PQ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41WtUFypSGL._SL500_.jpg" alt="花王プロシリーズ 【大容量】 花王 ワンダフル 4.5L 業務用 食器用洗剤 野菜洗浄可能 花王プロフェッショナル・サービス" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>花王プロシリーズ 【大容量】 花王 ワンダフル 4.5L 業務用 食器用洗剤 野菜洗浄可能 花王プロフェッショナル・サービス</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥991</p>
+        <a href="https://www.amazon.co.jp/dp/B000TGIBDS?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51dfdizKr1L._SL500_.jpg" alt="花王(Kao) 【大容量】 ファミリーフレッシュ 4.5L 業務用 食器用洗剤 野菜洗浄可能 プロフェッショナル・サービス" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>花王(Kao) 【大容量】 ファミリーフレッシュ 4.5L 業務用 食器用洗剤 野菜洗浄可能 プロフェッショナル・サービス</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,609</p>
+        <a href="https://www.amazon.co.jp/dp/B000TGMFK8?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41ojPRXrx5L._SL500_.jpg" alt="リファ ハートブラシ ReFa HEART BRUSH (ローズゴールド)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>リファ ハートブラシ ReFa HEART BRUSH (ローズゴールド)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥2,970</p>
+        <a href="https://www.amazon.co.jp/dp/B09R3ZD3PS?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/311hzneU7lL._SL500_.jpg" alt="無印良品 ブナ材ヘアブラシ 全長20cm 82575156" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>無印良品 ブナ材ヘアブラシ 全長20cm 82575156</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥890</p>
+        <a href="https://www.amazon.co.jp/dp/B09RPKNQ4J?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41dGwUS+LrL._SL500_.jpg" alt="池本刷子工業 ヘアケアブラシS SEN-455 R" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>池本刷子工業 ヘアケアブラシS SEN-455 R</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥336</p>
+        <a href="https://www.amazon.co.jp/dp/B001FOQY82?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31JcQ6MIyYL._SL500_.jpg" alt="リファ エールブラシ ReFa AILE BRUSH (ローズゴールド)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>リファ エールブラシ ReFa AILE BRUSH (ローズゴールド)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥3,800</p>
+        <a href="https://www.amazon.co.jp/dp/B0C5WZMG4C?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31GajTWfjxL._SL500_.jpg" alt="Wet Brush スピードドライ ヘアブラシ ブラック 1本 (x 1)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>Wet Brush スピードドライ ヘアブラシ ブラック 1本 (x 1)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,485</p>
+        <a href="https://www.amazon.co.jp/dp/B07Q12GWT7?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51wJwQYf+3L._SL500_.jpg" alt="カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>カビキラー アルコールスプレー キッチン用 詰め替え用 超特大 1260ml お掃除手袋つき 日本製 アルコール除菌 スプレー まとめ買い エタノール 大容量 【Amazon.co.jp 限定】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,245</p>
+        <a href="https://www.amazon.co.jp/dp/B0CMPR42KM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41P9507lp4L._SL500_.jpg" alt="[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥585</p>
+        <a href="https://www.amazon.co.jp/dp/B091XVQ2KG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51JTpJAd2FL._SL500_.jpg" alt="川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア L" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>川西工業 ビニール使いきり手袋 粉なし 100枚入 #2026 クリア L</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥398</p>
+        <a href="https://www.amazon.co.jp/dp/B00FJWNFW4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/4109cn2SgyL._SL500_.jpg" alt="[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥695</p>
+        <a href="https://www.amazon.co.jp/dp/B0BW8T3V29?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41mKs5bhikL._SL500_.jpg" alt="ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,100</p>
+        <a href="https://www.amazon.co.jp/dp/B01JFXQ29U?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+        </body>
 </html>

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const crypto = require('crypto');
 const https = require('https');
 const fs = require('fs');
@@ -7,9 +8,10 @@ const path = require('path');
 const config = {
     accessKey: process.env.AMAZON_ACCESS_KEY,
     secretKey: process.env.AMAZON_SECRET_KEY,
-    partnerTag: process.env.AMAZON_ASSOCIATE_TAG || 'asdfghj12-22',
+    partnerTag: process.env.AMAZON_ASSOCIATE_TAG,
     host: 'webservices.amazon.co.jp',
-    region: 'us-west-2'
+    region: 'us-west-2',
+    service: 'ProductAdvertisingAPI'
 };
 
 // 場所と詳細箇所の定義
@@ -171,77 +173,113 @@ function createSignature(stringToSign) {
 
 // PA-APIリクエスト
 async function searchProducts(keyword, sortBy = 'Relevance') {
-    const timestamp = new Date().toISOString();
-    const date = timestamp.split('T')[0].replace(/-/g, '');
-    
-    const payload = {
-        "PartnerType": "Associates",
-        "PartnerTag": config.partnerTag,
-        "Keywords": keyword,
-        "SearchIndex": "All",
-        "ItemCount": 10,
-        "SortBy": sortBy,
-        "Resources": [
-            "Images.Primary.Large",
-            "ItemInfo.Title",
-            "Offers.Listings.Price",
-            "CustomerReviews.StarRating",
-            "BrowseNodeInfo.BrowseNodes.Ancestor",
-            "BrowseNodeInfo.BrowseNodes.SalesRank"
-        ],
-        "Marketplace": "www.amazon.co.jp"
-    };
+    return new Promise((resolve, reject) => {
+        const timestamp = new Date().toISOString();
+        const dateStamp = timestamp.split('T')[0].replace(/-/g, '');
+        const amzDate = timestamp.replace(/[:-]/g, '').replace(/\.\d{3}/, '');
+        const target = 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.SearchItems';
+        
+        const payload = JSON.stringify({
+            PartnerType: 'Associates',
+            PartnerTag: config.partnerTag,
+            Keywords: keyword,
+            SearchIndex: 'All',
+            ItemCount: 10,
+            SortBy: sortBy,
+            Resources: [
+                'Images.Primary.Large',
+                'ItemInfo.Title',
+                'Offers.Listings.Price',
+                'Offers.Listings.DeliveryInfo.IsPrimeEligible',
+                'CustomerReviews.Count',
+                'CustomerReviews.StarRating.Value'
+            ],
+            Marketplace: 'www.amazon.co.jp'
+        });
 
-    const payloadString = JSON.stringify(payload);
-    const method = 'POST';
-    const path = '/paapi5/searchitems';
-    const service = 'ProductAdvertisingAPI';
-    
-    // 署名作成（簡略化版）
-    const headers = {
-        'content-type': 'application/json; charset=utf-8',
-        'x-amz-target': 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.SearchItems',
-        'content-encoding': 'amz-1.0',
-        'x-amz-date': timestamp,
-        'host': config.host
-    };
+        // リクエストヘッダー
+        const headers = {
+            'content-encoding': 'amz-1.0',
+            'content-type': 'application/json; charset=utf-8',
+            'host': config.host,
+            'x-amz-date': amzDate,
+            'x-amz-target': target
+        };
 
-    // 実際の実装では適切な署名処理が必要
-    // ここではダミーデータを返す
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const dummyProducts = [];
-            for (let i = 0; i < 5; i++) {
-                dummyProducts.push({
-                    ASIN: `B0${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
-                    ItemInfo: { 
-                        Title: { 
-                            DisplayValue: `${keyword} ${['ベストセラー', '人気商品', 'Amazon\'s Choice'][i % 3]}` 
-                        }
-                    },
-                    Images: { 
-                        Primary: { 
-                            Large: { 
-                                URL: `https://m.media-amazon.com/images/I/${Math.random().toString(36).substr(2, 8)}.jpg` 
-                            } 
-                        } 
-                    },
-                    Offers: { 
-                        Listings: [{ 
-                            Price: { 
-                                DisplayAmount: `¥${Math.floor(Math.random() * 2000) + 198}` 
-                            } 
-                        }] 
-                    },
-                    CustomerReviews: { 
-                        StarRating: { 
-                            Value: 4 + Math.random() 
-                        } 
+        // 署名の作成
+        const canonicalHeaders = Object.entries(headers)
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([k, v]) => `${k}:${v}\n`)
+            .join('');
+
+        const signedHeaders = Object.keys(headers).sort().join(';');
+
+        const canonicalRequest = [
+            'POST',
+            '/paapi5/searchitems',
+            '',
+            canonicalHeaders,
+            signedHeaders,
+            crypto.createHash('sha256').update(payload).digest('hex')
+        ].join('\n');
+
+        const credentialScope = `${dateStamp}/${config.region}/${config.service}/aws4_request`;
+        const stringToSign = [
+            'AWS4-HMAC-SHA256',
+            amzDate,
+            credentialScope,
+            crypto.createHash('sha256').update(canonicalRequest).digest('hex')
+        ].join('\n');
+
+        const getSignatureKey = (key, dateStamp, regionName, serviceName) => {
+            const kDate = crypto.createHmac('sha256', `AWS4${key}`).update(dateStamp).digest();
+            const kRegion = crypto.createHmac('sha256', kDate).update(regionName).digest();
+            const kService = crypto.createHmac('sha256', kRegion).update(serviceName).digest();
+            return crypto.createHmac('sha256', kService).update('aws4_request').digest();
+        };
+
+        const signingKey = getSignatureKey(config.secretKey, dateStamp, config.region, config.service);
+        const signature = crypto.createHmac('sha256', signingKey).update(stringToSign).digest('hex');
+
+        headers['Authorization'] = `AWS4-HMAC-SHA256 Credential=${config.accessKey}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+
+        const options = {
+            hostname: config.host,
+            path: '/paapi5/searchitems',
+            method: 'POST',
+            headers: headers
+        };
+
+        const req = https.request(options, (res) => {
+            let data = '';
+            
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+            
+            res.on('end', () => {
+                try {
+                    const response = JSON.parse(data);
+                    if (res.statusCode === 200 && response.SearchResult) {
+                        resolve(response.SearchResult.Items || []);
+                    } else {
+                        console.error(`検索エラー ${keyword}:`, response.Errors || data);
+                        resolve([]);
                     }
-                });
-            }
-            resolve(dummyProducts);
-        }, 100);
+                } catch (e) {
+                    console.error(`パースエラー ${keyword}:`, e.message);
+                    resolve([]);
+                }
+            });
+        });
+
+        req.on('error', (e) => {
+            console.error(`ネットワークエラー ${keyword}:`, e.message);
+            resolve([]);
+        });
+
+        req.write(payload);
+        req.end();
     });
 }
 

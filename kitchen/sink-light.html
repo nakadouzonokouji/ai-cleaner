@@ -71,7 +71,51 @@
 <body data-category="kitchen-sink-light">
     <div class="container">
         <h1>キッチンシンクの軽い汚れを10分で落とす掃除方法</h1>
-
+        
+        <div class="section">
+            <h2>掃除手順</h2>
+            <div class="step">
+                <span class="step-number">1</span>
+                <span>シンク内の食器や物を片付ける</span>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <span>排水口のゴミを取り除く</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <span>中性洗剤をスポンジに含ませる</span>
+            </div>
+            <div class="step">
+                <span class="step-number">4</span>
+                <span>シンク全体を円を描くように洗う</span>
+            </div>
+            <div class="step">
+                <span class="step-number">5</span>
+                <span>蛇口周りの水垢も忘れずに</span>
+            </div>
+            <div class="step">
+                <span class="step-number">6</span>
+                <span>水でしっかりとすすぐ</span>
+            </div>
+            <div class="step">
+                <span class="step-number">7</span>
+                <span>乾いた布で水気を拭き取る</span>
+            </div>
+            <div class="step">
+                <span class="step-number">8</span>
+                <span>排水口にパイプクリーナーを流す</span>
+            </div>
+            <div class="step">
+                <span class="step-number">9</span>
+                <span>シンクをピカピカに磨き上げる</span>
+            </div>
+            <div class="step">
+                <span class="step-number">10</span>
+                <span>定期的な掃除で清潔を保つ</span>
+            </div>
+        </div>
+        
 <div class="back-button-container">
     <a href="../index.html" class="back-button back-to-main">
         <span class="arrow">←</span> 場所選択に戻る
@@ -676,72 +720,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <h2>おすすめ商品</h2>
     <div id="product-container" class="product-container">
-        <!-- 商品はJavaScriptで動的に読み込まれます -->
-    </div>
+        <div class="product-grid">
+            <div class="product-scroll">
 
-    <script>
-// 商品データを外部から読み込む
-async function loadProducts() {
-    try {
-        const response = await fetch('../products-master.json');
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('商品データの読み込みに失敗しました:', error);
-        return [];
-    }
-}
-
-// カテゴリーに基づいて商品を取得
-function getProductsByCategory(products, category) {
-    return products.filter(p => p.category === category);
-}
-
-// 商品を表示
-async function displayProducts() {
-    const currentCategory = document.body.getAttribute('data-category');
-    const container = document.getElementById('product-container');
-    
-    if (!container) return;
-    
-    // ローディング表示
-    container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
-    
-    const products = await loadProducts();
-    const categoryProducts = getProductsByCategory(products, currentCategory);
-    
-    container.innerHTML = categoryProducts.map(product => `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                ${product.prime ? '<div class="prime-badge">Prime</div>' : ''}
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-rating">
-                    <span class="stars">★${product.rating}</span>
-                    <span class="review-count">(${product.reviews.toLocaleString()})</span>
-                </div>
-                <div class="product-price">¥${product.price.toLocaleString()}</div>
-                <div class="product-status">
-                    ${product.inStock ? '<span class="in-stock">✓ 在庫あり</span>' : '<span class="out-stock">在庫なし</span>'}
-                </div>
-                <div class="product-actions">
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
-                        Amazonで見る
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/31U-oCEJidL._SL500_.jpg" alt="キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ</h4>
+                    <p class="price">￥646</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CG5JNV2N" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
                     </a>
                 </div>
-                <div class="feedback-section">
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
-                            👍 役立った
-                        </button>
-                        <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
-                            👎 微妙
-                        </button>
-                    </div>
-                    <div class="feedback-count" id="feedback-${product.id}"></div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/31eHQyxM08L._SL500_.jpg" alt="キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ</h4>
+                    <p class="price">￥799</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CG5M15PQ" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/31oQoBqRJ1L._SL500_.jpg" alt="キュキュット Natural Days+除菌 ヴァ―ベナ＆シトラスの香り つめかえ用 700ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュット Natural Days+除菌 ヴァ―ベナ＆シトラスの香り つめかえ用 700ml</h4>
+                    <p class="price">￥329</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CHM8SY1X" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41q++OJSLUL._SL500_.jpg" alt="キュキュット 【大容量】 花王 クリア除菌 4.5L 業務用 食器用 洗剤 グレープフルーツの香り 花王プロフェッショナル・サービス 業務用 【Amazon.co.jp限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュット 【大容量】 花王 クリア除菌 4.5L 業務用 食器用 洗剤 グレープフルーツの香り 花王プロフェッショナル・サービス 業務用 【Amazon.co.jp限定】</h4>
+                    <p class="price">￥2,189</p>
+                    <a href="https://www.amazon.co.jp/dp/B0DSL2SH2T" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41j2+-EiQQL._SL500_.jpg" alt="キュキュット マスカットの香り つめかえ用 700ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュット マスカットの香り つめかえ用 700ml</h4>
+                    <p class="price">￥329</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CHMD34NK" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41RIM17HzZL._SL500_.jpg" alt="花王(Kao) 【大容量】 キュキュット 4.5L 業務用 食器用 洗剤 オレンジの香り プロフェッショナル・サービス キュキュット業務用 【Amazon.co.jp限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>花王(Kao) 【大容量】 キュキュット 4.5L 業務用 食器用 洗剤 オレンジの香り プロフェッショナル・サービス キュキュット業務用 【Amazon.co.jp限定】</h4>
+                    <p class="price">￥2,189</p>
+                    <a href="https://www.amazon.co.jp/dp/B0DSKZKQ28" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/41gybFzQagL._SL500_.jpg" alt="キュキュット ピンクグレープフルーツの香り つめかえ用 700ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュット ピンクグレープフルーツの香り つめかえ用 700ml</h4>
+                    <p class="price">￥329</p>
+                    <a href="https://www.amazon.co.jp/dp/B0CHM8YLHF" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/31ryD+JCwXL._SL500_.jpg" alt="花王 食器用洗剤 キュキュット 本体 240ml オレンジ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>花王 食器用洗剤 キュキュット 本体 240ml オレンジ</h4>
+                    <p class="price">￥598</p>
+                    <a href="https://www.amazon.co.jp/dp/B00N0915B6" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/316USxjfZgL._SL500_.jpg" alt="キュキュットクリア除菌 食器用洗剤 ポンプ 480ml" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュットクリア除菌 食器用洗剤 ポンプ 480ml</h4>
+                    <p class="price">￥439</p>
+                    <a href="https://www.amazon.co.jp/dp/B0DG2RHQY3" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/61xAarXcokL._SL500_.jpg" alt="キュキュット 【まとめ買い】 食器用洗剤 食洗機用 クエン酸オレンジオイル 詰め替え 550g × 3個" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>キュキュット 【まとめ買い】 食器用洗剤 食洗機用 クエン酸オレンジオイル 詰め替え 550g × 3個</h4>
+                    <p class="price">￥1,076</p>
+                    <a href="https://www.amazon.co.jp/dp/B07F6JMDRF" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -852,5 +928,219 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-</body>
+
+                                <div class="section">
+            <h2>おすすめ商品</h2>
+            <h3>洗剤・クリーナー</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31U-oCEJidL._SL500_.jpg" alt="キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キュキュット 【大容量】 食器用洗剤 長もち泡がパッ! キュッと実感! オレンジの香り 詰替え用 1380ｍｌ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥646</p>
+        <a href="https://www.amazon.co.jp/dp/B0CG5JNV2N?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31eHQyxM08L._SL500_.jpg" alt="キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キュキュット 【大容量】 クリア除菌 食器用洗剤 長もち泡がパッ! キュッと実感! グレープフルーツの香り 詰替え用 1380ｍｌ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥799</p>
+        <a href="https://www.amazon.co.jp/dp/B0CG5M15PQ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41q++OJSLUL._SL500_.jpg" alt="キュキュット 【大容量】 花王 クリア除菌 4.5L 業務用 食器用 洗剤 グレープフルーツの香り 花王プロフェッショナル・サービス 業務用 【Amazon.co.jp限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>キュキュット 【大容量】 花王 クリア除菌 4.5L 業務用 食器用 洗剤 グレープフルーツの香り 花王プロフェッショナル・サービス 業務用 【Amazon.co.jp限定】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥2,189</p>
+        <a href="https://www.amazon.co.jp/dp/B0DSL2SH2T?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41RIM17HzZL._SL500_.jpg" alt="花王(Kao) 【大容量】 キュキュット 4.5L 業務用 食器用 洗剤 オレンジの香り プロフェッショナル・サービス キュキュット業務用 【Amazon.co.jp限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>花王(Kao) 【大容量】 キュキュット 4.5L 業務用 食器用 洗剤 オレンジの香り プロフェッショナル・サービス キュキュット業務用 【Amazon.co.jp限定】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥2,189</p>
+        <a href="https://www.amazon.co.jp/dp/B0DSKZKQ28?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/31ryD+JCwXL._SL500_.jpg" alt="花王 食器用洗剤 キュキュット 本体 240ml オレンジ" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>花王 食器用洗剤 キュキュット 本体 240ml オレンジ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥598</p>
+        <a href="https://www.amazon.co.jp/dp/B00N0915B6?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51MPy3cGOmL._SL500_.jpg" alt="パックスナチュロン キッチンスポンジ ブラック 5個セット 泡立ち 水切れ 耐久性 長持ち 太陽油脂 限定カラー 台所 食器洗い" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>パックスナチュロン キッチンスポンジ ブラック 5個セット 泡立ち 水切れ 耐久性 長持ち 太陽油脂 限定カラー 台所 食器洗い</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥982</p>
+        <a href="https://www.amazon.co.jp/dp/B09V29SZ62?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51QhmHUQHdL._SL500_.jpg" alt="【Amazon.co.jp限定】 3M スコッチブライト 泡立ちゆたか ソフト スポンジ 食器洗い キッチンスポンジ 食器用スポンジ キズつけない グレー 6個" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【Amazon.co.jp限定】 3M スコッチブライト 泡立ちゆたか ソフト スポンジ 食器洗い キッチンスポンジ 食器用スポンジ キズつけない グレー 6個</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥900</p>
+        <a href="https://www.amazon.co.jp/dp/B085QN7F53?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61cLO3CNyqL._SL500_.jpg" alt="オーエ クリーンキーピング ネットスポンジ 5個入り" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>オーエ クリーンキーピング ネットスポンジ 5個入り</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥161</p>
+        <a href="https://www.amazon.co.jp/dp/B007QAVXWG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41NsdKFT2FL._SL500_.jpg" alt="【サンサンスポンジ】スポンジ 4個セット キッチンスポンジ 食器洗い お風呂 レンジ周り 用途いろいろ 驚きの水切れ＆泡立ち 丈夫で長持ち 台所用品 キッチン用品 プレミアムブラック" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【サンサンスポンジ】スポンジ 4個セット キッチンスポンジ 食器洗い お風呂 レンジ周り 用途いろいろ 驚きの水切れ＆泡立ち 丈夫で長持ち 台所用品 キッチン用品 プレミアムブラック</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,584</p>
+        <a href="https://www.amazon.co.jp/dp/B07T35N29H?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51d67YOeXLL._SL500_.jpg" alt="ダスキン スポンジ ハードタイプ 抗菌 台所用 12個入り キッチン用 油汚れ 長持ち (3色セットSタイプ×2、モノトーンN×2)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ダスキン スポンジ ハードタイプ 抗菌 台所用 12個入り キッチン用 油汚れ 長持ち (3色セットSタイプ×2、モノトーンN×2)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,895</p>
+        <a href="https://www.amazon.co.jp/dp/B08L5ZT5YT?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/4109cn2SgyL._SL500_.jpg" alt="[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥695</p>
+        <a href="https://www.amazon.co.jp/dp/B0BW8T3V29?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41P9507lp4L._SL500_.jpg" alt="[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥585</p>
+        <a href="https://www.amazon.co.jp/dp/B091XVQ2KG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41Hc3vnH0IL._SL500_.jpg" alt="ショーワグローブ(Showaglove) 日本製・炊事手袋・ハンドケア ナイスハンドさらっとタッチセミロング Mサイズ パールピンク 1双" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ショーワグローブ(Showaglove) 日本製・炊事手袋・ハンドケア ナイスハンドさらっとタッチセミロング Mサイズ パールピンク 1双</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥249</p>
+        <a href="https://www.amazon.co.jp/dp/B089M8NQH3?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/21iV4mVrufL._SL500_.jpg" alt="マークスインターナショナル マリーゴールド キッチン用 グローブ 手袋 M イエロー" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>マークスインターナショナル マリーゴールド キッチン用 グローブ 手袋 M イエロー</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥692</p>
+        <a href="https://www.amazon.co.jp/dp/B00OH02UT8?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41mKs5bhikL._SL500_.jpg" alt="ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ファミリー 極うす手 Mサイズ ホワイト 100枚 粉なし 左右両用タイプ 調理 掃除 毛染め 介護 ニトリル手袋 使い捨て (食品衛生法適合)</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,100</p>
+        <a href="https://www.amazon.co.jp/dp/B01JFXQ29U?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+        </body>
 </html>

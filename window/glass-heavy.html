@@ -683,72 +683,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <h2>おすすめ商品</h2>
     <div id="product-container" class="product-container">
-        <!-- 商品はJavaScriptで動的に読み込まれます -->
-    </div>
+        <div class="product-grid">
+            <div class="product-scroll">
 
-    <script>
-// 商品データを外部から読み込む
-async function loadProducts() {
-    try {
-        const response = await fetch('../products-master.json');
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('商品データの読み込みに失敗しました:', error);
-        return [];
-    }
-}
-
-// カテゴリーに基づいて商品を取得
-function getProductsByCategory(products, category) {
-    return products.filter(p => p.category === category);
-}
-
-// 商品を表示
-async function displayProducts() {
-    const currentCategory = document.body.getAttribute('data-category');
-    const container = document.getElementById('product-container');
-    
-    if (!container) return;
-    
-    // ローディング表示
-    container.innerHTML = '<div class="loading">商品を読み込んでいます...</div>';
-    
-    const products = await loadProducts();
-    const categoryProducts = getProductsByCategory(products, currentCategory);
-    
-    container.innerHTML = categoryProducts.map(product => `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                ${product.prime ? '<div class="prime-badge">Prime</div>' : ''}
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <div class="product-rating">
-                    <span class="stars">★${product.rating}</span>
-                    <span class="review-count">(${product.reviews.toLocaleString()})</span>
-                </div>
-                <div class="product-price">¥${product.price.toLocaleString()}</div>
-                <div class="product-status">
-                    ${product.inStock ? '<span class="in-stock">✓ 在庫あり</span>' : '<span class="out-stock">在庫なし</span>'}
-                </div>
-                <div class="product-actions">
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="amazon-button">
-                        Amazonで見る
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
                     </a>
                 </div>
-                <div class="feedback-section">
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn good-btn" onclick="submitProductFeedback('${product.id}', 'good', this)">
-                            👍 役立った
-                        </button>
-                        <button class="feedback-btn bad-btn" onclick="submitProductFeedback('${product.id}', 'bad', this)">
-                            👎 微妙
-                        </button>
-                    </div>
-                    <div class="feedback-count" id="feedback-${product.id}"></div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200?text=商品画像" alt="タイトル不明" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+                    <h4>タイトル不明</h4>
+                    <p class="price">価格不明</p>
+                    <a href="" target="_blank" rel="nofollow noopener" class="buy-button">
+                        Amazonで購入
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
                 </div>
             </div>
         </div>
@@ -859,5 +891,219 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-</body>
+
+                                <div class="section">
+            <h2>おすすめ商品</h2>
+            <h3>洗剤・クリーナー</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/615ORBlFy4L._SL500_.jpg" alt="【まとめ買い】ガラスマジックリン ガラスクリーナ スプレータイプ 本体+詰め替え" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>【まとめ買い】ガラスマジックリン ガラスクリーナ スプレータイプ 本体+詰め替え</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥920</p>
+        <a href="https://www.amazon.co.jp/dp/B07JG63L6K?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41DLrVpUXwL._SL500_.jpg" alt="花王(Kao) 【大容量】 ガラスマジックリン 4.5L 業務用 ガラスクリーナー プロフェッショナル・サービス" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>花王(Kao) 【大容量】 ガラスマジックリン 4.5L 業務用 ガラスクリーナー プロフェッショナル・サービス</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,500</p>
+        <a href="https://www.amazon.co.jp/dp/B002M59DW2?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41oatyPeJxL._SL500_.jpg" alt="アズマ 洗剤 アズマジックガラス洗剤 正味量:400㎖ 窓ガラス・鏡のくもりや皮脂汚れを落とす。 CH856" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>アズマ 洗剤 アズマジックガラス洗剤 正味量:400㎖ 窓ガラス・鏡のくもりや皮脂汚れを落とす。 CH856</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥857</p>
+        <a href="https://www.amazon.co.jp/dp/B0765YFWW6?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41p4IxE-gZL._SL500_.jpg" alt="技・職人魂 ビルメンもびっくり! スクイジいらずのガラス専用クリーナー「硝子職人」500ml!" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>技・職人魂 ビルメンもびっくり! スクイジいらずのガラス専用クリーナー「硝子職人」500ml!</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥360</p>
+        <a href="https://www.amazon.co.jp/dp/B001K8BLI6?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/5164Z43Qj1L._SL500_.jpg" alt="スクラビングバブル (Scrubbing Bubbles) ガラス用洗剤 ガラスクリーナー 液体タイプ 本体 500ml + 詰め替え用 400ml×2個 鏡 窓ガラス用 掃除グッズ 汚れ落とし まとめ買い" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>スクラビングバブル (Scrubbing Bubbles) ガラス用洗剤 ガラスクリーナー 液体タイプ 本体 500ml + 詰め替え用 400ml×2個 鏡 窓ガラス用 掃除グッズ 汚れ落とし まとめ買い</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥760</p>
+        <a href="https://www.amazon.co.jp/dp/B07K2BVRTR?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51aQOMYSAxL._SL500_.jpg" alt="ソフト99(SOFT99) 99工房 補修用品 液体コンパウンドトライアルセット 塗装面のキズ消し、仕上げ、鏡面仕上げ用 専用スポンジ 09193" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ソフト99(SOFT99) 99工房 補修用品 液体コンパウンドトライアルセット 塗装面のキズ消し、仕上げ、鏡面仕上げ用 専用スポンジ 09193</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,573</p>
+        <a href="https://www.amazon.co.jp/dp/B004X3GIZ6?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41WMjxSJK0L._SL500_.jpg" alt="髙儀(Takagi) M&M ブラシ3本セット 小" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>髙儀(Takagi) M&M ブラシ3本セット 小</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥312</p>
+        <a href="https://www.amazon.co.jp/dp/B006JZD31S?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41lpwivzcqL._SL500_.jpg" alt="IROKCAKPT ワイヤーブラシ ステンレス チャンネルブラシ 先曲り ハンディーJ型ブラシ ステンレス（3本セット）" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>IROKCAKPT ワイヤーブラシ ステンレス チャンネルブラシ 先曲り ハンディーJ型ブラシ ステンレス（3本セット）</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥699</p>
+        <a href="https://www.amazon.co.jp/dp/B0C7QT1Y93?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41AyHqG91FL._SL500_.jpg" alt="近与(KONYO)SUN UP ハンディーブラシ 先曲り 真鍮" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>近与(KONYO)SUN UP ハンディーブラシ 先曲り 真鍮</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥452</p>
+        <a href="https://www.amazon.co.jp/dp/B00IIOUNFC?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41z5+4QP+LL._SL500_.jpg" alt="サンドリー(SUNDRY) ワイヤーブラシ 3本組(真鍮/ステンレス/ナイロン) 全長180mm 水廻り コンロ 汚れ落とし サビ取り 除去 掃除 清掃 セット SWB-3" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>サンドリー(SUNDRY) ワイヤーブラシ 3本組(真鍮/ステンレス/ナイロン) 全長180mm 水廻り コンロ 汚れ落とし サビ取り 除去 掃除 清掃 セット SWB-3</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥542</p>
+        <a href="https://www.amazon.co.jp/dp/B01GTGNBEK?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51qY1N+NkyL._SL500_.jpg" alt="スクラビングバブル (Scrubbing Bubbles) 激泡ガラスクリーナー エアゾールタイプ 480ml×3本 お掃除手袋つき ガラス用洗剤 ガラスクリーナー 鏡 窓 洗剤 掃除 掃除グッズ 汚れ落とし まとめ買い 【Amazon.co.jp 限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>スクラビングバブル (Scrubbing Bubbles) 激泡ガラスクリーナー エアゾールタイプ 480ml×3本 お掃除手袋つき ガラス用洗剤 ガラスクリーナー 鏡 窓 洗剤 掃除 掃除グッズ 汚れ落とし まとめ買い 【Amazon.co.jp 限定】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,015</p>
+        <a href="https://www.amazon.co.jp/dp/B08241V7DC?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51W9tCmJfHL._SL500_.jpg" alt="スクラビングバブル (Scrubbing Bubbles) 超強力トイレクリーナー 400g×3本 お掃除手袋つき トイレ洗浄剤 黒ずみ 洗浄 まとめ買い 洗剤 【Amazon.co.jp 限定】" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>スクラビングバブル (Scrubbing Bubbles) 超強力トイレクリーナー 400g×3本 お掃除手袋つき トイレ洗浄剤 黒ずみ 洗浄 まとめ買い 洗剤 【Amazon.co.jp 限定】</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥828</p>
+        <a href="https://www.amazon.co.jp/dp/B0824161BV?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/4109cn2SgyL._SL500_.jpg" alt="[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[ファーストレイト] ニトリルグローブSP3 パウダーフリー Ｓ ソフトパープル 【150枚入】 0.09㎜ 手袋 食品衛生法適合 滑り止め フィット感 使い捨て 介護 食品 清掃 FR-6601</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥695</p>
+        <a href="https://www.amazon.co.jp/dp/B0BW8T3V29?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41P9507lp4L._SL500_.jpg" alt="[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>[マツヨシ] 使い捨て手袋 プラスチックグローブ 粉なし Mサイズ 100枚入り 左右兼用 薄手 病院採用商品 PVC 手袋 PVCグローブ パウダーフリー 清掃 介護 クリニック ガーデニング 美容 松吉医科器械</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥585</p>
+        <a href="https://www.amazon.co.jp/dp/B091XVQ2KG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/41Hc3vnH0IL._SL500_.jpg" alt="ショーワグローブ(Showaglove) 日本製・炊事手袋・ハンドケア ナイスハンドさらっとタッチセミロング Mサイズ パールピンク 1双" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=商品画像'">
+        <h4>ショーワグローブ(Showaglove) 日本製・炊事手袋・ハンドケア ナイスハンドさらっとタッチセミロング Mサイズ パールピンク 1双</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥249</p>
+        <a href="https://www.amazon.co.jp/dp/B089M8NQH3?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+        </body>
 </html>
