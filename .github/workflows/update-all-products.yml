@@ -1,0 +1,122 @@
+name: Update All Products Master Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: 'Specific location to update (leave empty for all)'
+        required: false
+        type: string
+  schedule:
+    # 毎週月曜日の午前2時（日本時間午前11時）に実行
+    - cron: '0 2 * * 1'
+
+jobs:
+  update-products:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Create env file
+      run: |
+        echo "AMAZON_ACCESS_KEY=${{ secrets.AMAZON_ACCESS_KEY }}" >> .env
+        echo "AMAZON_SECRET_KEY=${{ secrets.AMAZON_SECRET_KEY }}" >> .env
+        echo "AMAZON_ASSOCIATE_TAG=${{ secrets.AMAZON_ASSOCIATE_TAG }}" >> .env
+    
+    - name: Collect all products from Amazon PA-API
+      env:
+        AMAZON_ACCESS_KEY: ${{ secrets.AMAZON_ACCESS_KEY }}
+        AMAZON_SECRET_KEY: ${{ secrets.AMAZON_SECRET_KEY }}
+        AMAZON_ASSOCIATE_TAG: ${{ secrets.AMAZON_ASSOCIATE_TAG }}
+      run: |
+        echo "Starting product collection..."
+        node scripts/collect-all-products.js
+    
+    - name: Check if master data was created
+      run: |
+        if [ ! -f "products-master-complete.json" ]; then
+          echo "Error: Master data file was not created"
+          exit 1
+        fi
+        echo "Master data file created successfully"
+        echo "File size: $(wc -c < products-master-complete.json) bytes"
+    
+    - name: Update HTML files with new products
+      run: |
+        if [ "${{ github.event.inputs.location }}" != "" ]; then
+          echo "Updating only ${{ github.event.inputs.location }} location"
+          node scripts/update-all-html-files.js --location ${{ github.event.inputs.location }}
+        else
+          echo "Updating all HTML files"
+          node scripts/update-all-html-files.js
+        fi
+    
+    - name: Validate changes
+      run: |
+        # 変更されたファイルをチェック
+        git status --porcelain
+        
+        # 変更がある場合のみ次のステップを実行
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "Changes detected"
+          echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+        else
+          echo "No changes detected"
+          echo "CHANGES_DETECTED=false" >> $GITHUB_ENV
+        fi
+    
+    - name: Commit and push changes
+      if: env.CHANGES_DETECTED == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add products-master-complete.json
+        git add */*-light.html */*-heavy.html
+        git commit -m "自動更新: Amazon商品マスターデータとHTMLファイル
+
+        - PA-APIで最新のベストセラー商品を取得
+        - 高評価商品を自動選定
+        - 全HTMLファイルの商品セクションを更新
+        
+        更新日時: $(date +'%Y-%m-%d %H:%M:%S')"
+        git push
+    
+    - name: Create summary
+      run: |
+        echo "# 商品更新サマリー" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "## 更新日時" >> $GITHUB_STEP_SUMMARY
+        echo "$(date +'%Y-%m-%d %H:%M:%S JST')" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ env.CHANGES_DETECTED }}" == "true" ]; then
+          echo "## 更新結果" >> $GITHUB_STEP_SUMMARY
+          echo "✅ 商品データが正常に更新されました" >> $GITHUB_STEP_SUMMARY
+          
+          # 更新されたファイル数をカウント
+          UPDATED_HTML=$(git diff --name-only HEAD^ HEAD | grep -E "-(light|heavy)\.html$" | wc -l)
+          echo "- 更新されたHTMLファイル: ${UPDATED_HTML}個" >> $GITHUB_STEP_SUMMARY
+          
+          # マスターデータのサイズ
+          if [ -f "products-master-complete.json" ]; then
+            SIZE=$(wc -c < products-master-complete.json)
+            echo "- マスターデータサイズ: ${SIZE} bytes" >> $GITHUB_STEP_SUMMARY
+          fi
+        else
+          echo "## 更新結果" >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ 商品データに変更はありませんでした" >> $GITHUB_STEP_SUMMARY
+        fi
+    
+    - name: Cleanup
+      if: always()
+      run: |
+        rm -f .env
