@@ -1,0 +1,269 @@
+{
+  "totalPages": 46,
+  "totalProducts": 675,
+  "pageDetails": {
+    "bathroom/bathtub-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/bathtub-light-backup.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/bathtub-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/bathtub.html": {
+      "currentProducts": 0,
+      "requiredProducts": 15,
+      "shortage": 15
+    },
+    "bathroom/drain-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/drain-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/shower-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/shower-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/toilet-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/toilet-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/ventilation-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/ventilation-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/washstand-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "bathroom/washstand-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/gas-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/gas-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/ih-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/ih-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/sink-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/sink-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/ventilation-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "kitchen/ventilation-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "toilet/floor-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "toilet/floor-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "toilet/toilet-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "toilet/toilet-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/carpet-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/carpet-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/flooring-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/flooring-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/tatami-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/tatami-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/tile-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "floor/tile-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "window/glass-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "window/glass-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "window/sash-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "window/sash-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/carpet-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/carpet-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/sofa-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/sofa-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/table-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/table-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/wall-heavy.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    },
+    "living/wall-light.html": {
+      "currentProducts": 15,
+      "requiredProducts": 15,
+      "shortage": 0
+    }
+  },
+  "missingProducts": [
+    {
+      "file": "bathroom/bathtub.html",
+      "current": 0,
+      "needed": 15
+    }
+  ],
+  "summary": {
+    "bathroom": {
+      "pages": 14,
+      "products": 195
+    },
+    "kitchen": {
+      "pages": 8,
+      "products": 120
+    },
+    "toilet": {
+      "pages": 4,
+      "products": 60
+    },
+    "floor": {
+      "pages": 8,
+      "products": 120
+    },
+    "window": {
+      "pages": 4,
+      "products": 60
+    },
+    "living": {
+      "pages": 8,
+      "products": 120
+    }
+  }
+}
