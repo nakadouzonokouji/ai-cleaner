@@ -1,6 +1,6 @@
 {
-  "timestamp": "2025-06-21T11:01:27.199Z",
-  "totalProducts": 18,
+  "timestamp": "2025-06-21T13:15:49.118Z",
+  "totalProducts": 19,
   "products": {
     "B002A5OJ1Y": {
       "large": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
@@ -91,6 +91,11 @@
       "large": "https://m.media-amazon.com/images/I/31YC5Kss9xL._SL500_.jpg",
       "medium": "https://m.media-amazon.com/images/I/31YC5Kss9xL._SL160_.jpg",
       "small": "https://m.media-amazon.com/images/I/31YC5Kss9xL._SL75_.jpg"
+    },
+    "B003B2VOSG": {
+      "large": "https://m.media-amazon.com/images/I/517KeuTpsDL._SL500_.jpg",
+      "medium": "https://m.media-amazon.com/images/I/517KeuTpsDL._SL160_.jpg",
+      "small": "https://m.media-amazon.com/images/I/517KeuTpsDL._SL75_.jpg"
     }
   }
 }

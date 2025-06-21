@@ -1,0 +1,239 @@
+{
+  "timestamp": "2025-06-21T10:55:01.891Z",
+  "summary": {
+    "totalFiles": 15,
+    "updatedFiles": 13,
+    "totalUpdates": 26
+  },
+  "details": {
+    "bathtub-heavy.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28376
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 29032
+        }
+      ]
+    },
+    "bathtub-light-backup.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 27707
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28363
+        }
+      ]
+    },
+    "bathtub-light.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 27707
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28363
+        }
+      ]
+    },
+    "bathtub.html": {
+      "updateCount": 0,
+      "updateLog": []
+    },
+    "drain-heavy.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28274
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28930
+        }
+      ]
+    },
+    "drain-light.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 27688
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28344
+        }
+      ]
+    },
+    "index.html": {
+      "updateCount": 0,
+      "updateLog": []
+    },
+    "shower-heavy.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 25231
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 25887
+        }
+      ]
+    },
+    "shower-light.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 27752
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28408
+        }
+      ]
+    },
+    "toilet-heavy.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 24550
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 25206
+        }
+      ]
+    },
+    "toilet-light.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 27761
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28417
+        }
+      ]
+    },
+    "ventilation-heavy.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 24586
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 25242
+        }
+      ]
+    },
+    "ventilation-light.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 27819
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28475
+        }
+      ]
+    },
+    "washstand-heavy.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 24554
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 25210
+        }
+      ]
+    },
+    "washstand-light.html": {
+      "updateCount": 2,
+      "updateLog": [
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/71L8pPtJ6xL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 27716
+        },
+        {
+          "asin": "B002A5OJ1Y",
+          "oldUrl": "https://m.media-amazon.com/images/I/51fD2iOJ9VL._SL500_.jpg",
+          "newUrl": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+          "position": 28372
+        }
+      ]
+    }
+  }
+}

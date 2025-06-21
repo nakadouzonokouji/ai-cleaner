@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-06-21T10:55:01.372Z",
+  "totalProducts": 1,
+  "products": {
+    "B002A5OJ1Y": {
+      "large": "https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg",
+      "medium": "https://m.media-amazon.com/images/I/415laoNyYrL._SL160_.jpg",
+      "small": "https://m.media-amazon.com/images/I/415laoNyYrL._SL75_.jpg"
+    }
+  }
+}
