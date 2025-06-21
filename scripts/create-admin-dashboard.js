@@ -1,0 +1,561 @@
+const fs = require('fs');
+const path = require('path');
+
+// 新しいadmin.htmlの内容を生成
+const adminHTML = `<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理画面 - AI掃除ガイド フィードバック分析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .admin-header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .good-stat {
+            color: #27ae60;
+        }
+
+        .bad-stat {
+            color: #e74c3c;
+        }
+
+        .neutral-stat {
+            color: #3498db;
+        }
+
+        .feedback-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .feedback-table th,
+        .feedback-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .feedback-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .feedback-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3498db;
+            transition: width 0.3s;
+        }
+
+        .progress-fill.good {
+            background: #27ae60;
+        }
+
+        .progress-fill.bad {
+            background: #e74c3c;
+        }
+
+        .comment-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="header-content">
+            <div>
+                <h1>AI掃除ガイド 管理画面</h1>
+                <p class="header-subtitle">フィードバック分析ダッシュボード</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 統計サマリー -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>総合評価</h2>
+                <div class="stat-value neutral-stat" id="totalFeedback">0</div>
+                <div class="stat-label">総フィードバック数</div>
+            </div>
+            <div class="card">
+                <h2>Good評価</h2>
+                <div class="stat-value good-stat" id="totalGood">0</div>
+                <div class="stat-label">
+                    <span id="goodPercentage">0</span>% のユーザーが満足
+                </div>
+            </div>
+            <div class="card">
+                <h2>Bad評価</h2>
+                <div class="stat-value bad-stat" id="totalBad">0</div>
+                <div class="stat-label">
+                    <span id="badPercentage">0</span>% が改善を希望
+                </div>
+            </div>
+        </div>
+
+        <!-- ページ別評価 -->
+        <div class="card">
+            <h2>ページ別評価</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterPages('all')">すべて</button>
+                <button class="filter-btn" onclick="filterPages('good')">高評価順</button>
+                <button class="filter-btn" onclick="filterPages('bad')">要改善順</button>
+            </div>
+            <div id="pageRankings">
+                <table class="feedback-table">
+                    <thead>
+                        <tr>
+                            <th>ページ</th>
+                            <th>Good</th>
+                            <th>Bad</th>
+                            <th>評価率</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pageTableBody">
+                        <!-- 動的に生成 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- コメント一覧 -->
+        <div class="card" style="margin-top: 20px;">
+            <h2>ユーザーコメント</h2>
+            <div id="commentsList">
+                <div class="empty-state">コメントはまだありません</div>
+            </div>
+        </div>
+
+        <!-- 改善が必要なページ -->
+        <div class="card" style="margin-top: 20px;">
+            <h2>改善優先度ランキング</h2>
+            <div id="improvementList">
+                <!-- 動的に生成 -->
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="refreshData()">
+        データを更新
+    </button>
+
+    <script>
+        let feedbackData = {};
+        let currentFilter = 'all';
+
+        // ページ名を読みやすく変換
+        function formatPageName(key) {
+            const parts = key.replace('method-', '').split('-');
+            const locationMap = {
+                'kitchen': 'キッチン',
+                'bathroom': '浴室',
+                'toilet': 'トイレ',
+                'living': 'リビング',
+                'floor': '床',
+                'window': '窓'
+            };
+            
+            const itemMap = {
+                'sink': 'シンク',
+                'gas': 'ガスコンロ',
+                'ih': 'IHヒーター',
+                'ventilation': '換気扇',
+                'bathtub': '浴槽',
+                'drain': '排水口',
+                'shower': 'シャワー',
+                'washstand': '洗面台',
+                'toilet': '便器',
+                'carpet': 'カーペット',
+                'flooring': 'フローリング',
+                'tatami': '畳',
+                'tile': 'タイル',
+                'sofa': 'ソファ',
+                'table': 'テーブル',
+                'wall': '壁',
+                'glass': 'ガラス',
+                'sash': 'サッシ'
+            };
+            
+            const levelMap = {
+                'light': '軽い汚れ',
+                'heavy': 'ひどい汚れ'
+            };
+            
+            const location = locationMap[parts[0]] || parts[0];
+            const item = itemMap[parts[1]] || parts[1];
+            const level = levelMap[parts[2]] || parts[2];
+            
+            return \`\${location} - \${item} (\${level})\`;
+        }
+
+        // データを読み込む
+        function loadData() {
+            // ローカルストレージからデータを取得
+            const stored = localStorage.getItem('methodFeedback');
+            if (stored) {
+                feedbackData = JSON.parse(stored);
+                updateDashboard();
+            }
+        }
+
+        // ダッシュボードを更新
+        function updateDashboard() {
+            let totalGood = 0;
+            let totalBad = 0;
+            const pageStats = [];
+
+            // 各ページの統計を計算
+            for (const [page, data] of Object.entries(feedbackData)) {
+                const good = data.good || 0;
+                const bad = data.bad || 0;
+                const total = good + bad;
+                
+                totalGood += good;
+                totalBad += bad;
+                
+                if (total > 0) {
+                    pageStats.push({
+                        page: page,
+                        pageName: formatPageName(page),
+                        good: good,
+                        bad: bad,
+                        total: total,
+                        goodRate: (good / total * 100).toFixed(1)
+                    });
+                }
+            }
+
+            // 総合統計を更新
+            const totalFeedback = totalGood + totalBad;
+            document.getElementById('totalFeedback').textContent = totalFeedback;
+            document.getElementById('totalGood').textContent = totalGood;
+            document.getElementById('totalBad').textContent = totalBad;
+            
+            if (totalFeedback > 0) {
+                document.getElementById('goodPercentage').textContent = (totalGood / totalFeedback * 100).toFixed(1);
+                document.getElementById('badPercentage').textContent = (totalBad / totalFeedback * 100).toFixed(1);
+            }
+
+            // ページ別評価を表示
+            displayPageRankings(pageStats);
+            
+            // コメントを表示
+            displayComments();
+            
+            // 改善優先度を表示
+            displayImprovementPriority(pageStats);
+        }
+
+        // ページランキングを表示
+        function displayPageRankings(pageStats) {
+            let sortedStats = [...pageStats];
+            
+            if (currentFilter === 'good') {
+                sortedStats.sort((a, b) => b.goodRate - a.goodRate);
+            } else if (currentFilter === 'bad') {
+                sortedStats.sort((a, b) => a.goodRate - b.goodRate);
+            } else {
+                sortedStats.sort((a, b) => b.total - a.total);
+            }
+
+            const tbody = document.getElementById('pageTableBody');
+            tbody.innerHTML = sortedStats.map(stat => \`
+                <tr>
+                    <td>\${stat.pageName}</td>
+                    <td style="color: #27ae60;">\${stat.good}</td>
+                    <td style="color: #e74c3c;">\${stat.bad}</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill good" style="width: \${stat.goodRate}%"></div>
+                        </div>
+                        <span style="font-size: 12px;">\${stat.goodRate}%</span>
+                    </td>
+                </tr>
+            \`).join('');
+        }
+
+        // コメントを表示
+        function displayComments() {
+            const commentsList = document.getElementById('commentsList');
+            const allComments = [];
+
+            for (const [page, data] of Object.entries(feedbackData)) {
+                if (data.comments && data.comments.length > 0) {
+                    data.comments.forEach(comment => {
+                        allComments.push({
+                            page: formatPageName(page),
+                            text: comment.text,
+                            timestamp: new Date(comment.timestamp).toLocaleString('ja-JP'),
+                            url: comment.url
+                        });
+                    });
+                }
+            }
+
+            if (allComments.length === 0) {
+                commentsList.innerHTML = '<div class="empty-state">コメントはまだありません</div>';
+            } else {
+                // 新しい順にソート
+                allComments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                commentsList.innerHTML = allComments.map(comment => \`
+                    <div class="comment-card">
+                        <div class="comment-header">
+                            <strong>\${comment.page}</strong>
+                            <span>\${comment.timestamp}</span>
+                        </div>
+                        <div class="comment-text">\${comment.text}</div>
+                    </div>
+                \`).join('');
+            }
+        }
+
+        // 改善優先度を表示
+        function displayImprovementPriority(pageStats) {
+            const improvementList = document.getElementById('improvementList');
+            
+            // Bad評価が多いページを優先度順に並べる
+            const priorityList = pageStats
+                .filter(stat => stat.bad > 0)
+                .sort((a, b) => {
+                    // Bad評価の割合と総数の両方を考慮
+                    const scoreA = (100 - a.goodRate) * Math.log(a.total + 1);
+                    const scoreB = (100 - b.goodRate) * Math.log(b.total + 1);
+                    return scoreB - scoreA;
+                })
+                .slice(0, 10); // トップ10のみ表示
+
+            if (priorityList.length === 0) {
+                improvementList.innerHTML = '<div class="empty-state">改善が必要なページはありません</div>';
+            } else {
+                improvementList.innerHTML = \`
+                    <table class="feedback-table">
+                        <thead>
+                            <tr>
+                                <th>優先度</th>
+                                <th>ページ</th>
+                                <th>Bad評価</th>
+                                <th>改善スコア</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            \${priorityList.map((stat, index) => \`
+                                <tr>
+                                    <td><strong>#\${index + 1}</strong></td>
+                                    <td>\${stat.pageName}</td>
+                                    <td style="color: #e74c3c;">\${stat.bad}/\${stat.total}</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill bad" style="width: \${100 - stat.goodRate}%"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            \`).join('')}
+                        </tbody>
+                    </table>
+                \`;
+            }
+        }
+
+        // フィルター機能
+        function filterPages(filter) {
+            currentFilter = filter;
+            
+            // ボタンのアクティブ状態を更新
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updateDashboard();
+        }
+
+        // データを更新
+        function refreshData() {
+            loadData();
+            alert('データを更新しました');
+        }
+
+        // 初期化
+        window.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            
+            // 自動更新（30秒ごと）
+            setInterval(loadData, 30000);
+        });
+    </script>
+</body>
+</html>`;
+
+// ファイルを保存
+const outputPath = path.join(__dirname, '..', 'admin.html');
+fs.writeFileSync(outputPath, adminHTML, 'utf8');
+
+console.log('Admin dashboard created successfully at admin.html');
+console.log('\nFeatures implemented:');
+console.log('- Good/Bad feedback summary statistics');
+console.log('- Page-by-page evaluation breakdown');
+console.log('- User comments display');
+console.log('- Improvement priority ranking');
+console.log('- Real-time data refresh');
+console.log('- Responsive design for mobile/desktop');
+console.log('\nTo view the dashboard, open admin.html in a web browser.');
