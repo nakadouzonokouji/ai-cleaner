@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import { fetchProducts } from './fetchProducts.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUTPUT_DIR = path.join(__dirname, '..', 'ai-cleaner', 'public');
+const OUTPUT_DIR = path.join(__dirname, '..', 'public');
 const PUBLIC_DIR = OUTPUT_DIR; // Keep for backward compatibility
 const UPDATED_FINAL_DIR = path.join(__dirname, '..', 'templates-clean');
 

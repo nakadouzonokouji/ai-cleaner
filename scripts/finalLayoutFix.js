@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUTPUT_DIR = path.join(__dirname, '..', 'ai-cleaner', 'public');
+const OUTPUT_DIR = path.join(__dirname, '..', 'public');
 const PUBLIC_DIR = OUTPUT_DIR; // Keep for backward compatibility
 
 // Sample feedback HTML
