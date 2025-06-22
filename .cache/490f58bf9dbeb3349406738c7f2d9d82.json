@@ -1,0 +1,37 @@
+[
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "ゴム手袋 - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥3163",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "ゴム手袋 - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥3357",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "安全ベルト - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥1869",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "安全ベルト - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥3081",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "保護メガネ - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥1545",
+    "badge": "bestseller"
+  }
+]

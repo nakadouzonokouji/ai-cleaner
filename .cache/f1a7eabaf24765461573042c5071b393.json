@@ -1,0 +1,37 @@
+[
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "トイレマジックリン - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥1060",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "トイレマジックリン - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥656",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "サンポール - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥2472",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "サンポール - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥3383",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "トイレ洗剤 - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥2110",
+    "badge": "bestseller"
+  }
+]

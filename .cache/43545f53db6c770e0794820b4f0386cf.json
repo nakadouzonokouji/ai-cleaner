@@ -1,0 +1,37 @@
+[
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "フロアモップ - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥661",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "フロアモップ - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥835",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "床ブラシ - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥2995",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "床ブラシ - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥1863",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "フローリングワイパー - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥2978",
+    "badge": "bestseller"
+  }
+]

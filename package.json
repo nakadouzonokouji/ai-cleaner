@@ -1,8 +1,19 @@
 {
+  "name": "ai-cleaner-advisor",
+  "version": "1.0.0",
+  "description": "AI Cleaner Advisor with Amazon Product Integration",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/buildPages.js",
+    "validate": "npx html-validate 'public/**/*.html' --ext html || true",
+    "test": "npm run build && npm run validate"
+  },
   "dependencies": {
-    "amazon-paapi": "^1.0.7",
-    "aws-sdk": "^2.1692.0",
-    "dotenv": "^16.5.0",
-    "paapi5-nodejs-sdk": "^1.1.0"
-  }
+    "paapi5-nodejs-sdk": "^3.2.0"
+  },
+  "devDependencies": {
+    "html-validator": "^6.0.0"
+  },
+  "author": "",
+  "license": "ISC"
 }

@@ -1,0 +1,37 @@
+[
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "キッチンマジックリン - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥1380",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "キッチンマジックリン - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥2703",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "油汚れクリーナー - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥3088",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "油汚れクリーナー - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥2105",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "食器用洗剤 - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥3208",
+    "badge": "bestseller"
+  }
+]

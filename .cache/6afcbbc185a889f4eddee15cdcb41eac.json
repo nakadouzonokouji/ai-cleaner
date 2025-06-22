@@ -1,0 +1,37 @@
+[
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "ゴム手袋 - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥2974",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "ゴム手袋 - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥2995",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "掃除用手袋 - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥2315",
+    "badge": "bestseller"
+  },
+  {
+    "asin": "B071XBTM63",
+    "title": "掃除用手袋 - 高評価商品 2",
+    "image": "https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg",
+    "price": "¥3386",
+    "badge": "amazon-choice"
+  },
+  {
+    "asin": "B00TGKMZ7O",
+    "title": "マスク - 高評価商品 1",
+    "image": "https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg",
+    "price": "¥1037",
+    "badge": "bestseller"
+  }
+]
