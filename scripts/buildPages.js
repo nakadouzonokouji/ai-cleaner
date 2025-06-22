@@ -262,8 +262,14 @@ function updateHTMLWithProducts(originalHTML, products) {
   }
   
   // Final cleanup
-  // Remove stray closing div tags before </body>
-  html = html.replace(/<\/div>\s*<\/div>\s*<\/body>/g, '</div>\n</body>');
+  // 1. Fix stray closing divs before </body> or </section>
+  html = html.replace(/<\/div>\s*<\/div>\s*(<\/(?:body|section)>)/g, '</div>$1');
+  
+  // 2. Encode unencoded ampersands
+  html = html.replace(/&(?![#a-z0-9]+;)/gi, '&amp;');
+  
+  // 3. Add type attribute to buttons
+  html = html.replace(/<button(?![^>]*\btype=)/gi, '<button type="button"');
   
   // Remove duplicate feedback comment blocks
   const feedbackCommentCount = (html.match(/<!-- 掃除方法フィードバックセクション -->/g) || []).length;

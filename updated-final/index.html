@@ -285,27 +285,27 @@
             </div>
             
             <div class="selection-grid">
-                <button class="selection-button" onclick="selectLocation('kitchen')">
+                <button type="button" class="selection-button" onclick="selectLocation('kitchen')">
                     <span class="selection-icon">🍳</span>
                     <span class="selection-title">キッチン</span>
                 </button>
-                <button class="selection-button" onclick="selectLocation('bathroom')">
+                <button type="button" class="selection-button" onclick="selectLocation('bathroom')">
                     <span class="selection-icon">🚿</span>
                     <span class="selection-title">浴室</span>
                 </button>
-                <button class="selection-button" onclick="selectLocation('toilet')">
+                <button type="button" class="selection-button" onclick="selectLocation('toilet')">
                     <span class="selection-icon">🚽</span>
                     <span class="selection-title">トイレ</span>
                 </button>
-                <button class="selection-button" onclick="selectLocation('living')">
+                <button type="button" class="selection-button" onclick="selectLocation('living')">
                     <span class="selection-icon">🛋️</span>
                     <span class="selection-title">リビング</span>
                 </button>
-                <button class="selection-button" onclick="selectLocation('window')">
+                <button type="button" class="selection-button" onclick="selectLocation('window')">
                     <span class="selection-icon">🪟</span>
                     <span class="selection-title">窓</span>
                 </button>
-                <button class="selection-button" onclick="selectLocation('floor')">
+                <button type="button" class="selection-button" onclick="selectLocation('floor')">
                     <span class="selection-icon">🏠</span>
                     <span class="selection-title">床</span>
                 </button>
@@ -314,7 +314,7 @@
         
         <!-- ステップ2: 詳細箇所選択 -->
         <div id="step2" class="steps-container hidden">
-            <button class="back-button" onclick="backToStep1()">← 場所選択に戻る</button>
+            <button type="button" class="back-button" onclick="backToStep1()">← 場所選択に戻る</button>
             <div class="step-card">
                 <div class="step-number">2</div>
                 <h2 class="step-title">詳細な箇所を選んでください</h2>
@@ -328,7 +328,7 @@
         
         <!-- ステップ3: 汚れレベル選択 -->
         <div id="step3" class="steps-container hidden">
-            <button class="back-button" onclick="backToStep2()">← 箇所選択に戻る</button>
+            <button type="button" class="back-button" onclick="backToStep2()">← 箇所選択に戻る</button>
             <div class="step-card">
                 <div class="step-number">3</div>
                 <h2 class="step-title">汚れのレベルを選んでください</h2>
@@ -336,11 +336,11 @@
             </div>
             
             <div class="selection-grid">
-                <button class="selection-button" onclick="selectLevel('light')">
+                <button type="button" class="selection-button" onclick="selectLevel('light')">
                     <span class="selection-icon">✨</span>
                     <span class="selection-title">軽い汚れ</span>
                 </button>
-                <button class="selection-button" onclick="selectLevel('heavy')">
+                <button type="button" class="selection-button" onclick="selectLevel('heavy')">
                     <span class="selection-icon">💪</span>
                     <span class="selection-title">ひどい汚れ</span>
                 </button>

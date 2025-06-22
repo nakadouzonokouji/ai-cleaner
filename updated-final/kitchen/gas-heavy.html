@@ -324,10 +324,6 @@ h2 {
                 <span class="step-number">10</span>
                 <span>元通りに組み立てて動作確認</span>
             </div>
-        </div>
-        
-            </div>
-        </div>
     </div>
 
 
@@ -339,12 +335,12 @@ h2 {
 <div class="method-feedback-section">
     <h3>この掃除方法は役に立ちましたか？</h3>
     <div class="feedback-container">
-        <button class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
+        <button type="button" class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
             <span class="emoji">👍</span>
             <span class="text">Good</span>
             <span class="count" id="goodCount">0</span>
         </button>
-        <button class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
+        <button type="button" class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
             <span class="emoji">👎</span>
             <span class="text">Bad</span>
             <span class="count" id="badCount">0</span>
@@ -352,7 +348,7 @@ h2 {
     </div>
     <div class="feedback-comment" id="feedbackComment" style="display: none;">
         <textarea id="commentText" placeholder="コメントをお聞かせください（任意）" rows="3"></textarea>
-        <button onclick="submitComment()">送信</button>
+        <button type="button" onclick="submitComment()">送信</button>
     </div>
     <div class="feedback-message" id="feedbackMessage" style="display: none;">
         ご意見ありがとうございました！
@@ -495,9 +491,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <a href="https://www.amazon.co.jp/dp/B00IOJCJHU?tag=asdfghj12-22" target="_blank" rel="nofollow noopener" class="amazon-btn">
             Amazonで購入
         </a>
-    </div>
-                    </div>
-                </div>
             </div>
             
             <div class="product-category">
@@ -512,10 +505,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3 class="category-title">保護具（5選）</h3>
                 <div class="horizontal-scroll-container">
                     <div class="product-list">
-                    </div>
-                </div>
-            </div>
-        </div>
             </div>
             <h3>掃除道具</h3>
             <div class="product-grid">
@@ -586,7 +575,6 @@ document.addEventListener('DOMContentLoaded', function() {
         </a>
     </div>
                 </div>
-            </div>
             <h3>保護具</h3>
             <div class="product-grid">
                 <div class="product-grid-inner">
@@ -654,23 +642,11 @@ document.addEventListener('DOMContentLoaded', function() {
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
         </a>
-    </div>
-                </div>
-            </div>
-        </div>
             </div>
             <h3>掃除道具</h3>
-            <div class="product-grid">
-                <div class="product-grid-inner">
-
-                </div>
-            </div>
+            
             <h3>保護具</h3>
-            <div class="product-grid">
-                <div class="product-grid-inner">
-
-                </div>
-            </div>
+            
         </div>
 
 <!-- 掃除方法フィードバックセクション -->
