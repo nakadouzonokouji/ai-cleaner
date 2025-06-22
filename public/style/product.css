@@ -42,8 +42,7 @@
 
 /* Product card */
 .product-card {
-  flex: 0 0 calc(33vw - 2rem);
-  max-width: 200px;
+  flex: 0 0 180px;
   list-style: none;
   scroll-snap-align: start;
 }
@@ -104,18 +103,16 @@
   color: #b12704;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - keep consistent width */
 @media (max-width: 768px) {
   .product-card {
-    flex: 0 0 calc(50vw - 1.5rem);
-    max-width: 180px;
+    flex: 0 0 180px;
   }
 }
 
 @media (max-width: 480px) {
   .product-card {
-    flex: 0 0 calc(70vw - 1rem);
-    max-width: 160px;
+    flex: 0 0 180px;
   }
 }
 

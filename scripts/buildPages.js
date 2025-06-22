@@ -117,26 +117,17 @@ function createProductsSection(products) {
         <div class="section products-section">
             <h2>おすすめ商品</h2>
             
-            <!-- ——— 洗剤・クリーナー ——— -->
-            <h2 class="category-title">洗剤・クリーナー</h2>
-            
-            <!-- ——— Horizontal scroll row ——— -->
+            <h3 class="category-title">洗剤・クリーナー</h3>
             <ul class="product-row">
 ${products.detergents.map(createProductHTML).join('\n')}
             </ul>
             
-            <!-- ——— スポンジ・ブラシ類 ——— -->
-            <h2 class="category-title">スポンジ・ブラシ類</h2>
-            
-            <!-- ——— Horizontal scroll row ——— -->
+            <h3 class="category-title">スポンジ・ブラシ類</h3>
             <ul class="product-row">
 ${products.brushes.map(createProductHTML).join('\n')}
             </ul>
             
-            <!-- ——— 保護具 ——— -->
-            <h2 class="category-title">保護具</h2>
-            
-            <!-- ——— Horizontal scroll row ——— -->
+            <h3 class="category-title">保護具</h3>
             <ul class="product-row">
 ${products.ppe.map(createProductHTML).join('\n')}
             </ul>
@@ -154,6 +145,9 @@ function updateHTMLWithProducts(originalHTML, products) {
   
   // First, extract and remove ALL feedback sections
   let feedbackSection = '';
+  
+  // Remove old-style feedback sections
+  html = html.replace(/<section id="feedback"[\s\S]*?<\/section>/g, '');
   
   // Extract the complete feedback section including script
   const feedbackCommentStart = html.indexOf('<!-- 掃除方法フィードバックセクション -->');

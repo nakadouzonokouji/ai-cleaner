@@ -447,25 +447,52 @@ h2 {
         <div class="section">
             <h2>おすすめ商品</h2>
             
-            <div class="product-category">
-                <h3 class="category-title">洗剤・クリーナー（5選）</h3>
-                <div class="horizontal-scroll-container">
-                    <div class="product-list">
-    <div class="product-item">
-        <span class="badge best-seller">ベストセラー</span>
-        <img src="https://m.media-amazon.com/images/I/61uayFh1E4L._SL500_.jpg" alt="花王 バスマジックリン 泡立ちスプレー 除菌・抗菌 アルコール成分プラス SUPER CLEAN スーパークリーン" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg'">
-        <h4>花王 バスマジックリン 泡立ちスプレー 除菌・抗菌 アルコール成分プラス SUPER CLEAN スーパークリーン</h4>
-        <div class="product-rating">
-            <span class="stars">★4.3</span>
-            <span class="review-count">(1,234)</span>
-        </div>
-        <p class="price">¥398</p>
-        <a href="https://www.amazon.co.jp/dp/B0DKQF8GQT?tag=asdfghj12-22" target="_blank" rel="nofollow noopener" class="amazon-btn">
-            Amazonで購入
-        </a>
-            </div></div></div>
+            <div class="product-category"><h3 class="category-title">洗剤・クリーナー（5選）</h3><ul class="product-row"><li class="product-card"><a href="https://www.amazon.co.jp/dp/B0DKQF8GQT?tag=asdfghj12-22" target="_blank" rel="nofollow noopener"><img src="https://m.media-amazon.com/images/I/61uayFh1E4L._SL500_.jpg" alt="花王 バスマジックリン 泡立ちスプレー 除菌・抗菌 アルコール成分プラス SUPER CLEAN スーパークリーン" onerror="this.src='/img/no-image.svg'"><p class="name">花王 バスマジックリン 泡立ちスプレー 除菌・抗菌 アルコール成分プラス SUPER CLEAN スーパークリーン</p><p class="price">¥398</p><p class="badge best-seller">ベストセラー</p></a></li></ul></div>
 </div>
 </div>
 </div>
+
+<!-- 掃除方法フィードバックセクション -->
+<div class="method-feedback-section">
+    <h3>この掃除方法は役に立ちましたか？</h3>
+    <div class="feedback-buttons">
+        <button type="button" class="feedback-btn helpful">役に立った</button>
+        <button type="button" class="feedback-btn not-helpful">改善が必要</button>
+    </div>
+    <div class="feedback-message" style="display: none;">
+        ご意見ありがとうございました！
+    </div>
 </div>
-</body></html>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const feedbackBtns = document.querySelectorAll('.feedback-btn');
+    const feedbackMsg = document.querySelector('.feedback-message');
+    
+    feedbackBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const isHelpful = this.classList.contains('helpful');
+            const category = document.body.dataset.category || 'unknown';
+            
+            // Store feedback
+            const feedbackData = {
+                category: category,
+                helpful: isHelpful,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Get existing feedback from localStorage
+            let allFeedback = JSON.parse(localStorage.getItem('cleaningFeedback') || '[]');
+            allFeedback.push(feedbackData);
+            localStorage.setItem('cleaningFeedback', JSON.stringify(allFeedback));
+            
+            // Show thank you message
+            feedbackMsg.style.display = 'block';
+            feedbackBtns.forEach(b => b.style.display = 'none');
+        });
+    });
+});
+</script>
+
+</body>
+</html>
