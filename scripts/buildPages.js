@@ -152,52 +152,39 @@ function updateHTMLWithProducts(originalHTML, products) {
     html = html.replace('</head>', `    <link rel="stylesheet" href="/style/product.css">\n</head>`);
   }
   
-  // First, extract and remove the feedback section
-  const feedbackStart = html.indexOf('<!-- 掃除方法フィードバックセクション -->');
+  // First, extract and remove ALL feedback sections
   let feedbackSection = '';
   
-  if (feedbackStart !== -1) {
-    // Find the end of the feedback section by looking for the specific pattern
-    let searchPos = feedbackStart;
-    let divCount = 0;
-    let feedbackEnd = -1;
-    
-    // Move past the comment
-    searchPos = html.indexOf('<div class="method-feedback-section">', searchPos);
-    if (searchPos !== -1) {
-      searchPos += '<div class="method-feedback-section">'.length;
-      divCount = 1;
-      
-      // Count divs to find the matching closing tag for method-feedback-section
-      while (searchPos < html.length && divCount > 0) {
-        const nextOpen = html.indexOf('<div', searchPos);
-        const nextClose = html.indexOf('</div>', searchPos);
-        
-        if (nextClose === -1) break;
-        
-        if (nextOpen !== -1 && nextOpen < nextClose) {
-          divCount++;
-          searchPos = nextOpen + 4;
-        } else {
-          divCount--;
-          searchPos = nextClose + 6;
-          if (divCount === 0) {
-            feedbackEnd = searchPos;
-            break;
-          }
-        }
-      }
-    }
-    
-    if (feedbackEnd !== -1) {
-      feedbackSection = html.substring(feedbackStart, feedbackEnd);
-      
-      // Remove the feedback section from its current location
-      html = html.substring(0, feedbackStart) + html.substring(feedbackEnd);
+  // Extract the complete feedback section including script
+  const feedbackCommentStart = html.indexOf('<!-- 掃除方法フィードバックセクション -->');
+  if (feedbackCommentStart !== -1) {
+    // Find the script end after the feedback section
+    const scriptEnd = html.indexOf('</script>', feedbackCommentStart);
+    if (scriptEnd !== -1) {
+      feedbackSection = html.substring(feedbackCommentStart, scriptEnd + 9); // +9 for </script>
+      html = html.substring(0, feedbackCommentStart) + html.substring(scriptEnd + 9);
     }
   }
   
-  // Find the section containing おすすめ商品
+  // Remove any other feedback section remnants
+  html = html.replace(/<!-- 掃除方法フィードバックセクション -->[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/g, '');
+  
+  // Clean up the extracted feedback section - remove any extra content
+  if (feedbackSection) {
+    // Find where the actual feedback div ends
+    const feedbackDivStart = feedbackSection.indexOf('<div class="method-feedback-section">');
+    const feedbackDivEnd = feedbackSection.indexOf('</div>', feedbackSection.indexOf('feedback-message')) + 6;
+    if (feedbackDivStart !== -1 && feedbackDivEnd !== -1) {
+      // Keep only the comment, the feedback div, and the script
+      const comment = '<!-- 掃除方法フィードバックセクション -->\n';
+      const feedbackDiv = feedbackSection.substring(feedbackDivStart, feedbackDivEnd);
+      const scriptStart = feedbackSection.indexOf('<script>');
+      const script = scriptStart !== -1 ? '\n\n' + feedbackSection.substring(scriptStart) : '';
+      feedbackSection = comment + feedbackDiv + script;
+    }
+  }
+  
+  // Find and replace the products section
   const recommendedStart = html.indexOf('<h2>おすすめ商品</h2>');
   
   if (recommendedStart !== -1) {
@@ -209,8 +196,8 @@ function updateHTMLWithProducts(originalHTML, products) {
     while (searchPos > 0) {
       searchPos = html.lastIndexOf('<div', searchPos - 1);
       if (searchPos !== -1) {
-        const divText = html.substring(searchPos, searchPos + 30);
-        if (divText.includes('class="section"')) {
+        const divText = html.substring(searchPos, searchPos + 50);
+        if (divText.includes('class="section') && divText.includes('products-section')) {
           sectionStart = searchPos;
           break;
         }
@@ -218,7 +205,7 @@ function updateHTMLWithProducts(originalHTML, products) {
     }
     
     if (sectionStart !== -1) {
-      // Count divs to find the matching closing tag
+      // Find the end of the products section
       let divCount = 0;
       let pos = sectionStart;
       let sectionEnd = -1;
@@ -245,32 +232,38 @@ function updateHTMLWithProducts(originalHTML, products) {
       if (sectionEnd !== -1) {
         // Replace the entire section
         const beforeSection = html.substring(0, sectionStart);
-        const afterSection = html.substring(sectionEnd);
+        let afterSection = html.substring(sectionEnd);
+        
+        // Clean up any leftover content after products section
+        afterSection = afterSection.replace(/^\s*<h3>掃除道具<\/h3>[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/m, '');
+        afterSection = afterSection.replace(/^\s*<!-- 掃除方法フィードバックセクション -->\s*/m, '');
+        
         const newProductsSection = createProductsSection(products);
         
-        // Add the feedback section after the products section
+        // Ensure proper structure: cleaning steps -> products -> feedback
         html = beforeSection + newProductsSection + '\n\n' + feedbackSection + '\n\n' + afterSection;
       }
     }
   } else {
-    // If no existing products section, find a good place to insert it
-    // Look for a good insertion point after the cleaning steps
-    const stepsEnd = html.lastIndexOf('</div>', html.indexOf('</div>', html.lastIndexOf('<div class="step">')));
-    if (stepsEnd !== -1) {
-      const beforeInsert = html.substring(0, stepsEnd + 6);
-      const afterInsert = html.substring(stepsEnd + 6);
+    // If no existing products section, insert after cleaning steps
+    const stepsSection = html.match(/<div class="section">[\s\S]*?<div class="step">[\s\S]*?<\/div>\s*<\/div>/);
+    if (stepsSection) {
+      const stepsEnd = html.indexOf(stepsSection[0]) + stepsSection[0].length;
+      const beforeProducts = html.substring(0, stepsEnd);
+      let afterProducts = html.substring(stepsEnd);
+      
+      // Clean up any content that shouldn't be there
+      afterProducts = afterProducts.replace(/^\s*<\/div>\s*<\/div>\s*<\/div>/m, '');
+      
       const newProductsSection = createProductsSection(products);
       
-      html = beforeInsert + '\n\n' + newProductsSection + '\n\n' + feedbackSection + '\n\n' + afterInsert;
+      html = beforeProducts + '\n\n' + newProductsSection + '\n\n' + feedbackSection + '\n\n' + afterProducts;
     }
   }
   
-  // Clean up any duplicate closing divs at the end
-  html = html.replace(/(\s*<\/div>\s*){4,}$/, '\n    </div>\n</body>\n</html>');
-  
-  // Also clean up orphaned closing divs in the old product sections
-  html = html.replace(/(<\/div>\s*){2,}<h3>掃除道具<\/h3>/g, '\n            <h3>掃除道具</h3>');
-  html = html.replace(/(<\/div>\s*){2,}<h3>保護具/g, '\n            <h3>保護具');
+  // Final cleanup
+  html = html.replace(/\s*<\/div>\s*<\/div>\s*<\/div>\s*<\/body>/g, '\n    </div>\n</body>');
+  html = html.replace(/<!-- 掃除方法フィードバックセクション -->\s*$/m, '');
   
   return html;
 }

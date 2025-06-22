@@ -419,289 +419,48 @@ h2 {
 
 
 
-<script>
-// ページごとのフィードバックデータを管理
-function getPageKey() {
-    const path = window.location.pathname;
-    const parts = path.split('/');
-    const category = parts[parts.length - 2] || 'unknown';
-    const page = parts[parts.length - 1].replace('.html', '') || 'index';
-    return `method-${category}-${page}`;
-}
-
-// フィードバック数を表示
-function displayMethodFeedbackCounts() {
-    const pageKey = getPageKey();
-    const feedbackData = JSON.parse(localStorage.getItem('methodFeedback') || '{}');
-    const pageFeedback = feedbackData[pageKey] || { good: 0, bad: 0, comments: [] };
-    
-    document.getElementById('goodCount').textContent = pageFeedback.good;
-    document.getElementById('badCount').textContent = pageFeedback.bad;
-}
-
-// 掃除方法へのフィードバック送信
-function sendMethodFeedback(type) {
-    const pageKey = getPageKey();
-    const feedbackData = JSON.parse(localStorage.getItem('methodFeedback') || '{}');
-    
-    if (!feedbackData[pageKey]) {
-        feedbackData[pageKey] = { good: 0, bad: 0, comments: [] };
-    }
-    
-    // すでにフィードバック済みかチェック
-    const userFeedback = JSON.parse(localStorage.getItem('userMethodFeedback') || '{}');
-    if (userFeedback[pageKey]) {
-        // すでにフィードバック済みの場合は変更
-        const previousType = userFeedback[pageKey];
-        if (previousType !== type) {
-            feedbackData[pageKey][previousType]--;
-            feedbackData[pageKey][type]++;
-            userFeedback[pageKey] = type;
-        }
-    } else {
-        // 新規フィードバック
-        feedbackData[pageKey][type]++;
-        userFeedback[pageKey] = type;
-    }
-    
-    localStorage.setItem('methodFeedback', JSON.stringify(feedbackData));
-    localStorage.setItem('userMethodFeedback', JSON.stringify(userFeedback));
-    
-    // UIを更新
-    displayMethodFeedbackCounts();
-    updateButtonStates();
-    
-    // コメント欄を表示
-    document.getElementById('feedbackComment').style.display = 'block';
-    
-    // フィードバックメッセージを表示
-    const message = document.getElementById('feedbackMessage');
-    message.style.display = 'block';
-    setTimeout(() => {
-        message.style.display = 'none';
-    }, 3000);
-}
-
-// ボタンの状態を更新
-function updateButtonStates() {
-    const pageKey = getPageKey();
-    const userFeedback = JSON.parse(localStorage.getItem('userMethodFeedback') || '{}');
-    const feedback = userFeedback[pageKey];
-    
-    document.querySelectorAll('.method-feedback-btn').forEach(btn => btn.classList.remove('active'));
-    
-    if (feedback === 'good') {
-        document.querySelector('.good-btn').classList.add('active');
-    } else if (feedback === 'bad') {
-        document.querySelector('.bad-btn').classList.add('active');
-    }
-}
-
-// コメント送信
-function submitComment() {
-    const comment = document.getElementById('commentText').value.trim();
-    if (!comment) return;
-    
-    const pageKey = getPageKey();
-    const feedbackData = JSON.parse(localStorage.getItem('methodFeedback') || '{}');
-    
-    if (!feedbackData[pageKey]) {
-        feedbackData[pageKey] = { good: 0, bad: 0, comments: [] };
-    }
-    
-    feedbackData[pageKey].comments.push({
-        text: comment,
-        timestamp: new Date().toISOString(),
-        url: window.location.href
-    });
-    
-    localStorage.setItem('methodFeedback', JSON.stringify(feedbackData));
-    
-    // UIをリセット
-    document.getElementById('commentText').value = '';
-    document.getElementById('feedbackComment').style.display = 'none';
-    document.getElementById('feedbackMessage').textContent = 'コメントありがとうございました！';
-    document.getElementById('feedbackMessage').style.display = 'block';
-}
-
-// ページ読み込み時の初期化
-document.addEventListener('DOMContentLoaded', function() {
-    displayMethodFeedbackCounts();
-    updateButtonStates();
-});
-</script>
-
-
-
                                                                                                     
-        
-        <div class="section products-section">
+        <div class="section">
             <h2>おすすめ商品</h2>
             
-            <!-- ——— 洗剤・クリーナー ——— -->
-            <h2 class="category-title">洗剤・クリーナー</h2>
-            
-            <!-- ——— Horizontal scroll row ——— -->
-            <ul class="product-row">
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="マルチクリーナー - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">マルチクリーナー - 高評価商品 1</p>
-                        <p class="price">¥2627</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="マルチクリーナー - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">マルチクリーナー - 高評価商品 2</p>
-                        <p class="price">¥1862</p>
-                        <p class="badge amazon-choice">Amazon's Choice</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="カーペットクリーナー - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">カーペットクリーナー - 高評価商品 1</p>
-                        <p class="price">¥646</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="カーペットクリーナー - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">カーペットクリーナー - 高評価商品 2</p>
-                        <p class="price">¥1952</p>
-                        <p class="badge amazon-choice">Amazon's Choice</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="布用洗剤 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">布用洗剤 - 高評価商品 1</p>
-                        <p class="price">¥1714</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-            </ul>
-            
-            <!-- ——— スポンジ・ブラシ類 ——— -->
-            <h2 class="category-title">スポンジ・ブラシ類</h2>
-            
-            <!-- ——— Horizontal scroll row ——— -->
-            <ul class="product-row">
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="カーペットブラシ - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">カーペットブラシ - 高評価商品 1</p>
-                        <p class="price">¥1744</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="カーペットブラシ - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">カーペットブラシ - 高評価商品 2</p>
-                        <p class="price">¥1403</p>
-                        <p class="badge amazon-choice">Amazon's Choice</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="ハンディモップ - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">ハンディモップ - 高評価商品 1</p>
-                        <p class="price">¥2280</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="ハンディモップ - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">ハンディモップ - 高評価商品 2</p>
-                        <p class="price">¥2715</p>
-                        <p class="badge amazon-choice">Amazon's Choice</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="ほこり取り - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">ほこり取り - 高評価商品 1</p>
-                        <p class="price">¥3128</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-            </ul>
-            
-            <!-- ——— 保護具 ——— -->
-            <h2 class="category-title">保護具</h2>
-            
-            <!-- ——— Horizontal scroll row ——— -->
-            <ul class="product-row">
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="掃除用手袋 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">掃除用手袋 - 高評価商品 1</p>
-                        <p class="price">¥2079</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="掃除用手袋 - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">掃除用手袋 - 高評価商品 2</p>
-                        <p class="price">¥3127</p>
-                        <p class="badge amazon-choice">Amazon's Choice</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="マスク - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">マスク - 高評価商品 1</p>
-                        <p class="price">¥2814</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="マスク - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">マスク - 高評価商品 2</p>
-                        <p class="price">¥1536</p>
-                        <p class="badge amazon-choice">Amazon's Choice</p>
-                    </a>
-                </li>
-                <li class="product-card">
-                    <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="エプロン - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
-                        <p class="name">エプロン - 高評価商品 1</p>
-                        <p class="price">¥2848</p>
-                        <p class="badge bestseller">ベストセラー</p>
-                    </a>
-                </li>
-            </ul>
+            <div class="product-category">
+                <h3 class="category-title">洗剤・クリーナー（5選）</h3>
+                <div class="horizontal-scroll-container">
+                    <div class="product-list">
+    <div class="product-item">
+        <span class="badge best-seller">ベストセラー</span>
+        <img src="https://m.media-amazon.com/images/I/51+YzSyoJNL._SL500_.jpg" alt="【大容量】かんたんマイペット フロア用洗剤 4.5L リビング用洗剤 業務用" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg'">
+        <h4>【大容量】かんたんマイペット フロア用洗剤 4.5L リビング用洗剤 業務用</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
         </div>
-
-<!-- 掃除方法フィードバックセクション -->
-<div class="method-feedback-section">
-    <h3>この掃除方法は役に立ちましたか？</h3>
-    <div class="feedback-container">
-        <button class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
-            <span class="emoji">👍</span>
-            <span class="text">Good</span>
-            <span class="count" id="goodCount">0</span>
-        </button>
-        <button class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
-            <span class="emoji">👎</span>
-            <span class="text">Bad</span>
-            <span class="count" id="badCount">0</span>
-        </button>
+        <p class="price">¥1,218</p>
+        <a href="https://www.amazon.co.jp/dp/B00V5HMFZM?tag=asdfghj12-22" target="_blank" rel="nofollow noopener" class="amazon-btn">
+            Amazonで購入
+        </a>
     </div>
-    <div class="feedback-comment" id="feedbackComment" style="display: none;">
-        <textarea id="commentText" placeholder="コメントをお聞かせください（任意）" rows="3"></textarea>
-        <button onclick="submitComment()">送信</button>
-    </div>
-    <div class="feedback-message" id="feedbackMessage" style="display: none;">
-        ご意見ありがとうございました！
-    
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-category">
+                <h3 class="category-title">スポンジ・ブラシ類（5選）</h3>
+                <div class="horizontal-scroll-container">
+                    <div class="product-list">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-category">
+                <h3 class="category-title">保護具（5選）</h3>
+                <div class="horizontal-scroll-container">
+                    <div class="product-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
             <h3>掃除道具</h3>
             <div class="product-grid">
                 <div class="product-grid-inner">
@@ -769,7 +528,9 @@ document.addEventListener('DOMContentLoaded', function() {
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
         </a>
-    
+    </div>
+                </div>
+            </div>
             <h3>保護具</h3>
             <div class="product-grid">
                 <div class="product-grid-inner">
@@ -837,12 +598,17 @@ document.addEventListener('DOMContentLoaded', function() {
            target="_blank" rel="nofollow noopener" class="buy-button">
             Amazonで購入
         </a>
-    
+    </div>
+                </div>
+            </div>
+        </div>
+            </div>
             <h3>掃除道具</h3>
             <div class="product-grid">
                 <div class="product-grid-inner">
 
-                
+                </div>
+            </div>
             <h3>保護具</h3>
             <div class="product-grid">
                 <div class="product-grid-inner">
@@ -851,6 +617,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-<!-- 掃除方法フィードバックセクション -->
+
 </body>
 </html>
