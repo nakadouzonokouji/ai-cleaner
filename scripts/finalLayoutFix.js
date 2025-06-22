@@ -79,6 +79,9 @@ async function fixHtmlFile(filePath) {
     html = html.replace(/<!-- 掃除方法フィードバックセクション -->[\s\S]*?<\/script>/g, '');
     html = html.replace(/<div class="method-feedback-section">[\s\S]*?<\/script>/g, '');
     
+    // Remove duplicate feedback sections that appear before product list
+    html = html.replace(/<section id="feedback"[\s\S]*?<\/section>(?=[\s\S]*?<section id="product-list">)/g, '');
+    
     // Find the last closing div before body
     const bodyIndex = html.lastIndexOf('</body>');
     if (bodyIndex === -1) {

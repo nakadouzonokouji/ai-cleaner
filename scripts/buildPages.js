@@ -91,7 +91,7 @@ function createProductHTML(product, index) {
   // Check if this is an empty slot
   if (!product || !product.image || product.image === '/img/no-image.svg') {
     return `                <li class="product-card empty">
-                    <img src="/img/no-image.svg" alt="No Image">
+                    <img src="/tools/ai-cleaner/img/no-image.svg" alt="No Image">
                     <p class="name">商品準備中</p>
                 </li>`;
   }
@@ -104,7 +104,7 @@ function createProductHTML(product, index) {
   
   return `                <li class="product-card">
                     <a href="https://www.amazon.co.jp/dp/${product.asin}?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
-                        <img src="${product.image}" alt="${escapedTitle}" onerror="this.src='/img/no-image.svg'">
+                        <img src="${product.image}" alt="${escapedTitle}" onerror="this.src='/tools/ai-cleaner/img/no-image.svg'">
                         <p class="name">${escapedTitle}</p>
                         ${product.price ? `<p class="price">${product.price}</p>` : ''}
                         ${badgeHTML}
@@ -141,7 +141,7 @@ function updateHTMLWithProducts(originalHTML, products) {
   
   // Add CSS link if not present
   if (!html.includes('product.css')) {
-    html = html.replace('</head>', `    <link rel="stylesheet" href="/style/product.css">\n</head>`);
+    html = html.replace('</head>', `    <link rel="stylesheet" href="/tools/ai-cleaner/style/product.css">\n</head>`);
   }
   
   // First, extract and remove ALL feedback sections
