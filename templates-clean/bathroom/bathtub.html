@@ -1,0 +1,531 @@
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浴槽の掃除方法 - AI掃除アドバイザー</title>
+    <meta name="description" content="浴槽の掃除方法を詳しく解説。軽い汚れからひどい汚れまで、効果的な掃除手順と必要な道具をご紹介します。">
+    <meta name="keywords" content="浴槽掃除,お風呂掃除,バスタブ,掃除方法,カビ取り">
+    <link rel="stylesheet" href="../styles.css">
+
+<style>
+/* 基本スタイル */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #667eea;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #667eea;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+
+.section {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 掃除手順のスタイル */
+.step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.step-number {
+    background: #667eea;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+/* 商品カテゴリーのスタイル */
+.product-category {
+    margin: 30px 0;
+}
+
+.category-title {
+    color: #667eea;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 5px;
+    margin: 20px 0 15px;
+}
+
+/* 横スクロールコンテナ */
+.horizontal-scroll-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0;
+    margin: 0 -20px;
+}
+
+/* 商品リスト */
+.product-list {
+    display: flex;
+    gap: 20px;
+    padding: 0 20px;
+    min-width: min-content;
+}
+
+/* 商品アイテム */
+.product-item {
+    flex: 0 0 220px;
+    min-width: 220px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.product-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    background: #f8f8f8;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.product-item h4 {
+    font-size: 14px;
+    margin: 10px 0 5px;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 5px 0;
+}
+
+.stars {
+    color: #f39c12;
+    font-size: 14px;
+}
+
+.review-count {
+    color: #666;
+    font-size: 12px;
+}
+
+.price {
+    color: #B12704;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+.amazon-btn {
+    display: block;
+    background: #ff9500;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.amazon-btn:hover {
+    background: #ff7700;
+}
+
+/* バッジ */
+.badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff6b6b;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.badge.amazon-choice {
+    background: #ff9500;
+}
+
+.badge.best-seller {
+    background: #ff0000;
+}
+
+/* スクロールバーのカスタマイズ */
+.horizontal-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .horizontal-scroll-container {
+        margin: 0 -10px;
+    }
+    
+    .product-list {
+        padding: 0 10px;
+    }
+    
+    .product-item {
+        flex: 0 0 180px;
+        min-width: 180px;
+    }
+}
+
+/* 注意事項のスタイル */
+.notice {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.notice strong {
+    color: #856404;
+}
+
+/* フッター */
+.footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: #666;
+    font-size: 14px;
+}
+</style>
+
+</head>
+<body>
+    <header>
+        <h1>AI掃除アドバイザー</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">ホーム</a></li>
+                <li><a href="index.html">浴室掃除</a></li>
+                <li class="current">浴槽</li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>浴槽の掃除方法</h2>
+            <p>毎日使う浴槽を清潔に保つための掃除方法をご紹介します。</p>
+        </section>
+
+        <section class="level-selection">
+            <h3>汚れのレベルを選択してください</h3>
+            <div class="level-cards">
+                <a href="bathtub-light.html" class="level-card">
+                    <h4>軽い汚れ</h4>
+                    <p>日常的な汚れ、水垢など</p>
+                </a>
+                <a href="bathtub-heavy.html" class="level-card">
+                    <h4>ひどい汚れ</h4>
+                    <p>頑固な水垢、カビ、黒ずみなど</p>
+                </a>
+            </div>
+        </section>
+
+        <section class="products">
+            <h3>おすすめの洗剤・クリーナー</h3>
+            <div class="product-grid">
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B003B2VOSG?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/517KeuTpsDL._SL500_.jpg" alt="花王 マジックリン バスルームクリーナー 4.5L" loading="lazy">
+                        <h4>花王 マジックリン バスルームクリーナー 4.5L</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.3</span>
+                            <span class="review-count">(2,134)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B00INE6A9S?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/51+v1cD0qFL._SL500_.jpg" alt="カビキラー 本体 400g" loading="lazy">
+                        <h4>カビキラー 本体 400g</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.2</span>
+                            <span class="review-count">(1,567)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B09B6VGQ88?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/51mX9J5VgbL._SL500_.jpg" alt="激落ちくん お風呂まるごとバスクリーナー" loading="lazy">
+                        <h4>激落ちくん お風呂まるごとバスクリーナー</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.4</span>
+                            <span class="review-count">(823)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B086GLQT2D?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/41bF6X7CYSL._SL500_.jpg" alt="茂木和哉 お風呂のなまはげ" loading="lazy">
+                        <h4>茂木和哉 お風呂のなまはげ</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.5</span>
+                            <span class="review-count">(612)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B0C2W9LZ7K?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/51OP9qT2RJL._SL500_.jpg" alt="スクラビングバブル 激泡バスクリーナー" loading="lazy">
+                        <h4>スクラビングバブル 激泡バスクリーナー</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.3</span>
+                            <span class="review-count">(1,245)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div></div></section>
+
+        <section class="products">
+            <h3>掃除道具・ブラシ</h3>
+            <div class="product-grid">
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B08NTHRHRL?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/41lZeGOZ5hL._SL500_.jpg" alt="バスボンくん 抗菌 ふわふわ" loading="lazy">
+                        <h4>バスボンくん 抗菌 ふわふわ</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.3</span>
+                            <span class="review-count">(534)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B0BLZGMHLG?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/51E7fZHhCFL._SL500_.jpg" alt="スコッチブライト バススポンジ" loading="lazy">
+                        <h4>スコッチブライト バススポンジ</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.4</span>
+                            <span class="review-count">(421)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B00IHLQM88?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/41jdvX8WNHL._SL500_.jpg" alt="アズマ バスブラシ スポG" loading="lazy">
+                        <h4>アズマ バスブラシ スポG</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.2</span>
+                            <span class="review-count">(1,089)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B0CDB36ZM4?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/41P7xLNPLfL._SL500_.jpg" alt="マーナ お風呂のブラシ" loading="lazy">
+                        <h4>マーナ お風呂のブラシ</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.5</span>
+                            <span class="review-count">(312)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B0CJF8J4HW?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/51FpHH8yDML._SL500_.jpg" alt="排水口ブラシ 3本セット" loading="lazy">
+                        <h4>排水口ブラシ 3本セット</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.4</span>
+                            <span class="review-count">(267)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div></div></section>
+
+        <section class="products">
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B002P8QTWM?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="ショーワグローブ ナイスハンド" loading="lazy">
+                        <h4>ショーワグローブ ナイスハンド</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.3</span>
+                            <span class="review-count">(1,523)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B08T6B3ZW9?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/41s9Zx5gI4L._SL500_.jpg" alt="アイリスオーヤマ マスク 50枚" loading="lazy">
+                        <h4>アイリスオーヤマ マスク 50枚</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.2</span>
+                            <span class="review-count">(2,145)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B005LCZC5W?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/41qE9-EOUOL._SL500_.jpg" alt="保護メガネ 曇り止め" loading="lazy">
+                        <h4>保護メガネ 曇り止め</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.1</span>
+                            <span class="review-count">(867)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B002A5OJ1Y?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg" alt="エステー 防水エプロン" loading="lazy">
+                        <h4>エステー 防水エプロン</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.4</span>
+                            <span class="review-count">(634)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div>
+                <div class="product-card">
+                    <a href="https://www.amazon.co.jp/dp/B01LVYLOZC?tag=asdfghj12-22" target="_blank" rel="nofollow noopener noreferrer" class="product-link">
+                        <img src="https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg" alt="アームカバー 防水タイプ" loading="lazy">
+                        <h4>アームカバー 防水タイプ</h4>
+                        <div class="product-rating">
+                            <span class="stars">★4.2</span>
+                            <span class="review-count">(423)</span>
+                        </div>
+                        <div class="cta-button">
+                            <i class="icon">🛒</i>
+                            Amazonで購入
+                        </div>
+                    </a>
+                </div></div></section>
+
+        <section class="tips">
+            <h3>浴槽掃除のポイント</h3>
+            <ul>
+                <li>🔸 毎日の軽い掃除で汚れの蓄積を防ぐ</li>
+                <li>🔸 週1回は念入りに掃除する</li>
+                <li>🔸 お湯を抜いたらすぐに掃除するのが効果的</li>
+                <li>🔸 洗剤は必要に応じて使い分ける</li>
+                <li>🔸 換気を十分に行いながら作業する</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 AI掃除アドバイザー. All rights reserved.</p>
+        <p><small>このサイトはAmazonアソシエイト・プログラムを利用しています。</small></p>
+    </footer>
+
+</body></html>

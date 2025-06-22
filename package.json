@@ -9,7 +9,7 @@
     "test": "npm run build && npm run validate"
   },
   "dependencies": {
-    "paapi5-nodejs-sdk": "^3.2.0"
+    "cheerio": "^1.0.0"
   },
   "devDependencies": {
     "html-validator": "^6.0.0"

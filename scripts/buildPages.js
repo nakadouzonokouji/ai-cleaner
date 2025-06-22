@@ -5,7 +5,7 @@ import { fetchProducts } from './fetchProducts.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
-const UPDATED_FINAL_DIR = path.join(__dirname, '..', 'updated-final');
+const UPDATED_FINAL_DIR = path.join(__dirname, '..', 'templates-clean');
 
 // Page configurations
 const PAGES = [
@@ -262,13 +262,37 @@ function updateHTMLWithProducts(originalHTML, products) {
   }
   
   // Final cleanup
-  // 1. Fix stray closing divs before </body> or </section>
-  html = html.replace(/<\/div>\s*<\/div>\s*(<\/(?:body|section)>)/g, '</div>$1');
+  // 1. Count and balance divs
+  const openDivs = (html.match(/<div[^>]*>/g) || []).length;
+  const closeDivs = (html.match(/<\/div>/g) || []).length;
   
-  // 2. Encode unencoded ampersands
+  if (closeDivs > openDivs) {
+    // Remove extra closing divs before </body>
+    const bodyMatch = html.match(/(<\/div>\s*)+<\/body>/);
+    if (bodyMatch) {
+      const extraDivs = closeDivs - openDivs;
+      let fixedEnding = '</body>';
+      for (let i = 0; i < (openDivs - (closeDivs - extraDivs)); i++) {
+        fixedEnding = '</div>\n' + fixedEnding;
+      }
+      html = html.replace(/(<\/div>\s*)+<\/body>/, fixedEnding);
+    }
+  }
+  
+  // 2. Ensure proper closing structure
+  if (!html.includes('</body>')) {
+    html = html.replace(/(<\/div>\s*)+$/, '</div>\n    </div>\n</body>\n</html>');
+  } else if (!html.includes('</html>')) {
+    html = html.replace('</body>', '</body>\n</html>');
+  }
+  
+  // 3. Fix any duplicate </html> tags
+  html = html.replace(/(<\/html>\s*)+$/, '</html>');
+  
+  // 4. Encode unencoded ampersands
   html = html.replace(/&(?![#a-z0-9]+;)/gi, '&amp;');
   
-  // 3. Add type attribute to buttons
+  // 5. Add type attribute to buttons
   html = html.replace(/<button(?![^>]*\btype=)/gi, '<button type="button"');
   
   // Remove duplicate feedback comment blocks
