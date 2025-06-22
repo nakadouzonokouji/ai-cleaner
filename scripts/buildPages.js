@@ -262,8 +262,24 @@ function updateHTMLWithProducts(originalHTML, products) {
   }
   
   // Final cleanup
-  html = html.replace(/\s*<\/div>\s*<\/div>\s*<\/div>\s*<\/body>/g, '\n    </div>\n</body>');
+  // Remove stray closing div tags before </body>
+  html = html.replace(/<\/div>\s*<\/div>\s*<\/body>/g, '</div>\n</body>');
+  
+  // Remove duplicate feedback comment blocks
+  const feedbackCommentCount = (html.match(/<!-- 掃除方法フィードバックセクション -->/g) || []).length;
+  if (feedbackCommentCount > 1) {
+    // Keep only the last occurrence
+    let lastIndex = html.lastIndexOf('<!-- 掃除方法フィードバックセクション -->');
+    html = html.replace(/<!-- 掃除方法フィードバックセクション -->/g, (match, offset) => {
+      return offset === lastIndex ? match : '';
+    });
+  }
+  
+  // Clean up any trailing feedback comments
   html = html.replace(/<!-- 掃除方法フィードバックセクション -->\s*$/m, '');
+  
+  // Clean up excessive whitespace
+  html = html.replace(/\n\n\n+/g, '\n\n');
   
   return html;
 }
