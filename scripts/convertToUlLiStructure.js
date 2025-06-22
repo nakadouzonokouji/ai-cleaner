@@ -4,7 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+const OUTPUT_DIR = path.join(__dirname, '..', 'ai-cleaner', 'public');
+const PUBLIC_DIR = OUTPUT_DIR; // Keep for backward compatibility
 
 // Find all HTML files recursively
 async function findHtmlFiles(dir) {
