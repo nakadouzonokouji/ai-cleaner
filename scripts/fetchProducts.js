@@ -117,6 +117,11 @@ function isQualified(item) {
 
 // Convert PA-API item to Product type
 function itemToProduct(item) {
+  // Skip products without valid image URL
+  if (!item.ItemInfo?.Images?.Primary?.Large?.URL) {
+    return null;
+  }
+  
   let badge = '';
   if (item.BrowseNodeInfo?.BrowseNodes?.some(n => /ベストセラー/.test(n.DisplayName))) {
     badge = 'bestseller';
@@ -127,7 +132,7 @@ function itemToProduct(item) {
   return {
     asin: item.ASIN,
     title: item.ItemInfo?.Title?.DisplayValue || '',
-    image: item.ItemInfo?.Images?.Primary?.Large?.URL || '',
+    image: item.ItemInfo?.Images?.Primary?.Large?.URL,
     price: item.Offers?.Listings?.[0]?.Price?.DisplayAmount || '',
     badge
   };
@@ -209,7 +214,8 @@ async function fetchCategoryProducts(location, dirt, category) {
       // Filter qualified products and convert to our format
       const qualifiedProducts = items
         .filter(isQualified)
-        .map(itemToProduct);
+        .map(itemToProduct)
+        .filter(product => product !== null);
       
       allProducts.push(...qualifiedProducts);
       

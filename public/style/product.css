@@ -130,3 +130,10 @@
   object-fit: contain;
   background-color: #f8f8f8;
 }
+
+/* Feedback section styles */
+.feedback{margin-top:2rem;text-align:center;}
+.feedback h3{font-size:1rem;margin-bottom:.75rem;}
+.feedback .btn{padding:.5rem 1.25rem;margin:0 .5rem;border-radius:4px;font-weight:600;border:none;cursor:pointer;}
+.feedback .yes{background:#10b981;color:#fff;}
+.feedback .no {background:#ef4444;color:#fff;}

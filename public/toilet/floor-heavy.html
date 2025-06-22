@@ -310,6 +310,7 @@ h2 {
 </div>
 
 
+
         
         <div class="section">
             <div class="warning">
@@ -325,6 +326,7 @@ h2 {
                     <div class="step-detail">強力洗剤を使用するため、必ず厚手のゴム手袋、防臭マスク、できれば保護メガネも着用します。窓を開け、換気扇を最大にして十分な換気を確保してください。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">2</span>
                 <div class="step-content">
@@ -332,6 +334,7 @@ h2 {
                     <div class="step-detail">トイレマット、ゴミ箱、便器ブラシなど床にある全ての物を撤去します。汚れたマットは洗濯または処分を検討しましょう。掃除の邪魔にならないよう完全にクリアにします。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">3</span>
                 <div class="step-content">
@@ -339,6 +342,7 @@ h2 {
                     <div class="step-detail">乾いた状態で、掃除機を使って大きなゴミ、ホコリ、髪の毛を吸い取ります。隅や便器の後ろ側も忘れずに。この作業により洗剤の効果が高まります。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">4</span>
                 <div class="step-content">
@@ -346,6 +350,7 @@ h2 {
                     <div class="step-detail">強力なアルカリ性洗剤を床全体にまんべんなくスプレーします。特に便器周りや黒ずみ部分は多めに。10〜15分放置して、洗剤が汚れに浸透するのを待ちます。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">5</span>
                 <div class="step-content">
@@ -353,6 +358,7 @@ h2 {
                     <div class="step-detail">便器と床の境目、便器の裏側など、尿石や頑固な汚れが付着している部分を硬めのブラシで力強くこすります。円を描くように動かすと効果的です。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">6</span>
                 <div class="step-content">
@@ -360,6 +366,7 @@ h2 {
                     <div class="step-detail">壁と床の境目、配管周り、扉の下など、大きなブラシが届きにくい場所は細部用ブラシや古歯ブラシで丁寧に汚れを除去します。黒カビも見逃さずに。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">7</span>
                 <div class="step-content">
@@ -367,6 +374,7 @@ h2 {
                     <div class="step-detail">洗剤と汚れをモップで拭き取ります。奥から手前へ、汚れた部分を踏まないよう計画的に進めます。モップは頻繁にすすぎ、常にきれいな状態を保ちます。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">8</span>
                 <div class="step-content">
@@ -374,6 +382,7 @@ h2 {
                     <div class="step-detail">きれいな水で十分にすすいだモップで、洗剤を完全に拭き取ります。洗剤が残ると変色やベタつきの原因になるため、2〜3回は水拭きを繰り返します。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">9</span>
                 <div class="step-content">
@@ -381,37 +390,35 @@ h2 {
                     <div class="step-detail">乾いたモップやマイクロファイバークロスで、床の水分を完全に除去します。水分が残るとカビや雑菌の繁殖原因となるため、念入りに乾拭きします。</div>
                 </div>
             </div>
+            
             <div class="step">
                 <span class="step-number">10</span>
                 <div class="step-content">
                     <div class="step-title">除菌スプレーを噴射して乾燥させる</div>
                     <div class="step-detail">仕上げに除菌消臭スプレーを床全体に噴射します。特に便器周りは多めに。30分以上換気を続けて完全に乾燥させてから、物を元に戻します。</div>
-            </div>
+                </div>
             </div>
         </div>
-<!-- 掃除方法フィードバックセクション -->
-<div class="method-feedback-section">
-    <h3>この掃除方法は役に立ちましたか？</h3>
-    <div class="feedback-container">
-        <button type="button" class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
-            <span class="emoji">👍</span>
-            <span class="text">Good</span>
-            <span class="count" id="goodCount">0</span>
-        </button>
-        <button type="button" class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
-            <span class="emoji">👎</span>
-            <span class="text">Bad</span>
-            <span class="count" id="badCount">0</span>
-        </button>
+        
+        
+            </div>
+            
+            <h3 class="category-title">保護具（5選）</h3>
+            
+            </div>
+        </div>
     </div>
-    <div class="feedback-comment" id="feedbackComment" style="display: none;">
-        <textarea id="commentText" placeholder="コメントをお聞かせください（任意）" rows="3"></textarea>
-        <button type="button" onclick="submitComment()">送信</button>
-    </div>
-    <div class="feedback-message" id="feedbackMessage" style="display: none;">
-        ご意見ありがとうございました！
-    </div>
-</div><script>
+
+
+
+
+
+
+
+
+
+
+<script>
 // ページごとのフィードバックデータを管理
 function getPageKey() {
     const path = window.location.pathname;
@@ -524,6 +531,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
+
                                                                                                     
         
         <div class="section products-section">
@@ -538,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="トイレマジックリン - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレマジックリン - 高評価商品 1</p>
-                        <p class="price">¥620</p>
+                        <p class="price">¥1907</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -546,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="トイレマジックリン - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレマジックリン - 高評価商品 2</p>
-                        <p class="price">¥2145</p>
+                        <p class="price">¥2346</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -554,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="サンポール - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">サンポール - 高評価商品 1</p>
-                        <p class="price">¥2483</p>
+                        <p class="price">¥2082</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -562,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="サンポール - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">サンポール - 高評価商品 2</p>
-                        <p class="price">¥566</p>
+                        <p class="price">¥2561</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -570,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="トイレ洗剤 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレ洗剤 - 高評価商品 1</p>
-                        <p class="price">¥1046</p>
+                        <p class="price">¥2108</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -585,7 +593,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="トイレブラシ - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレブラシ - 高評価商品 1</p>
-                        <p class="price">¥2233</p>
+                        <p class="price">¥1883</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -593,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="トイレブラシ - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレブラシ - 高評価商品 2</p>
-                        <p class="price">¥2234</p>
+                        <p class="price">¥1206</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -601,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="トイレ掃除ブラシ - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレ掃除ブラシ - 高評価商品 1</p>
-                        <p class="price">¥2813</p>
+                        <p class="price">¥1211</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -609,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="トイレ掃除ブラシ - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレ掃除ブラシ - 高評価商品 2</p>
-                        <p class="price">¥2727</p>
+                        <p class="price">¥2315</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -617,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="トイレスポンジ - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレスポンジ - 高評価商品 1</p>
-                        <p class="price">¥1679</p>
+                        <p class="price">¥1791</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -632,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="トイレ掃除手袋 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレ掃除手袋 - 高評価商品 1</p>
-                        <p class="price">¥980</p>
+                        <p class="price">¥1287</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -640,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="トイレ掃除手袋 - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">トイレ掃除手袋 - 高評価商品 2</p>
-                        <p class="price">¥2995</p>
+                        <p class="price">¥2092</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -648,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="ゴム手袋 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">ゴム手袋 - 高評価商品 1</p>
-                        <p class="price">¥2457</p>
+                        <p class="price">¥2814</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -656,7 +664,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="ゴム手袋 - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">ゴム手袋 - 高評価商品 2</p>
-                        <p class="price">¥1367</p>
+                        <p class="price">¥1343</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -664,19 +672,184 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="使い捨て手袋 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">使い捨て手袋 - 高評価商品 1</p>
-                        <p class="price">¥1561</p>
+                        <p class="price">¥1529</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
             </ul>
-        
         </div>
 
-</div>
+<!-- 掃除方法フィードバックセクション -->
+<div class="method-feedback-section">
+    <h3>この掃除方法は役に立ちましたか？</h3>
+    <div class="feedback-container">
+        <button class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
+            <span class="emoji">👍</span>
+            <span class="text">Good</span>
+            <span class="count" id="goodCount">0</span>
+        </button>
+        <button class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
+            <span class="emoji">👎</span>
+            <span class="text">Bad</span>
+            <span class="count" id="badCount">0</span>
+        </button>
+    </div>
+    <div class="feedback-comment" id="feedbackComment" style="display: none;">
+        <textarea id="commentText" placeholder="コメントをお聞かせください（任意）" rows="3"></textarea>
+        <button onclick="submitComment()">送信</button>
+    </div>
+    <div class="feedback-message" id="feedbackMessage" style="display: none;">
+        ご意見ありがとうございました！
+    
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71nA1X43WuL._SL500_.jpg" alt="激落ちくん バスクリーナー マイクロ & ネット ホワイト S-829" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg'">
+        <h4>激落ちくん バスクリーナー マイクロ & ネット ホワイト S-829</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥180</p>
+        <a href="https://www.amazon.co.jp/dp/B08NTHRHRL?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61Y7sqOJwOL._SL500_.jpg" alt="3M スコッチブライト バスシャイン 抗菌 スポンジ 本体 × ハンドル セット お風呂掃除" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41s9Zx5gI4L._SL500_.jpg'">
+        <h4>3M スコッチブライト バスシャイン 抗菌 スポンジ 本体 × ハンドル セット お風呂掃除</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥439</p>
+        <a href="https://www.amazon.co.jp/dp/B0BLZGMHLG?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61dwMxfHhHL._SL500_.jpg" alt="レック 激落ち 黒カビくん お風呂の 目地 研磨ブラシ" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41qE9-EOUOL._SL500_.jpg'">
+        <h4>レック 激落ち 黒カビくん お風呂の 目地 研磨ブラシ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥337</p>
+        <a href="https://www.amazon.co.jp/dp/B00IHLQM88?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61V0T7KJV8L._SL500_.jpg" alt="アズマ工業(Azuma Industrial) バスブラシ ピンク TK お風呂床ブラシスポG" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg'">
+        <h4>アズマ工業(Azuma Industrial) バスブラシ ピンク TK お風呂床ブラシスポG</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥572</p>
+        <a href="https://www.amazon.co.jp/dp/B0CDB36ZM4?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51+mLo5r8QL._SL500_.jpg" alt="【まとめ買い】 スコッチブライト お風呂掃除 ブラシ ハンディS 本体×2個" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41lQTXJJDRL._SL500_.jpg'">
+        <h4>【まとめ買い】 スコッチブライト お風呂掃除 ブラシ ハンディS 本体×2個</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥480</p>
+        <a href="https://www.amazon.co.jp/dp/B0CJF8J4HW?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71cgT8FiCqL._SL500_.jpg" alt="ショーワグローブ ナイスハンド ミュー 厚手 M ピンク" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg'">
+        <h4>ショーワグローブ ナイスハンド ミュー 厚手 M ピンク</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥302</p>
+        <a href="https://www.amazon.co.jp/dp/B002P8QTWM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61b5ksYDQAL._SL500_.jpg" alt="【防カビ】 ルック おふろの防カビくん煙剤 フローラルの香り × 3個パック" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41s9Zx5gI4L._SL500_.jpg'">
+        <h4>【防カビ】 ルック おふろの防カビくん煙剤 フローラルの香り × 3個パック</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥1,074</p>
+        <a href="https://www.amazon.co.jp/dp/B08T6B3ZW9?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61xArqfUTkL._SL500_.jpg" alt="3M 防毒マスク 塗装作業用マスクセット 1200/3311J-55-S1" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41qE9-EOUOL._SL500_.jpg'">
+        <h4>3M 防毒マスク 塗装作業用マスクセット 1200/3311J-55-S1</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥2,136</p>
+        <a href="https://www.amazon.co.jp/dp/B005LCZC5W?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg" alt="TRUSCO(トラスコ) 一般作業用マスク 活性炭入 10枚入" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg'">
+        <h4>TRUSCO(トラスコ) 一般作業用マスク 活性炭入 10枚入</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥476</p>
+        <a href="https://www.amazon.co.jp/dp/B002A5OJ1Y?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg" alt="ダンロップ ホームプロダクツ ゴム手袋 天然ゴム プリティーネ M ピンク" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41lQTXJJDRL._SL500_.jpg'">
+        <h4>ダンロップ ホームプロダクツ ゴム手袋 天然ゴム プリティーネ M ピンク</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥224</p>
+        <a href="https://www.amazon.co.jp/dp/B01LVYLOZC?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+
+                
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+
+                </div>
+            </div>
+        </div>
 
 <!-- 掃除方法フィードバックセクション -->
-
-
-
 </body>
 </html>

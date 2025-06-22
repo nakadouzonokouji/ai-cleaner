@@ -86,7 +86,15 @@ function escapeHtml(text) {
 }
 
 // Create product HTML
-function createProductHTML(product) {
+function createProductHTML(product, index) {
+  // Check if this is an empty slot
+  if (!product || !product.image || product.image === '/img/no-image.svg') {
+    return `                <li class="product-card empty">
+                    <img src="/img/no-image.svg" alt="No Image">
+                    <p class="name">商品準備中</p>
+                </li>`;
+  }
+  
   const badgeHTML = product.badge === 'bestseller' ? '<p class="badge bestseller">ベストセラー</p>' : 
                     product.badge === 'amazon-choice' ? '<p class="badge amazon-choice">Amazon\'s Choice</p>' : '';
   
@@ -144,6 +152,51 @@ function updateHTMLWithProducts(originalHTML, products) {
     html = html.replace('</head>', `    <link rel="stylesheet" href="/style/product.css">\n</head>`);
   }
   
+  // First, extract and remove the feedback section
+  const feedbackStart = html.indexOf('<!-- 掃除方法フィードバックセクション -->');
+  let feedbackSection = '';
+  
+  if (feedbackStart !== -1) {
+    // Find the end of the feedback section by looking for the specific pattern
+    let searchPos = feedbackStart;
+    let divCount = 0;
+    let feedbackEnd = -1;
+    
+    // Move past the comment
+    searchPos = html.indexOf('<div class="method-feedback-section">', searchPos);
+    if (searchPos !== -1) {
+      searchPos += '<div class="method-feedback-section">'.length;
+      divCount = 1;
+      
+      // Count divs to find the matching closing tag for method-feedback-section
+      while (searchPos < html.length && divCount > 0) {
+        const nextOpen = html.indexOf('<div', searchPos);
+        const nextClose = html.indexOf('</div>', searchPos);
+        
+        if (nextClose === -1) break;
+        
+        if (nextOpen !== -1 && nextOpen < nextClose) {
+          divCount++;
+          searchPos = nextOpen + 4;
+        } else {
+          divCount--;
+          searchPos = nextClose + 6;
+          if (divCount === 0) {
+            feedbackEnd = searchPos;
+            break;
+          }
+        }
+      }
+    }
+    
+    if (feedbackEnd !== -1) {
+      feedbackSection = html.substring(feedbackStart, feedbackEnd);
+      
+      // Remove the feedback section from its current location
+      html = html.substring(0, feedbackStart) + html.substring(feedbackEnd);
+    }
+  }
+  
   // Find the section containing おすすめ商品
   const recommendedStart = html.indexOf('<h2>おすすめ商品</h2>');
   
@@ -195,28 +248,20 @@ function updateHTMLWithProducts(originalHTML, products) {
         const afterSection = html.substring(sectionEnd);
         const newProductsSection = createProductsSection(products);
         
-        html = beforeSection + newProductsSection + afterSection;
+        // Add the feedback section after the products section
+        html = beforeSection + newProductsSection + '\n\n' + feedbackSection + '\n\n' + afterSection;
       }
     }
   } else {
     // If no existing products section, find a good place to insert it
-    // Look for the feedback section and insert before it
-    const feedbackIndex = html.indexOf('method-feedback-section');
-    if (feedbackIndex !== -1) {
-      // Find the parent div of feedback section
-      let insertPos = feedbackIndex;
-      for (let i = feedbackIndex; i >= 0; i--) {
-        if (html.substring(i - 5, i) === '<div>') {
-          insertPos = i - 5;
-          break;
-        }
-      }
-      
-      const beforeInsert = html.substring(0, insertPos);
-      const afterInsert = html.substring(insertPos);
+    // Look for a good insertion point after the cleaning steps
+    const stepsEnd = html.lastIndexOf('</div>', html.indexOf('</div>', html.lastIndexOf('<div class="step">')));
+    if (stepsEnd !== -1) {
+      const beforeInsert = html.substring(0, stepsEnd + 6);
+      const afterInsert = html.substring(stepsEnd + 6);
       const newProductsSection = createProductsSection(products);
       
-      html = beforeInsert + newProductsSection + '\n\n' + afterInsert;
+      html = beforeInsert + '\n\n' + newProductsSection + '\n\n' + feedbackSection + '\n\n' + afterInsert;
     }
   }
   
@@ -257,19 +302,13 @@ async function generatePage(pageConfig) {
     // Fetch products
     const products = await fetchProducts({ location, dirt });
     
-    // Validate we have 5 products per category
+    // Ensure we have exactly 5 slots per category
     for (const [category, items] of Object.entries(products)) {
       if (items.length < 5) {
         console.warn(`Warning: Only ${items.length} products for ${category} in ${location}-${dirt}`);
-        // Pad with empty products if needed
+        // Pad with null values for empty slots
         while (items.length < 5) {
-          items.push({
-            asin: `PLACEHOLDER${items.length}`,
-            title: `商品準備中`,
-            image: '/img/no-image.svg',
-            price: '',
-            badge: ''
-          });
+          items.push(null);
         }
       }
     }

@@ -355,33 +355,31 @@ h2 {
 </div>
 
 
-        
-        
-            
 
-<!-- 掃除方法フィードバックセクション -->
-<div class="method-feedback-section">
-    <h3>この掃除方法は役に立ちましたか？</h3>
-    <div class="feedback-container">
-        <button type="button" class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
-            <span class="emoji">👍</span>
-            <span class="text">Good</span>
-            <span class="count" id="goodCount">0</span>
-        </button>
-        <button type="button" class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
-            <span class="emoji">👎</span>
-            <span class="text">Bad</span>
-            <span class="count" id="badCount">0</span>
-        </button>
+        
+        
+            </div>
+            
+            <h3 class="category-title">専門掃除道具（5選）</h3>
+            
+            </div>
+            
+            <h3 class="category-title">安全保護具（5選）</h3>
+            
+            </div>
+        </div>
     </div>
-    <div class="feedback-comment" id="feedbackComment" style="display: none;">
-        <textarea id="commentText" placeholder="コメントをお聞かせください（任意）" rows="3"></textarea>
-        <button type="button" onclick="submitComment()">送信</button>
-    </div>
-    <div class="feedback-message" id="feedbackMessage" style="display: none;">
-        ご意見ありがとうございました！
-    </div>
-</div><script>
+
+
+
+
+
+
+
+
+
+
+<script>
 // ページごとのフィードバックデータを管理
 function getPageKey() {
     const path = window.location.pathname;
@@ -494,6 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
+
                                                                                                     
         
         <div class="section products-section">
@@ -508,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="キッチンマジックリン - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">キッチンマジックリン - 高評価商品 1</p>
-                        <p class="price">¥2501</p>
+                        <p class="price">¥3334</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -516,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="キッチンマジックリン - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">キッチンマジックリン - 高評価商品 2</p>
-                        <p class="price">¥3494</p>
+                        <p class="price">¥1247</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -524,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="油汚れクリーナー - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">油汚れクリーナー - 高評価商品 1</p>
-                        <p class="price">¥2127</p>
+                        <p class="price">¥3242</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -532,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="油汚れクリーナー - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">油汚れクリーナー - 高評価商品 2</p>
-                        <p class="price">¥3266</p>
+                        <p class="price">¥3160</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -540,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="食器用洗剤 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">食器用洗剤 - 高評価商品 1</p>
-                        <p class="price">¥1314</p>
+                        <p class="price">¥3434</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -555,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="キッチンスポンジ - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">キッチンスポンジ - 高評価商品 1</p>
-                        <p class="price">¥827</p>
+                        <p class="price">¥2094</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -563,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="キッチンスポンジ - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">キッチンスポンジ - 高評価商品 2</p>
-                        <p class="price">¥2565</p>
+                        <p class="price">¥2617</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -571,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="たわし - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">たわし - 高評価商品 1</p>
-                        <p class="price">¥2836</p>
+                        <p class="price">¥2100</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -579,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="たわし - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">たわし - 高評価商品 2</p>
-                        <p class="price">¥1191</p>
+                        <p class="price">¥966</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -587,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="キッチンブラシ - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">キッチンブラシ - 高評価商品 1</p>
-                        <p class="price">¥2937</p>
+                        <p class="price">¥740</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -602,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="キッチン手袋 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">キッチン手袋 - 高評価商品 1</p>
-                        <p class="price">¥1165</p>
+                        <p class="price">¥1537</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -610,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="キッチン手袋 - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">キッチン手袋 - 高評価商品 2</p>
-                        <p class="price">¥1612</p>
+                        <p class="price">¥1075</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -618,7 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="ゴム手袋 - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">ゴム手袋 - 高評価商品 1</p>
-                        <p class="price">¥958</p>
+                        <p class="price">¥501</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
@@ -626,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B071XBTM63?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/42KMUPH0UGL._SL500_.jpg" alt="ゴム手袋 - 高評価商品 2" onerror="this.src='/img/no-image.svg'">
                         <p class="name">ゴム手袋 - 高評価商品 2</p>
-                        <p class="price">¥837</p>
+                        <p class="price">¥2761</p>
                         <p class="badge amazon-choice">Amazon's Choice</p>
                     </a>
                 </li>
@@ -634,17 +633,173 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="https://www.amazon.co.jp/dp/B00TGKMZ7O?tag=asdfghj12-22" target="_blank" rel="nofollow noopener">
                         <img src="https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg" alt="エプロン - 高評価商品 1" onerror="this.src='/img/no-image.svg'">
                         <p class="name">エプロン - 高評価商品 1</p>
-                        <p class="price">¥2718</p>
+                        <p class="price">¥2558</p>
                         <p class="badge bestseller">ベストセラー</p>
                     </a>
                 </li>
             </ul>
-        
-            
         </div>
 
-
-</div>
-
-</body>
+<!-- 掃除方法フィードバックセクション -->
+<div class="method-feedback-section">
+    <h3>この掃除方法は役に立ちましたか？</h3>
+    <div class="feedback-container">
+        <button class="method-feedback-btn good-btn" onclick="sendMethodFeedback('good')">
+            <span class="emoji">👍</span>
+            <span class="text">Good</span>
+            <span class="count" id="goodCount">0</span>
+        </button>
+        <button class="method-feedback-btn bad-btn" onclick="sendMethodFeedback('bad')">
+            <span class="emoji">👎</span>
+            <span class="text">Bad</span>
+            <span class="count" id="badCount">0</span>
+        </button>
+    </div>
+    <div class="feedback-comment" id="feedbackComment" style="display: none;">
+        <textarea id="commentText" placeholder="コメントをお聞かせください（任意）" rows="3"></textarea>
+        <button onclick="submitComment()">送信</button>
+    </div>
+    <div class="feedback-message" id="feedbackMessage" style="display: none;">
+        ご意見ありがとうございました！
+    
+            <h3>掃除道具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71XZxRKAcJL._SL500_.jpg" alt="亀の子 キッチンスポンジ Do 計量スプーン型 オレンジ" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg'">
+        <h4>亀の子 キッチンスポンジ Do 計量スプーン型 オレンジ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(1,234)</span>
+        </div>
+        <p class="price">¥385</p>
+        <a href="https://www.amazon.co.jp/dp/B00FFRW0RQ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/81A7dPVNfbL._SL500_.jpg" alt="3M スポンジ キッチン スコッチブライト 抗菌 6個" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41s9Zx5gI4L._SL500_.jpg'">
+        <h4>3M スポンジ キッチン スコッチブライト 抗菌 6個</h4>
+        <div class="product-rating">
+            <span class="stars">★4.4</span>
+            <span class="review-count">(3,456)</span>
+        </div>
+        <p class="price">¥598</p>
+        <a href="https://www.amazon.co.jp/dp/B00YHQ99WI?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71z5YKg0fDL._SL500_.jpg" alt="サンコー びっくりフレッシュ 排水口 ブラシ グリーン" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41qE9-EOUOL._SL500_.jpg'">
+        <h4>サンコー びっくりフレッシュ 排水口 ブラシ グリーン</h4>
+        <div class="product-rating">
+            <span class="stars">★4.2</span>
+            <span class="review-count">(876)</span>
+        </div>
+        <p class="price">¥298</p>
+        <a href="https://www.amazon.co.jp/dp/B000FQMSGW?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71k-pZKGgxL._SL500_.jpg" alt="マーナ(MARNA) キッチンブラシ 鍋・フライパン洗い K012" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg'">
+        <h4>マーナ(MARNA) キッチンブラシ 鍋・フライパン洗い K012</h4>
+        <div class="product-rating">
+            <span class="stars">★4.1</span>
+            <span class="review-count">(2,109)</span>
+        </div>
+        <p class="price">¥418</p>
+        <a href="https://www.amazon.co.jp/dp/B0047TK0EW?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71qhM7zKk8L._SL500_.jpg" alt="レック 激落ちくん メラミンスポンジ 30個入" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41lQTXJJDRL._SL500_.jpg'">
+        <h4>レック 激落ちくん メラミンスポンジ 30個入</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(5,432)</span>
+        </div>
+        <p class="price">¥598</p>
+        <a href="https://www.amazon.co.jp/dp/B07H9XCTFM?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    
+            <h3>保護具</h3>
+            <div class="product-grid">
+                <div class="product-grid-inner">
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71bLZGTJf9L._SL500_.jpg" alt="ダンロップ ホームプロダクツ 天然ゴム手袋 リッチネ 厚手 M ピンク" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41KMUPH0UGL._SL500_.jpg'">
+        <h4>ダンロップ ホームプロダクツ 天然ゴム手袋 リッチネ 厚手 M ピンク</h4>
+        <div class="product-rating">
+            <span class="stars">★4.2</span>
+            <span class="review-count">(1,987)</span>
+        </div>
+        <p class="price">¥298</p>
+        <a href="https://www.amazon.co.jp/dp/B000TGO25Q?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/81HYXKqPKBL._SL500_.jpg" alt="ショーワグローブ キッチン用手袋 3双パック Mサイズ" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41s9Zx5gI4L._SL500_.jpg'">
+        <h4>ショーワグローブ キッチン用手袋 3双パック Mサイズ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.3</span>
+            <span class="review-count">(876)</span>
+        </div>
+        <p class="price">¥648</p>
+        <a href="https://www.amazon.co.jp/dp/B07BGRBZR9?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71TpQBY6MQL._SL500_.jpg" alt="オカモト キッチン用手袋 長持ち フィットタイプ Mサイズ 2双パック" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41qE9-EOUOL._SL500_.jpg'">
+        <h4>オカモト キッチン用手袋 長持ち フィットタイプ Mサイズ 2双パック</h4>
+        <div class="product-rating">
+            <span class="stars">★4.4</span>
+            <span class="review-count">(543)</span>
+        </div>
+        <p class="price">¥498</p>
+        <a href="https://www.amazon.co.jp/dp/B08CXYR6V9?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/61VqNOOBsFL._SL500_.jpg" alt="エステー 使い捨て手袋 ニトリルゴム 100枚 Mサイズ" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/415laoNyYrL._SL500_.jpg'">
+        <h4>エステー 使い捨て手袋 ニトリルゴム 100枚 Mサイズ</h4>
+        <div class="product-rating">
+            <span class="stars">★4.1</span>
+            <span class="review-count">(3,210)</span>
+        </div>
+        <p class="price">¥1,280</p>
+        <a href="https://www.amazon.co.jp/dp/B07KQWYNMV?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71Yf9L9rOPL._SL500_.jpg" alt="キッチン用エプロン 防水 男女兼用 首掛け式 ポケット付き" loading="lazy" onerror="this.src='https://m.media-amazon.com/images/I/41lQTXJJDRL._SL500_.jpg'">
+        <h4>キッチン用エプロン 防水 男女兼用 首掛け式 ポケット付き</h4>
+        <div class="product-rating">
+            <span class="stars">★4.2</span>
+            <span class="review-count">(765)</span>
+        </div>
+        <p class="price">¥1,380</p>
+        <a href="https://www.amazon.co.jp/dp/B08L7NKDFJ?tag=asdfghj12-22" 
+           target="_blank" rel="nofollow noopener" class="buy-button">
+            Amazonで購入
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+        </body>
 </html>
