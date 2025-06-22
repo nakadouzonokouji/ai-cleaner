@@ -121,6 +121,9 @@ async function fixHtmlFile(filePath) {
     // Final cleanup
     html = html.replace(/\n\n\n+/g, '\n\n');
     
+    // Remove duplicate "10ステップで完璧〜" block before product list
+    html = html.replace(/<h2[^>]*>10ステップで完璧[^]*?(?=<section id="product-list")/, '');
+    
     await fs.writeFile(filePath, html, 'utf8');
     console.log(`✓ Fixed: ${path.basename(filePath)}`);
     

@@ -141,7 +141,7 @@ function updateHTMLWithProducts(originalHTML, products) {
   
   // Add CSS link if not present
   if (!html.includes('product.css')) {
-    html = html.replace('</head>', `    <link rel="stylesheet" href="/tools/ai-cleaner/style/product.css">\n</head>`);
+    html = html.replace('</head>', `    <link rel="stylesheet" href="/tools/ai-cleaner/public/style/product.css">\n</head>`);
   }
   
   // First, extract and remove ALL feedback sections
