@@ -612,7 +612,6 @@
           });
 
           try {
-              try {
               let analysisResult;
 
               // サーバーレス版：常に場所ベースのローカル分析を実行
