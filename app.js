@@ -192,27 +192,8 @@
       // カスタム入力制御
       handleCustomInput(locationId) {
           try {
-              const customInput = document.getElementById('customInput');
-              const customLocationInput = document.getElementById('customLocation');
-
-              if (locationId === 'custom') {
-                  if (customInput) {
-                      customInput.classList.remove('hidden');
-                  }
-                  setTimeout(() => {
-                      if (customLocationInput) {
-                          customLocationInput.focus();
-                      }
-                  }, 100);
-              } else {
-                  if (customInput) {
-                      customInput.classList.add('hidden');
-                  }
-                  this.state.customLocation = '';
-                  if (customLocationInput) {
-                      customLocationInput.value = '';
-                  }
-              }
+              // カスタム入力フィールドはindex.htmlから削除されたため、ここでは何もしない
+              // 必要であれば、カスタム場所のバリデーションロジックをここに記述
           } catch (error) {
               // エラーは無視
           }
@@ -493,7 +474,6 @@
 
           // 状態リセット
           this.state = {
-              selectedImage: null,
               preSelectedLocation: '',
               customLocation: '',
               analysis: null,
@@ -553,12 +533,12 @@
           const analysisResults = document.getElementById('analysisResults');
           const errorDisplay = document.getElementById('errorDisplay');
           const correctionOptions = document.getElementById('correctionOptions');
-          const analysisDisplay = document.getElementById('analysisDisplay');
+          const analysisDisplay = document.getElementById('analysisDisplay'); // analysisDisplayはanalysisAreaのこと
 
           if (analysisResults) analysisResults.classList.add('hidden');
           if (errorDisplay) errorDisplay.classList.add('hidden');
           if (correctionOptions) correctionOptions.classList.add('hidden');
-          if (analysisDisplay) analysisDisplay.classList.remove('hidden');
+          if (analysisDisplay) analysisDisplay.classList.add('hidden'); // analysisAreaを非表示にする
 
           this.state.analysis = null;
           this.state.showCorrection = false;
@@ -626,6 +606,12 @@
           const errorDisplay = document.getElementById('errorDisplay');
           if (errorDisplay) {
               errorDisplay.classList.add('hidden');
+          }
+
+          // 分析エリアを表示
+          const analysisArea = document.getElementById('analysisArea');
+          if (analysisArea) {
+              analysisArea.classList.remove('hidden');
           }
 
           console.log('🔍 分析パラメータ:', {
