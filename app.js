@@ -1,4 +1,4 @@
-  /**
+/**
    * AI掃除アドバイザー - メインアプリケーション（サーバーレス対応版）
    * CX Mainte © 2025
    *
@@ -1213,7 +1213,7 @@
                     <div class="product-card border-2 border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
                         <div class="relative mb-4">
                             <img src="${imageUrl1}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg" 
-                                 onerror="this.src=\'${imageUrl2}\'; this.onerror=function(){this.src=\'${imageUrl3}\'; this.onerror=function(){this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';}}">
+                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}">
                             <div class="w-full h-40 bg-gray-50 rounded-lg flex items-center justify-center" style="display:none;">
                                 <div class="text-center">
                                     <div class="text-5xl mb-2">${product.emoji}</div>
@@ -1267,7 +1267,7 @@
                     <div class="product-card border-2 border-green-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
                         <div class="relative mb-4">
                             <img src="${imageUrl1}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg" 
-                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}'">
+                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}">
                             <div class="w-full h-40 bg-gray-50 rounded-lg flex items-center justify-center" style="display:none;">
                                 <div class="text-center">
                                     <div class="text-5xl mb-2">${product.emoji}</div>
@@ -1321,7 +1321,7 @@
                     <div class="product-card border-2 border-purple-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
                         <div class="relative mb-4">
                             <img src="${imageUrl1}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg" 
-                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}'">
+                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}">
                             <div class="w-full h-40 bg-gray-50 rounded-lg flex items-center justify-center" style="display:none;">
                                 <div class="text-center">
                                     <div class="text-5xl mb-2">${product.emoji}</div>
