@@ -1,0 +1,42 @@
+name: Deploy to Xserver
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Create config.php from secrets
+      run: |
+        cat > config.php << EOF
+        <?php
+        return [
+            'gemini_api_key' => '${{ secrets.GEMINI_API_KEY }}',
+            'amazon_associate_tag' => '${{ secrets.AMAZON_ASSOCIATE_TAG }}',
+            'paapi_access_key' => '${{ secrets.PAAPI_ACCESS_KEY }}',
+            'paapi_secret_key' => '${{ secrets.PAAPI_SECRET_KEY }}',
+            'paapi_partner_tag' => '${{ secrets.AMAZON_ASSOCIATE_TAG }}',
+            'paapi_host' => 'webservices.amazon.co.jp',
+            'paapi_region' => 'us-west-2'
+        ];
+        EOF
+    
+    - name: Deploy to Xserver via FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: ${{ secrets.FTP_SERVER_DIR }}
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          config.php.example
+          README.md

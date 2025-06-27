@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お掃除アドバイザー - AI搭載の掃除方法提案サービス</title>
+    <meta name="description" content="換気扇、浴槽、窓など家中の汚れをAIが分析。最適な掃除方法と売れ筋の掃除用品をご提案します。">
+    <meta name="keywords" content="掃除,掃除方法,換気扇掃除,浴槽掃除,窓掃除,掃除用品,洗剤,AI掃除アドバイス">
+    <meta property="og:title" content="お掃除アドバイザー - AI搭載の掃除方法提案サービス">
+    <meta property="og:description" content="家中の汚れをAIが分析。最適な掃除方法と売れ筋の掃除用品をご提案">
+    <meta property="og:type" content="website">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .input-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .input-section h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .submit-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .result-section {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .result-section.active {
+            display: block;
+        }
+        
+        .cleaning-method {
+            margin-bottom: 2rem;
+        }
+        
+        .cleaning-method h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .cleaning-steps {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .cleaning-steps ol {
+            margin-left: 1.5rem;
+        }
+        
+        .cleaning-steps li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .products-section {
+            margin-top: 2rem;
+        }
+        
+        .products-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .product-card {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            height: 2.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .product-price {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-rating {
+            color: #f39c12;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .buy-button {
+            background-color: #ff9900;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            display: inline-block;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .buy-button:hover {
+            background-color: #e68a00;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #bdc3c7;
+            margin-top: 1rem;
+        }
+        
+        .error-message {
+            display: none;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        
+        .error-message.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🧹 お掃除アドバイザー</h1>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <section class="input-section">
+                <h2>お掃除のお悩みをお聞かせください</h2>
+                <textarea id="cleaningQuery" placeholder="例：換気扇の油汚れがひどくて困っています&#10;例：浴槽の水垢を落としたい&#10;例：窓ガラスをピカピカにしたい&#10;&#10;掃除したい場所や汚れの種類を詳しく教えてください。"></textarea>
+                <button class="submit-btn" onclick="analyzeCleaningQuery()">AIに相談する</button>
+                <div class="error-message" id="errorMessage"></div>
+            </section>
+            
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p>AIが最適な掃除方法を分析中...</p>
+            </div>
+            
+            <section class="result-section" id="resultSection">
+                <div class="cleaning-method">
+                    <h3>📋 推奨する掃除方法</h3>
+                    <div class="cleaning-steps" id="cleaningSteps"></div>
+                </div>
+                
+                <div class="products-section">
+                    <h3>🛒 おすすめの掃除用品（売れ筋商品）</h3>
+                    <div class="products-grid" id="productsGrid"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 お掃除アドバイザー</p>
+            <p class="disclaimer">
+                当サイトは、Amazon.co.jpを宣伝しリンクすることによってサイトが紹介料を獲得できる手段を提供することを目的に設定されたアフィリエイトプログラムである、Amazonアソシエイト・プログラムの参加者です。
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // API エンドポイント
+        const API_ENDPOINT = './api.php';
+        
+        async function analyzeCleaningQuery() {
+            const query = document.getElementById('cleaningQuery').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            const loadingSection = document.getElementById('loadingSection');
+            const resultSection = document.getElementById('resultSection');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            // エラーメッセージをクリア
+            errorMessage.classList.remove('active');
+            errorMessage.textContent = '';
+            
+            // 入力チェック
+            if (!query) {
+                errorMessage.textContent = '掃除に関するお悩みを入力してください。';
+                errorMessage.classList.add('active');
+                return;
+            }
+            
+            // UIの状態を変更
+            submitBtn.disabled = true;
+            loadingSection.classList.add('active');
+            resultSection.classList.remove('active');
+            
+            try {
+                // Gemini APIを呼び出して掃除方法を取得
+                const cleaningAdvice = await getCleaningAdvice(query);
+                displayCleaningAdvice(cleaningAdvice);
+                
+                // Amazon商品を検索して表示
+                const products = await searchAmazonProducts(query);
+                displayProducts(products);
+                
+                // 結果を表示
+                resultSection.classList.add('active');
+            } catch (error) {
+                console.error('エラー:', error);
+                errorMessage.textContent = 'エラーが発生しました。もう一度お試しください。';
+                errorMessage.classList.add('active');
+            } finally {
+                loadingSection.classList.remove('active');
+                submitBtn.disabled = false;
+            }
+        }
+        
+        async function getCleaningAdvice(query) {
+            const response = await fetch(API_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'getCleaningAdvice',
+                    query: query
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('APIエラー');
+            }
+            
+            const data = await response.json();
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            return data.advice;
+        }
+        
+        function displayCleaningAdvice(advice) {
+            const cleaningSteps = document.getElementById('cleaningSteps');
+            // 改行をHTMLの改行タグに変換し、番号付きリストを強調
+            const formattedAdvice = advice
+                .replace(/\n/g, '<br>')
+                .replace(/(\d+\.)/g, '<strong>$1</strong>');
+            cleaningSteps.innerHTML = formattedAdvice;
+        }
+        
+        async function searchAmazonProducts(query) {
+            const response = await fetch(API_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'searchProducts',
+                    query: query
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('商品検索エラー');
+            }
+            
+            const data = await response.json();
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            return data.products || [];
+        }
+        
+        function extractCleaningKeywords(query) {
+            // 簡単なキーワード抽出（実際はもっと高度な処理が必要）
+            const keywords = [];
+            if (query.includes('換気扇')) keywords.push('換気扇', '油汚れ', 'クリーナー');
+            if (query.includes('浴槽') || query.includes('風呂')) keywords.push('風呂', '浴室', 'カビ', '水垢');
+            if (query.includes('窓')) keywords.push('窓', 'ガラス', 'クリーナー');
+            if (query.includes('トイレ')) keywords.push('トイレ', '便器', '尿石');
+            if (query.includes('キッチン')) keywords.push('キッチン', '油汚れ', 'コンロ');
+            
+            return keywords;
+        }
+        
+        function displayProducts(products) {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}" class="product-image">
+                    <h4 class="product-title">${product.title}</h4>
+                    <p class="product-price">${product.price}</p>
+                    <p class="product-rating">★ ${product.rating}</p>
+                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="buy-button">Amazonで見る</a>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+    </script>
+</body>
+</html>
