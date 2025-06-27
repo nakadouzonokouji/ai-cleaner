@@ -1337,7 +1337,7 @@
           method.steps.forEach((step, index) => {
               html += `
                   <div class="flex items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                      <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0">
+                      <div class="bg-blue-600 text-white rounded-full w-auto h-auto px-2 py-1 flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0">
                           ${index + 1}
                       </div>
                       <p class="text-gray-800 font-medium">${step}</p>
