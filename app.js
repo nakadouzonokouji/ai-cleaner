@@ -131,8 +131,6 @@
           this.showDetailedLocationSelection(mainLocationId);
       }
 
-      }
-
       // 成功通知表示
       showSuccessNotification(message) {
           try {
