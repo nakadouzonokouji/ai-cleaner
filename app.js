@@ -909,255 +909,150 @@
           };
       }
 
-      // 🛒 おすすめ商品取得
-      // 🛒 おすすめ商品取得（3カテゴリ完全対応版）
-      getRecommendedProducts(dirtType) {
+      // 🛒 おすすめ商品取得（Amazon PA-API連携版）
+      async getRecommendedProducts(dirtType) {
           console.log(`🛒 商品取得: ${dirtType}`);
-          
-          // COMPREHENSIVE_PRODUCT_DATABASEを使用してより多くの商品を取得
-          if (typeof window.ULTIMATE_PRODUCT_MATCHER !== 'undefined') {
-              const products = window.ULTIMATE_PRODUCT_MATCHER.getProducts(dirtType, this.state.preSelectedLocation);
-              if (products && products.cleaners && products.cleaners.length > 0) {
-                  console.log(`✅ スマート商品選択: ${products.cleaners.length}個の洗剤, ${products.tools ? products.tools.length : 0}個のツール, ${products.protection ? products.protection.length : 0}個の保護具`);
-                  return products;
-              }
+
+          if (typeof window.ULTIMATE_PRODUCT_MATCHER === 'undefined' || typeof window.amazonAPI === 'undefined') {
+              console.warn('⚠️ ULTIMATE_PRODUCT_MATCHER または amazonAPI が未定義です。フォールバックデータを使用します。');
+              // フォールバック用の3カテゴリ商品マップ（必ず3カテゴリ返す）
+              const productMap = {
+                  '油汚れ': {
+                      cleaners: [
+                          { asin: "B000TGNG0W", name: "花王 マジックリン ハンディスプレー 400ml", badge: "🏆 換気扇No.1", emoji: "🧴", price: "¥398", rating: 4.3, reviews: 2847, url: "https://www.amazon.co.jp/dp/B000TGNG0W?tag=defaulttag-22" },
+                          { asin: "B01GDWX0Q4", name: "ライオン ママレモン 大容量 800ml", badge: "💪 強力洗浄", emoji: "🍋", price: "¥598", rating: 4.4, reviews: 3456, url: "https://www.amazon.co.jp/dp/B01GDWX0Q4?tag=defaulttag-22" },
+                          { asin: "B07K8ZRJYX", name: "重曹ちゃん キッチン泡スプレー 300ml", badge: "🌿 天然成分", emoji: "💚", price: "¥298", rating: 4.1, reviews: 1234, url: "https://www.amazon.co.jp/dp/B07K8ZRJYX?tag=defaulttag-22" }
+                      ],
+                      tools: [
+                          { asin: "B07D7BXQZX", name: "換気扇 専用ブラシセット 3本組", badge: "🪥 換気扇専用", emoji: "🪥", price: "¥798", rating: 4.0, reviews: 654, url: "https://www.amazon.co.jp/dp/B07D7BXQZX?tag=defaulttag-22" },
+                          { asin: "B01LWYQPNY", name: "金属たわし ステンレス製 5個セット", badge: "💪 強力研磨", emoji: "🧽", price: "¥398", rating: 4.1, reviews: 543, url: "https://www.amazon.co.jp/dp/B01LWYQPNY?tag=defaulttag-22" }
+                      ],
+                      protection: [
+                          { asin: "B07GWXSXF1", name: "ニトリル手袋 キッチン用 50枚入", badge: "🧤 手保護", emoji: "🧤", price: "¥598", rating: 4.5, reviews: 2341, url: "https://www.amazon.co.jp/dp/B07GWXSXF1?tag=defaulttag-22" }
+                      ]
+                  },
+                  'カビ汚れ': {
+                      cleaners: [
+                          { asin: "B000FQTJZW", name: "ジョンソン カビキラー 400g", badge: "🏆 カビ除去No.1", emoji: "🦠", price: "¥298", rating: 4.4, reviews: 3456, url: "https://www.amazon.co.jp/dp/B000FQTJZW?tag=defaulttag-22" },
+                          { asin: "B01N5P8B4V", name: "ジョンソン カビキラー 電動スプレー 750ml", badge: "💪 密着ジェル", emoji: "🧪", price: "¥498", rating: 4.2, reviews: 1987, url: "https://www.amazon.co.jp/dp/B01N5P8B4V?tag=defaulttag-22" },
+                          { asin: "B078KS3NGF", name: "カビキラー 除菌@キッチン泡スプレー 400ml", badge: "🛡️ 予防効果", emoji: "✨", price: "¥598", rating: 4.0, reviews: 567, url: "https://www.amazon.co.jp/dp/B078KS3NGF?tag=defaulttag-22" }
+                      ],
+                      tools: [
+                          { asin: "B07BQFJ5K9", name: "山崎産業 ユニットバスボンくん 抗菌タイプ", badge: "🪥 隙間対応", emoji: "🪥", price: "¥498", rating: 4.2, reviews: 876, url: "https://www.amazon.co.jp/dp/B07BQFJ5K9?tag=defaulttag-22" }
+                      ],
+                      protection: [
+                          { asin: "B073C4QRLS", name: "ショーワグローブ No.281 テムレス", badge: "🧤 化学品対応", emoji: "🧤", price: "¥398", rating: 4.2, reviews: 987, url: "https://www.amazon.co.jp/dp/B073C4QRLS?tag=defaulttag-22" }
+                      ]
+                  },
+                  '水垢汚れ': {
+                      cleaners: [
+                          { asin: "B07Q9ZKQHZ", name: "茂木和哉 水垢洗剤 200ml", badge: "🏆 水垢専門", emoji: "💎", price: "¥1,298", rating: 4.6, reviews: 2134, url: "https://www.amazon.co.jp/dp/B07Q9ZKQHZ?tag=defaulttag-22" },
+                          { asin: "B08P8FHYRT", name: "花王 マジックリン バスマジックリン 泡立ちスプレー SUPER CLEAN", badge: "🍋 天然成分", emoji: "🍋", price: "¥398", rating: 4.1, reviews: 987, url: "https://www.amazon.co.jp/dp/B08P8FHYRT?tag=defaulttag-22" }
+                      ],
+                      tools: [
+                          { asin: "B075FZ7MGH", name: "レック ダイヤモンドクリーナー", badge: "💎 研磨効果", emoji: "💎", price: "¥698", rating: 4.5, reviews: 432, url: "https://www.amazon.co.jp/dp/B075FZ7MGH?tag=defaulttag-22" }
+                      ],
+                      protection: []
+                  },
+                  'ホコリ': {
+                      cleaners: [
+                          { asin: "B00EOHQPHC", name: "花王 クイックルワイパー 立体吸着ドライシート 40枚", badge: "🏆 床掃除No.1", emoji: "🧹", price: "¥598", rating: 4.5, reviews: 4567, url: "https://www.amazon.co.jp/dp/B00EOHQPHC?tag=defaulttag-22" },
+                          { asin: "B07NBA84F5", name: "クイックルワイパー ウエットシート 32枚", badge: "💧 水拭き効果", emoji: "💧", price: "¥498", rating: 4.3, reviews: 3210, url: "https://www.amazon.co.jp/dp/B07NBA84F5?tag=defaulttag-22" }
+                      ],
+                      tools: [
+                          { asin: "B005AILJ3O", name: "花王 クイックルワイパー 本体 + シート", badge: "🧹 フローリング対応", emoji: "🧹", price: "¥1,298", rating: 4.4, reviews: 2876, url: "https://www.amazon.co.jp/dp/B005AILJ3O?tag=defaulttag-22" }
+                      ],
+                      protection: []
+                  }
+              };
+
+              const defaultProduct = productMap[dirtType] || {
+                  cleaners: [
+                      { asin: "B000TGNG0W", name: "マルチクリーナー 汎用洗剤", badge: "🔄 汎用", emoji: "🧽", price: "¥298", rating: 4.0, reviews: 1000, url: "https://www.amazon.co.jp/dp/B000TGNG0W?tag=defaulttag-22" },
+                      { asin: "B08XKJM789", name: "中性洗剤 万能タイプ 500ml", badge: "🏠 家庭用", emoji: "🧴", price: "¥398", rating: 4.2, reviews: 1500, url: "https://www.amazon.co.jp/dp/B08XKJM789?tag=defaulttag-22" }
+                  ],
+                  tools: [
+                      { asin: "B00OOCWP44", name: "レック 激落ちくん メラミンスポンジ 20個", badge: "🫧 研磨効果", emoji: "🧽", price: "¥248", rating: 4.6, reviews: 5432, url: "https://www.amazon.co.jp/dp/B00OOCWP44?tag=defaulttag-22" }
+                  ],
+                  protection: [
+                      { asin: "B04GHI2345", name: "ニトリル手袋 家庭用 50枚入", badge: "🧤 手保護", emoji: "🧤", price: "¥598", rating: 4.5, reviews: 2341, url: "https://www.amazon.co.jp/dp/B04GHI2345?tag=defaulttag-22" }
+                  ]
+              };
+              console.log(`✅ フォールバック商品返却: 洗剤${defaultProduct.cleaners.length}個, ツール${defaultProduct.tools ? defaultProduct.tools.length : 0}個, 保護具${defaultProduct.protection ? defaultProduct.protection.length : 0}個`);
+              return defaultProduct;
           }
-          
-          // フォールバック用の3カテゴリ商品マップ（必ず3カテゴリ返す）
-          const productMap = {
-              '油汚れ': {
-                  cleaners: [
-                      {
-                          asin: "B000E6G8K2",
-                          name: "花王 マジックリン ハンディスプレー 400ml",
-                          badge: "🏆 換気扇No.1",
-                          emoji: "🧴",
-                          price: "¥398",
-                          rating: 4.3,
-                          reviews: 2847
-                      },
-                      {
-                          asin: "B01GDWX0Q4",
-                          name: "ライオン ママレモン 大容量 800ml",
-                          badge: "💪 強力洗浄",
-                          emoji: "🍋",
-                          price: "¥598",
-                          rating: 4.4,
-                          reviews: 3456
-                      },
-                      {
-                          asin: "B07K8ZRJYX",
-                          name: "重曹ちゃん キッチン泡スプレー 300ml",
-                          badge: "🌿 天然成分",
-                          emoji: "💚",
-                          price: "¥298",
-                          rating: 4.1,
-                          reviews: 1234
-                      }
-                  ],
-                  tools: [
-                      {
-                          asin: "B07D7BXQZX",
-                          name: "換気扇 専用ブラシセット 3本組",
-                          badge: "🪥 換気扇専用",
-                          emoji: "🪥",
-                          price: "¥798",
-                          rating: 4.0,
-                          reviews: 654
-                      },
-                      {
-                          asin: "B01LWYQPNY",
-                          name: "金属たわし ステンレス製 5個セット",
-                          badge: "💪 強力研磨",
-                          emoji: "🧽",
-                          price: "¥398",
-                          rating: 4.1,
-                          reviews: 543
-                      }
-                  ],
-                  protection: [
-                      {
-                          asin: "B07GWXSXF1",
-                          name: "ニトリル手袋 キッチン用 50枚入",
-                          badge: "🧤 手保護",
-                          emoji: "🧤",
-                          price: "¥598",
-                          rating: 4.5,
-                          reviews: 2341
-                      }
-                  ]
-              },
-              'カビ汚れ': {
-                  cleaners: [
-                      {
-                          asin: "B000FQTJZW",
-                          name: "ジョンソン カビキラー 400g",
-                          badge: "🏆 カビ除去No.1",
-                          emoji: "🦠",
-                          price: "¥298",
-                          rating: 4.4,
-                          reviews: 3456
-                      },
-                      {
-                          asin: "B01N5P8B4V",
-                          name: "ジョンソン カビキラー 電動スプレー 750ml",
-                          badge: "💪 密着ジェル",
-                          emoji: "🧪",
-                          price: "¥498",
-                          rating: 4.2,
-                          reviews: 1987
-                      },
-                      {
-                          asin: "B078KS3NGF",
-                          name: "カビキラー 除菌@キッチン泡スプレー 400ml",
-                          badge: "🛡️ 予防効果",
-                          emoji: "✨",
-                          price: "¥598",
-                          rating: 4.0,
-                          reviews: 567
-                      }
-                  ],
-                  tools: [
-                      {
-                          asin: "B07BQFJ5K9",
-                          name: "山崎産業 ユニットバスボンくん 抗菌タイプ",
-                          badge: "🪥 隙間対応",
-                          emoji: "🪥",
-                          price: "¥498",
-                          rating: 4.2,
-                          reviews: 876
-                      }
-                  ],
-                  protection: [
-                      {
-                          asin: "B073C4QRLS",
-                          name: "ショーワグローブ No.281 テムレス",
-                          badge: "🧤 化学品対応",
-                          emoji: "🧤",
-                          price: "¥398",
-                          rating: 4.2,
-                          reviews: 987
-                      }
-                  ]
-              },
-              '水垢汚れ': {
-                  cleaners: [
-                      {
-                          asin: "B07Q9ZKQHZ",
-                          name: "茂木和哉 水垢洗剤 200ml",
-                          badge: "🏆 水垢専門",
-                          emoji: "💎",
-                          price: "¥1,298",
-                          rating: 4.6,
-                          reviews: 2134
-                      },
-                      {
-                          asin: "B08P8FHYRT",
-                          name: "花王 マジックリン バスマジックリン 泡立ちスプレー SUPER CLEAN",
-                          badge: "🍋 天然成分",
-                          emoji: "🍋",
-                          price: "¥398",
-                          rating: 4.1,
-                          reviews: 987
-                      }
-                  ],
-                  tools: [
-                      {
-                          asin: "B075FZ7MGH",
-                          name: "レック ダイヤモンドクリーナー",
-                          badge: "💎 研磨効果",
-                          emoji: "💎",
-                          price: "¥698",
-                          rating: 4.5,
-                          reviews: 432
-                      }
-                  ],
-                  protection: []
-              },
-              'ホコリ': {
-                  cleaners: [
-                      {
-                          asin: "B00EOHQPHC",
-                          name: "花王 クイックルワイパー 立体吸着ドライシート 40枚",
-                          badge: "🏆 床掃除No.1",
-                          emoji: "🧹",
-                          price: "¥598",
-                          rating: 4.5,
-                          reviews: 4567
-                      },
-                      {
-                          asin: "B07NBA84F5",
-                          name: "クイックルワイパー ウエットシート 32枚",
-                          badge: "💧 水拭き効果",
-                          emoji: "💧",
-                          price: "¥498",
-                          rating: 4.3,
-                          reviews: 3210
-                      }
-                  ],
-                  tools: [
-                      {
-                          asin: "B005AILJ3O",
-                          name: "花王 クイックルワイパー 本体 + シート",
-                          badge: "🧹 フローリング対応",
-                          emoji: "🧹",
-                          price: "¥1,298",
-                          rating: 4.4,
-                          reviews: 2876
-                      }
-                  ],
-                  protection: []
-              }
+
+          const staticProducts = window.ULTIMATE_PRODUCT_MATCHER.getProducts(dirtType, this.state.preSelectedLocation);
+          if (!staticProducts || (!staticProducts.cleaners.length && !staticProducts.tools.length && !staticProducts.protection.length)) {
+              console.log('⚠️ ULTIMATE_PRODUCT_MATCHERから商品が見つかりませんでした。');
+              return { cleaners: [], tools: [], protection: [] };
+          }
+
+          const allAsins = [
+              ...(staticProducts.cleaners || []).map(p => p.asin),
+              ...(staticProducts.tools || []).map(p => p.asin),
+              ...(staticProducts.protection || []).map(p => p.asin)
+          ].filter(Boolean); // nullやundefinedを除外
+
+          if (allAsins.length === 0) {
+              console.log('ℹ️ 取得すべきASINがありません。');
+              return { cleaners: [], tools: [], protection: [] };
+          }
+
+          let realTimeProductsData = {};
+          try {
+              realTimeProductsData = await window.amazonAPI.getItems(allAsins);
+              console.log('✅ Amazon PA-APIからリアルタイム商品データを取得しました。', realTimeProductsData);
+          } catch (error) {
+              console.error('💥 Amazon PA-APIからの商品データ取得に失敗しました。フォールバックデータを使用します。', error);
+              // エラー時はCOMPREHENSIVE_FALLBACK_DATAを使用
+              allAsins.forEach(asin => {
+                  if (window.COMPREHENSIVE_FALLBACK_DATA[asin]) {
+                      realTimeProductsData[asin] = window.COMPREHENSIVE_FALLBACK_DATA[asin];
+                      realTimeProductsData[asin].url = `https://www.amazon.co.jp/dp/${asin}?tag=${window.AMAZON_CONFIG.associateTag || 'defaulttag-22'}`;
+                      realTimeProductsData[asin].isRealData = false;
+                  }
+              });
+          }
+
+          const mergeProductData = (staticList, realTimeMap) => {
+              return (staticList || []).map(staticProduct => {
+                  const realTime = realTimeMap[staticProduct.asin];
+                  if (realTime) {
+                      return {
+                          ...staticProduct,
+                          name: realTime.title || staticProduct.name,
+                          price: realTime.price || staticProduct.price,
+                          rating: realTime.rating || staticProduct.rating,
+                          reviews: realTime.reviewCount || staticProduct.reviews,
+                          url: realTime.url || staticProduct.url,
+                          images: realTime.images || staticProduct.images,
+                          isRealData: realTime.isRealData !== undefined ? realTime.isRealData : true
+                      };
+                  }
+                  // リアルタイムデータがない場合は、静的データにフォールバックデータをマージ
+                  const fallback = window.COMPREHENSIVE_FALLBACK_DATA[staticProduct.asin];
+                  return {
+                      ...staticProduct,
+                      name: fallback?.name || staticProduct.name,
+                      price: fallback?.price || staticProduct.price,
+                      rating: fallback?.rating || staticProduct.rating,
+                      reviews: fallback?.reviews || staticProduct.reviews,
+                      url: `https://www.amazon.co.jp/dp/${staticProduct.asin}?tag=${window.AMAZON_CONFIG.associateTag || 'defaulttag-22'}`,
+                      images: fallback?.images || staticProduct.images,
+                      isRealData: false
+                  };
+              });
           };
 
-          // デフォルト値で必ず3カテゴリを返す
-          const defaultProduct = productMap[dirtType] || {
-              cleaners: [
-                  {
-                      asin: "B000TGNG0W",
-                      name: "マルチクリーナー 汎用洗剤",
-                      badge: "🔄 汎用",
-                      emoji: "🧽",
-                      price: "¥298",
-                      rating: 4.0,
-                      reviews: 1000
-                  },
-                  {
-                      asin: "B08XKJM789",
-                      name: "中性洗剤 万能タイプ 500ml",
-                      badge: "🏠 家庭用",
-                      emoji: "🧴",
-                      price: "¥398",
-                      rating: 4.2,
-                      reviews: 1500
-                  }
-              ],
-              tools: [
-                  {
-                      asin: "B00OOCWP44",
-                      name: "レック 激落ちくん メラミンスポンジ 20個",
-                      badge: "🫧 研磨効果",
-                      emoji: "🧽",
-                      price: "¥248",
-                      rating: 4.6,
-                      reviews: 5432
-                  }
-              ],
-              protection: [
-                  {
-                      asin: "B04GHI2345",
-                      name: "ニトリル手袋 家庭用 50枚入",
-                      badge: "🧤 手保護",
-                      emoji: "🧤",
-                      price: "¥598",
-                      rating: 4.5,
-                      reviews: 2341
-                  }
-              ]
+          const mergedProducts = {
+              cleaners: mergeProductData(staticProducts.cleaners, realTimeProductsData),
+              tools: mergeProductData(staticProducts.tools, realTimeProductsData),
+              protection: mergeProductData(staticProducts.protection, realTimeProductsData)
           };
-          
-          console.log(`✅ 3カテゴリ商品返却: 洗剤${defaultProduct.cleaners.length}個, ツール${defaultProduct.tools ? defaultProduct.tools.length : 0}個, 保護具${defaultProduct.protection ? defaultProduct.protection.length : 0}個`);
-          return defaultProduct;
+
+          console.log(`✅ 最終商品リスト: 洗剤${mergedProducts.cleaners.length}個, ツール${mergedProducts.tools.length}個, 保護具${mergedProducts.protection.length}個`);
+          return mergedProducts;
       }
 
       // 📊 分析結果表示
@@ -1471,6 +1366,9 @@
                     <p>✅ 実際のユーザーレビューを参考に選定</p>
                     <p>✅ 洗剤・道具・保護具をセットで提案</p>
                 </div>
+            </div>
+            <div class="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-sm text-yellow-800 font-semibold">
+                ⚠️ 商品のご使用にあたっては、必ず商品の説明書に従ってください。
             </div>
         </div>`;
 
