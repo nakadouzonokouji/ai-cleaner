@@ -249,36 +249,35 @@
           console.log('🔧 基本イベントリスナー設定開始');
 
           // API設定関連
-          this.addEventListenerSafe('saveGeminiApiBtn', 'click', () => this.saveGeminiApiKey());
-          this.addEventListenerSafe('testGeminiApiBtn', 'click', () => this.testGeminiConnection());
-          this.addEventListenerSafe('toggleApiKeyVisibility', 'click', () => this.toggleApiKeyVisibility());
+          // this.addEventListenerSafe('saveGeminiApiBtn', 'click', () => this.saveGeminiApiKey());
+          // this.addEventListenerSafe('testGeminiApiBtn', 'click', () => this.testGeminiConnection());
+          // this.addEventListenerSafe('toggleApiKeyVisibility', 'click', () => this.toggleApiKeyVisibility());
 
           // デバッグ機能
-          this.addEventListenerSafe('testConnectionBtn', 'click', () => this.testAllConnections());
-          this.addEventListenerSafe('toggleDebugBtn', 'click', () => {
-              if (typeof window.debugUI !== 'undefined') {
-                  window.debugUI.toggleDebugLog();
-              }
-          });
-          this.addEventListenerSafe('exportConfigBtn', 'click', () => this.showExportModal());
-          this.addEventListenerSafe('clearLogBtn', 'click', () => {
-              if (typeof window.debugLogger !== 'undefined') {
-                  window.debugLogger.clear();
-              }
-          });
+          // this.addEventListenerSafe('testConnectionBtn', 'click', () => this.testAllConnections());
+          // this.addEventListenerSafe('toggleDebugBtn', 'click', () => {
+          //     if (typeof window.debugUI !== 'undefined') {
+          //         window.debugUI.toggleDebugLog();
+          //     }
+          // });
+          // this.addEventListenerSafe('exportConfigBtn', 'click', () => this.showExportModal());
+          // this.addEventListenerSafe('clearLogBtn', 'click', () => {
+          //     if (typeof window.debugLogger !== 'undefined') {
+          //         window.debugLogger.clear();
+          //     }
+          // });
 
           // カスタム場所入力
-          this.addEventListenerSafe('customLocation', 'input', (e) => {
-              this.state.customLocation = e.target.value;
-              this.updateSelectedLocationDisplay();
-              this.updateClearButtonVisibility();
-          });
+          // this.addEventListenerSafe('customLocation', 'input', (e) => {
+          //     this.state.customLocation = e.target.value;
+          //     this.updateSelectedLocationDisplay();
+          //     this.updateClearButtonVisibility();
+          // });
 
           // 分析実行
           // this.addEventListenerSafe('analyzeBtn', 'click', () => this.executeAnalysis());
 
           // 結果操作
-          this.addEventListenerSafe('correctionBtn', 'click', () => this.toggleCorrection());
           this.addEventListenerSafe('copyResultBtn', 'click', () => this.copyAnalysisResult());
           this.addEventListenerSafe('copyMethodBtn', 'click', () => this.copyCleaningMethod());
           this.addEventListenerSafe('refreshPricesBtn', 'click', () => this.refreshProductPrices());
@@ -290,26 +289,26 @@
           });
 
           // フィードバック
-          this.addEventListenerSafe('feedbackGoodBtn', 'click', () => this.showFeedbackModal('good'));
-          this.addEventListenerSafe('feedbackBadBtn', 'click', () => this.showFeedbackModal('bad'));
-          this.addEventListenerSafe('submitFeedback', 'click', () => this.submitFeedback());
-          this.addEventListenerSafe('skipFeedback', 'click', () => this.submitFeedback(''));
+          // this.addEventListenerSafe('feedbackGoodBtn', 'click', () => this.showFeedbackModal('good'));
+          // this.addEventListenerSafe('feedbackBadBtn', 'click', () => this.showFeedbackModal('bad'));
+          // this.addEventListenerSafe('submitFeedback', 'click', () => this.submitFeedback());
+          // this.addEventListenerSafe('skipFeedback', 'click', () => this.submitFeedback(''));
 
           // モーダル制御
-          this.addEventListenerSafe('closeFeedbackModal', 'click', () => this.closeFeedbackModal());
-          this.addEventListenerSafe('closeExportModal', 'click', () => this.closeExportModal());
-          this.addEventListenerSafe('copyConfigBtn', 'click', () => this.copyConfiguration());
+          // this.addEventListenerSafe('closeFeedbackModal', 'click', () => this.closeFeedbackModal());
+          // this.addEventListenerSafe('closeExportModal', 'click', () => this.closeExportModal());
+          // this.addEventListenerSafe('copyConfigBtn', 'click', () => this.copyConfiguration());
 
           // クリア機能
           this.addEventListenerSafe('clearBtn', 'click', () => this.clearAll());
 
           // モーダル外クリック
-          this.addEventListenerSafe('feedbackModal', 'click', (e) => {
-              if (e.target.id === 'feedbackModal') this.closeFeedbackModal();
-          });
-          this.addEventListenerSafe('exportModal', 'click', (e) => {
-              if (e.target.id === 'exportModal') this.closeExportModal();
-          });
+          // this.addEventListenerSafe('feedbackModal', 'click', (e) => {
+          //     if (e.target.id === 'feedbackModal') this.closeFeedbackModal();
+          // });
+          // this.addEventListenerSafe('exportModal', 'click', (e) => {
+          //     if (e.target.id === 'exportModal') this.closeExportModal();
+          // });
 
           // ESCキー
           document.addEventListener('keydown', (e) => {
