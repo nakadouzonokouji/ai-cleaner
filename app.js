@@ -586,17 +586,9 @@
       async executeAnalysis() {
           console.log('🚀 AI掃除方法生成開始（サーバーレス版）');
 
-          if (!this.state.selectedImage) {
-              this.showError('画像または場所が必要です', '画像をアップロードするか、場所を選択してください');
-              return;
-          }
-
           // カスタム場所の検証
           if (this.state.preSelectedLocation === 'custom' && !this.state.customLocation.trim()) {
-              const customValidation = document.getElementById('customValidation');
-              if (customValidation) {
-                  customValidation.classList.remove('hidden');
-              }
+              this.showError('入力エラー', 'カスタム場所を入力してください');
               return;
           }
 
