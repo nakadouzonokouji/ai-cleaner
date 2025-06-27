@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リビングの壁掃除 - AI掃除アドバイザー</title>
+    <meta name="description" content="リビングの壁の手垢や黒ずみをきれいにする方法を、AIが10ステップで詳しく解説。おすすめの洗剤や道具も紹介します。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .step-card {
+            border-left: 4px solid #3b82f6;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- ヘッダー -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <a href="../livingRoom.html" class="text-blue-600 hover:underline">&larr; リビングの場所を選び直す</a>
+            <h1 class="text-2xl font-bold text-gray-800 mt-2">リビングの壁掃除</h1>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- 掃除方法セクション -->
+            <section id="cleaning-method" class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">壁の徹底掃除ガイド</h2>
+                <!-- 掃除方法がここに動的に挿入されます -->
+            </section>
+
+            <!-- おすすめ商品セクション -->
+            <section id="recommended-products">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8">おすすめの掃除道具</h2>
+                <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 商品情報がここに動的に挿入されます -->
+                </div>
+                 <p class="text-xs text-gray-500 mt-4">※商品の価格や評価は変動する場合があります。最新の情報はAmazonのページでご確認ください。</p>
+                 <p class="text-xs text-gray-500 mt-2">※ご使用の際は、商品の説明書きに従ってください。</p>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2025 AI掃除アドバイザー. All Rights Reserved.</p>
+            <p class="text-gray-500 text-xs mt-2">
+                当サイトはAmazonアソシエイト・プログラムの参加者です。
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cleaningData = {
+                target: '壁',
+                dirtType: '手垢と黒ずみ',
+                steps: [
+                    "まず、はたきやドライシートで壁全体のホコリを上から下へ落とします。",
+                    "バケツにぬるま湯を入れ、中性洗剤を数滴溶かします。",
+                    "雑巾を浸して固く絞り、壁の下から上に向かって拭き上げます。液だれを防ぐためです。",
+                    "手垢や黒ずみが気になる部分は、セスキ炭酸ソーダ水をスプレーし、少し置いてから拭き取ります。",
+                    "スイッチ周りの黒ずみは、消しゴムで軽くこすると落ちることがあります。",
+                    "油性ペンの落書きなどは、エタノールを布に含ませて叩くようにして落とします。",
+                    "洗剤で拭いた後は、きれいな水で固く絞った雑巾で、洗剤成分をしっかりと拭き取ります。",
+                    "最後に、乾いた清潔な雑巾で壁全体の水分を乾拭きします。",
+                    "壁紙の種類によっては水拭きできないものもあるため、目立たない場所で試してから行いましょう。",
+                    "換気を良くして、壁を完全に乾燥させたら完了です。"
+                ]
+            };
+
+            const productAsins = [
+                'B07X9Y5W6C', // レック GN黒カビくん
+                'B00OOCWP44', // レック 激落ちくん
+                'B0012S42A2', // ドーバー パストリーゼ77
+                'B073C4QRLS', // ショーワグローブ No.281 テムレス
+                'B00553448K', // 3M スコッチブライト バスシャイン
+                'B001T4H5I4', // パックスナチュロン キッチンスポンジ
+                'B000FP2B2A', // リンレイ フローリングクリーナー
+                'B00EOHQPHC', // クイックルワイパー ドライシート
+                'B07NBA84F5', // クイックルワイパー ウエットシート
+                'B005AILJ3O'  // 花王 トイレマジックリン
+            ];
+
+            const methodContainer = document.getElementById('cleaning-method');
+            let methodHtml = '<div class="space-y-4">';
+            cleaningData.steps.forEach((step, index) => {
+                methodHtml += `
+                    <div class="step-card bg-white p-4 rounded-lg shadow-sm flex items-start">
+                        <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex-shrink-0 flex items-center justify-center font-bold mr-4">${index + 1}</div>
+                        <p class="text-gray-700">${step}</p>
+                    </div>`;
+            });
+            methodHtml += '</div>';
+            methodContainer.insertAdjacentHTML('beforeend', methodHtml);
+
+            const productsContainer = document.getElementById('products-container');
+            fetch(`/server/amazon-proxy.php?asins=${productAsins.join(',')}`)
+                .then(response => response.json())
+                .then(products => {
+                    let productsHtml = '';
+                    products.forEach(product => {
+                        productsHtml += `
+                        <div class="product-card bg-white rounded-lg shadow p-6 flex flex-col">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-contain mb-4 rounded">
+                            <h3 class="text-md font-bold text-gray-800 flex-grow">${product.name}</h3>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-xl font-bold text-red-600">${product.price}</span>
+                                <span class="text-sm text-gray-500">⭐ ${product.rating}</span>
+                            </div>
+                            <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="mt-4 block w-full bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-bold text-center py-2 px-4 rounded transition-colors">
+                                Amazonで見る
+                            </a>
+                        </div>`;
+                    });
+                    productsContainer.innerHTML = productsHtml;
+                })
+                .catch(error => {
+                    console.error('商品情報の取得に失敗しました:', error);
+                    productsContainer.innerHTML = '<p class="text-red-500">商品情報の読み込みに失敗しました。時間をおいて再度お試しください。</p>';
+                });
+        });
+    </script>
+
+</body>
+</html>
