@@ -793,7 +793,14 @@ const COMPREHENSIVE_LOCATION_CONFIG = {
         surface: '換気扇・キッチン',
         searchKeywords: ['キッチン', '換気扇', '油汚れ', 'コンロ', 'シンク'],
         difficulty: 'medium',
-        primaryCategories: ['kitchen_oil', 'kitchen_burnt', 'kitchen_slime']
+        primaryCategories: ['kitchen_oil', 'kitchen_burnt', 'kitchen_slime'],
+        detailedLocations: [
+            { id: 'kitchen-sink', label: 'シンク', emoji: '🚰' },
+            { id: 'kitchen-gasCooktop', label: 'ガスコンロ', emoji: '🔥' },
+            { id: 'kitchen-rangeHood', label: '換気扇', emoji: '🌬️' },
+            { id: 'kitchen-refrigerator', label: '冷蔵庫', emoji: '🧊' },
+            { id: 'kitchen-microwave', label: '電子レンジ', emoji: '♨️' }
+        ]
     },
     bathroom: { 
         label: '🛁 浴室・お風呂', 
@@ -801,7 +808,12 @@ const COMPREHENSIVE_LOCATION_CONFIG = {
         surface: '浴室・タイル',
         searchKeywords: ['浴室', 'お風呂', 'カビ', 'タイル', '水垢', '石鹸カス'],
         difficulty: 'medium',
-        primaryCategories: ['bathroom_mold', 'bathroom_scale', 'soap_scum']
+        primaryCategories: ['bathroom_mold', 'bathroom_scale', 'soap_scum'],
+        detailedLocations: [
+            { id: 'bathroom-bathtub', label: '浴槽', emoji: '🛀' },
+            { id: 'bathroom-floor', label: '床', emoji: '🦶' },
+            { id: 'bathroom-walls', label: '壁', emoji: '🧱' }
+        ]
     },
     toilet: { 
         label: '🚽 トイレ', 
@@ -809,7 +821,12 @@ const COMPREHENSIVE_LOCATION_CONFIG = {
         surface: '便器・陶器',
         searchKeywords: ['トイレ', '便器', '尿石', '黄ばみ'],
         difficulty: 'easy',
-        primaryCategories: ['toilet_general', 'toilet_urine']
+        primaryCategories: ['toilet_general', 'toilet_urine'],
+        detailedLocations: [
+            { id: 'toilet-bowl', label: '便器', emoji: '🚽' },
+            { id: 'toilet-floor', label: '床', emoji: '🦶' },
+            { id: 'toilet-walls', label: '壁', emoji: '🧱' }
+        ]
     },
     window: { 
         label: '🪟 窓・ガラス', 
@@ -817,7 +834,12 @@ const COMPREHENSIVE_LOCATION_CONFIG = {
         surface: '窓・ガラス',
         searchKeywords: ['窓', 'ガラス', '水垢', 'サッシ', '花粉'],
         difficulty: 'easy',
-        primaryCategories: ['window_scale', 'window_dust']
+        primaryCategories: ['window_scale', 'window_dust'],
+        detailedLocations: [
+            { id: 'window-glass', label: 'ガラス', emoji: '🪟' },
+            { id: 'window-screen', label: '網戸', emoji: '🕸️' },
+            { id: 'window-sash', label: 'サッシ', emoji: '🪚' }
+        ]
     },
     floor: { 
         label: '🧹 床・フローリング', 
@@ -825,7 +847,12 @@ const COMPREHENSIVE_LOCATION_CONFIG = {
         surface: '床・フローリング',
         searchKeywords: ['床', 'フローリング', 'ホコリ', '掃除機'],
         difficulty: 'easy',
-        primaryCategories: ['floor_dust', 'pet_hair']
+        primaryCategories: ['floor_dust', 'pet_hair'],
+        detailedLocations: [
+            { id: 'floor-wooden', label: 'フローリング', emoji: '🪵' },
+            { id: 'floor-carpet', label: 'カーペット', emoji: '🧶' },
+            { id: 'floor-tatami', label: '畳', emoji: '🌾' }
+        ]
     },
     aircon: {
         label: '❄️ エアコン',
@@ -833,7 +860,11 @@ const COMPREHENSIVE_LOCATION_CONFIG = {
         surface: 'エアコン・空調',
         searchKeywords: ['エアコン', 'フィルター', 'ホコリ', 'カビ'],
         difficulty: 'medium',
-        primaryCategories: ['aircon_dust', 'aircon_mold']
+        primaryCategories: ['aircon_dust', 'aircon_mold'],
+        detailedLocations: [
+            { id: 'aircon-filter', label: 'フィルター', emoji: '🌬️' },
+            { id: 'aircon-internal', label: '内部', emoji: '🌀' }
+        ]
     },
     washer: {
         label: '🧺 洗濯機',
@@ -841,7 +872,24 @@ const COMPREHENSIVE_LOCATION_CONFIG = {
         surface: '洗濯機・洗濯槽',
         searchKeywords: ['洗濯機', '洗濯槽', 'カビ', '臭い'],
         difficulty: 'medium',
-        primaryCategories: ['washer_mold', 'washer_scale']
+        primaryCategories: ['washer_mold', 'washer_scale'],
+        detailedLocations: [
+            { id: 'washer-tub', label: '洗濯槽', emoji: '🧺' },
+            { id: 'washer-drain', label: '排水口', emoji: '💧' }
+        ]
+    },
+    livingRoom: { 
+        label: '🛋️ リビング', 
+        dirtTypes: ['ホコリ', '手垢・指紋', 'ペットの毛'], 
+        surface: 'リビング全般',
+        searchKeywords: ['リビング', 'ソファ', 'テーブル', 'テレビ'],
+        difficulty: 'easy',
+        primaryCategories: ['floor_dust', 'pet_hair'],
+        detailedLocations: [
+            { id: 'livingRoom-walls', label: '壁', emoji: '🧱' },
+            { id: 'livingRoom-sofa', label: 'ソファ', emoji: '🛋️' },
+            { id: 'livingRoom-table', label: 'テーブル', emoji: ' میز' }
+        ]
     },
     custom: { 
         label: '✏️ その他（自由記述）', 

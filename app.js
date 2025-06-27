@@ -1,4 +1,4 @@
-/**
+  /**
    * AI掃除アドバイザー - メインアプリケーション（サーバーレス対応版）
    * CX Mainte © 2025
    *
@@ -127,8 +127,10 @@
           this.updateSelectedLocationDisplay();
           this.updateClearButtonVisibility();
 
-          // 場所が選択されたら自動で分析を実行
-          this.executeAnalysis();
+          // 場所が選択されたら詳細選択UIを表示
+          this.showDetailedLocationSelection(mainLocationId);
+      }
+
       }
 
       // 成功通知表示
@@ -485,6 +487,9 @@
           const uploadArea = document.getElementById('uploadArea');
           const analysisArea = document.getElementById('analysisArea');
           const customInput = document.getElementById('customInput');
+          const mainLocationSelection = document.getElementById('mainLocationSelection');
+          const detailedLocationSelection = document.getElementById('detailedLocationSelection');
+
 
           if (uploadArea) {
               uploadArea.classList.remove('hidden');
@@ -498,6 +503,13 @@
               customInput.classList.add('hidden');
               console.log('✅ カスタム入力非表示');
           }
+          if (mainLocationSelection) {
+              mainLocationSelection.classList.remove('hidden');
+          }
+          if (detailedLocationSelection) {
+              detailedLocationSelection.classList.add('hidden');
+          }
+
 
           const customLocation = document.getElementById('customLocation');
           if (customLocation) customLocation.value = '';
@@ -525,6 +537,87 @@
 
           console.log('✅ クリア完了');
           this.showSuccessNotification('すべてリセット完了');
+      }
+
+      // 詳細場所選択UIを表示
+      showDetailedLocationSelection(mainLocationId) {
+          const mainLocationSelection = document.getElementById('mainLocationSelection');
+          const detailedLocationSelection = document.getElementById('detailedLocationSelection');
+          const selectedMainLocationName = document.getElementById('selectedMainLocationName');
+          const detailedLocationButtons = document.getElementById('detailedLocationButtons');
+          const backToMainLocationSelection = document.getElementById('backToMainLocationSelection');
+
+          if (!mainLocationSelection || !detailedLocationSelection || !selectedMainLocationName || !detailedLocationButtons || !backToMainLocationSelection) {
+              console.error('⚠️ 詳細場所選択UIの要素が見つかりません。');
+              return;
+          }
+
+          // メイン選択を非表示
+          mainLocationSelection.classList.add('hidden');
+          // 分析エリアも非表示
+          document.getElementById('analysisArea')?.classList.add('hidden');
+
+          // 詳細選択UIのタイトルを更新
+          const locationConfig = window.COMPREHENSIVE_LOCATION_CONFIG[mainLocationId];
+          if (locationConfig) {
+              selectedMainLocationName.textContent = locationConfig.label;
+          }
+
+          // 詳細場所ボタンを動的に生成
+          detailedLocationButtons.innerHTML = ''; // 既存のボタンをクリア
+          const detailedLocations = locationConfig?.detailedLocations || [];
+
+          if (detailedLocations.length > 0) {
+              detailedLocations.forEach(detail => {
+                  const btn = document.createElement('div');
+                  btn.className = 'location-btn location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center';
+                  btn.setAttribute('data-location', detail.id);
+                  btn.innerHTML = `
+                      <span class="text-5xl mb-3">${detail.emoji}</span>
+                      <h3 class="text-xl font-bold text-gray-700">${detail.label}</h3>
+                  `;
+                  btn.addEventListener('click', () => this.selectDetailedLocation(detail.id));
+                  detailedLocationButtons.appendChild(btn);
+              });
+          } else {
+              // 詳細な場所がない場合は、大カテゴリ自体を詳細として扱う
+              const btn = document.createElement('div');
+              btn.className = 'location-btn location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center';
+              btn.setAttribute('data-location', mainLocationId);
+              btn.innerHTML = `
+                  <span class="text-5xl mb-3">${locationConfig.emoji || '✨'}</span>
+                  <h3 class="text-xl font-bold text-gray-700">${locationConfig.label}全体</h3>
+              `;
+              btn.addEventListener('click', () => this.selectDetailedLocation(mainLocationId));
+              detailedLocationButtons.appendChild(btn);
+          }
+
+          // 詳細選択UIを表示
+          detailedLocationSelection.classList.remove('hidden');
+
+          // 「大カテゴリ選択に戻る」ボタンのイベントリスナー
+          backToMainLocationSelection.onclick = () => this.resetToMainLocationSelection();
+      }
+
+      // 詳細場所選択処理
+      selectDetailedLocation(detailedLocationId) {
+          this.state.customLocation = detailedLocationId; // 詳細な場所をカスタムとして保存
+          this.state.preSelectedLocation = detailedLocationId.split('-')[0]; // 主要な場所を更新
+          this.updateSelectedLocationDisplay();
+          this.executeAnalysis();
+      }
+
+      // メイン場所選択に戻る
+      resetToMainLocationSelection() {
+          const mainLocationSelection = document.getElementById('mainLocationSelection');
+          const detailedLocationSelection = document.getElementById('detailedLocationSelection');
+          const analysisArea = document.getElementById('analysisArea');
+
+          if (mainLocationSelection) mainLocationSelection.classList.remove('hidden');
+          if (detailedLocationSelection) detailedLocationSelection.classList.add('hidden');
+          if (analysisArea) analysisArea.classList.add('hidden');
+
+          this.clearAll(); // 状態をリセット
       }
 
       // 🚫 結果非表示機能
