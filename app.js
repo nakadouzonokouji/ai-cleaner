@@ -612,14 +612,11 @@
           });
 
           try {
+              try {
               let analysisResult;
 
-              // サーバーレス版：常にローカル分析を実行
-              if (this.state.selectedImage !== 'no-photo') {
-                  // 画像ありの場合
-                  console.log('🖼️ 画像分析モード（ローカル）');
-                  analysisResult = await this.executeLocalImageAnalysis();
-              } else if (this.state.preSelectedLocation === 'custom' && this.state.customLocation.trim()) {
+              // サーバーレス版：常に場所ベースのローカル分析を実行
+              if (this.state.preSelectedLocation === 'custom' && this.state.customLocation.trim()) {
                   // カスタム場所の場合
                   console.log('✏️ カスタム場所分析モード');
                   analysisResult = await this.executeCustomLocationAnalysis();
@@ -627,6 +624,9 @@
                   // 事前選択場所の場合
                   console.log('📍 場所ベース分析モード');
                   analysisResult = await this.executeLocationBasedAnalysis();
+              } else {
+                  this.showError('場所選択が必要です', '掃除したい場所を選択してください');
+                  return;
               }
 
               if (analysisResult) {
@@ -1311,16 +1311,15 @@
             `;
             
             products.cleaners.forEach((product) => {
-                // 修正されたAmazon画像URL（複数パターンでフォールバック）
-                const imageUrl1 = `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
-                const imageUrl2 = `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
+                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
+                const imageUrl2 = product.images?.medium || `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
                 const imageUrl3 = `https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${product.asin}&Format=_SL160_&ID=AsinImage`;
                 
                 html += `
                     <div class="product-card border-2 border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
                         <div class="relative mb-4">
                             <img src="${imageUrl1}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg" 
-                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}">
+                                 onerror="this.src=\'${imageUrl2}\'; this.onerror=function(){this.src=\'${imageUrl3}\'; this.onerror=function(){this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';}}">
                             <div class="w-full h-40 bg-gray-50 rounded-lg flex items-center justify-center" style="display:none;">
                                 <div class="text-center">
                                     <div class="text-5xl mb-2">${product.emoji}</div>
@@ -1343,7 +1342,7 @@
                         
                         <div class="text-xs text-gray-500 mb-4">${product.reviews || '1000'}件のレビュー</div>
                         
-                        <button onclick="window.open('https://www.amazon.co.jp/dp/${product.asin}', '_blank')" 
+                        <button onclick="window.open('${product.url}', '_blank')" 
                                 class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 text-sm font-bold flex items-center justify-center shadow-lg">
                             🛒 Amazonで購入
                         </button>
@@ -1366,14 +1365,15 @@
             `;
             
             products.tools.forEach((product) => {
-                const imageUrl1 = `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
-                const imageUrl2 = `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
+                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
+                const imageUrl2 = product.images?.medium || `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
+                const imageUrl3 = `https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${product.asin}&Format=_SL160_&ID=AsinImage`;
                 
                 html += `
                     <div class="product-card border-2 border-green-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
                         <div class="relative mb-4">
                             <img src="${imageUrl1}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg" 
-                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}">
+                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}'">
                             <div class="w-full h-40 bg-gray-50 rounded-lg flex items-center justify-center" style="display:none;">
                                 <div class="text-center">
                                     <div class="text-5xl mb-2">${product.emoji}</div>
@@ -1396,7 +1396,7 @@
                         
                         <div class="text-xs text-gray-500 mb-4">${product.reviews || '1000'}件のレビュー</div>
                         
-                        <button onclick="window.open('https://www.amazon.co.jp/dp/${product.asin}', '_blank')" 
+                        <button onclick="window.open('${product.url}', '_blank')" 
                                 class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 text-sm font-bold flex items-center justify-center shadow-lg">
                             🛒 Amazonで購入
                         </button>
@@ -1419,14 +1419,15 @@
             `;
             
             products.protection.forEach((product) => {
-                const imageUrl1 = `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
-                const imageUrl2 = `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
+                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
+                const imageUrl2 = product.images?.medium || `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
+                const imageUrl3 = `https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${product.asin}&Format=_SL160_&ID=AsinImage`;
                 
                 html += `
                     <div class="product-card border-2 border-purple-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
                         <div class="relative mb-4">
                             <img src="${imageUrl1}" alt="${product.name}" class="w-full h-40 object-contain rounded-lg" 
-                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}">
+                                 onerror="this.src='${imageUrl2}'; this.onerror=function(){this.src='${imageUrl3}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}}'">
                             <div class="w-full h-40 bg-gray-50 rounded-lg flex items-center justify-center" style="display:none;">
                                 <div class="text-center">
                                     <div class="text-5xl mb-2">${product.emoji}</div>
@@ -1449,7 +1450,7 @@
                         
                         <div class="text-xs text-gray-500 mb-4">${product.reviews || '1000'}件のレビュー</div>
                         
-                        <button onclick="window.open('https://www.amazon.co.jp/dp/${product.asin}', '_blank')" 
+                        <button onclick="window.open('${product.url}', '_blank')" 
                                 class="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-200 text-sm font-bold flex items-center justify-center shadow-lg">
                             🛒 Amazonで購入
                         </button>
