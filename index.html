@@ -1,343 +1,86 @@
-  <!DOCTYPE html>
-  <html lang="ja">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>AI掃除アドバイザー - 高精度画像解析で最適な掃除方法を提案</title>
-      <script src="https://cdn.tailwindcss.com"></script>
-      <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-      <style>
-          .location-btn {
-              transition: all 0.3s ease;
-          }
-          .location-btn:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-          }
-          .animate-bounce-slow {
-              animation: bounce 2s infinite;
-          }
-          .gradient-bg {
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          }
-          .loading-spinner {
-              animation: spin 1s linear infinite;
-          }
-          @keyframes spin {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(360deg); }
-          }
-      </style>
-  </head>
-  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <!-- ヘッダー -->
-      <header class="gradient-bg text-white shadow-lg">
-          <div class="container mx-auto px-4 py-6">
-              <div class="flex items-center justify-center">
-                  <span class="text-3xl mr-3">🧹</span>
-                  <h1 class="text-2xl font-bold">AI掃除アドバイザー</h1>
-                  <span class="ml-4 text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full">高精度画像解析</span>
-              </div>
-          </div>
-      </header>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI掃除アドバイザー - 家中の掃除方法を簡単検索</title>
+    <meta name="description" content="キッチン、浴室、トイレなど、家中の気になる場所の掃除方法をAIがステップバイステップで解説。おすすめの洗剤や道具も紹介します。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .location-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .location-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
 
-      <div class="container mx-auto px-4 py-8 max-w-4xl">
-          <!-- メイン機能 -->
-          <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-              <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">
-                  <span class="mr-2">📸</span>画像をアップロードして汚れを分析
-              </h2>
+    <!-- ヘッダー -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl font-bold text-gray-800">AI掃除アドバイザー</h1>
+        </div>
+    </header>
 
-              <!-- アップロードエリア -->
-              <div id="uploadArea" class="mb-6">
-                  <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
-                      <input type="file" id="imageInput" accept="image/*" class="hidden">
-                      <label for="imageInput" class="cursor-pointer block">
-                          <div class="text-gray-600 mb-4">
-                              <span class="text-4xl block mb-2">📷</span>
-                              <span class="text-lg font-semibold">画像を選択してください</span>
-                              <p class="text-sm mt-2">JPG, PNG, GIF形式（自動で最適サイズに圧縮）</p>
-                          </div>
-                      </label>
-                  </div>
+    <!-- メインコンテンツ -->
+    <main class="container mx-auto px-6 py-12">
+        <section class="text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">お掃除したい場所はどこですか？</h2>
+            <p class="text-gray-600 mb-10">場所を選ぶだけで、AIが最適な掃除方法と道具をご提案します。</p>
+        </section>
 
-                  <!-- 写真スキップボタン -->
-                  <div class="text-center mt-4">
-                      <button id="skipPhotoBtn" class="text-blue-600 hover:text-blue-800 underline text-sm">
-                          📍 写真なしで場所のみで分析する
-                      </button>
-                  </div>
-              </div>
+        <section>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- キッチン -->
+                <a href="pages/kitchen.html" class="location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center">
+                    <span class="text-5xl mb-3">🍳</span>
+                    <h3 class="text-xl font-bold text-gray-700">キッチン</h3>
+                </a>
+                <!-- 浴室 -->
+                <a href="pages/bathroom.html" class="location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center">
+                    <span class="text-5xl mb-3">🛁</span>
+                    <h3 class="text-xl font-bold text-gray-700">浴室・お風呂</h3>
+                </a>
+                <!-- トイレ -->
+                <a href="pages/toilet.html" class="location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center">
+                    <span class="text-5xl mb-3">🚽</span>
+                    <h3 class="text-xl font-bold text-gray-700">トイレ</h3>
+                </a>
+                <!-- 床・フローリング -->
+                <a href="pages/floor.html" class="location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center">
+                    <span class="text-5xl mb-3">🏠</span>
+                    <h3 class="text-xl font-bold text-gray-700">床・フローリング</h3>
+                </a>
+                <!-- 窓 -->
+                <a href="pages/window.html" class="location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center">
+                    <span class="text-5xl mb-3">🪟</span>
+                    <h3 class="text-xl font-bold text-gray-700">窓・網戸</h3>
+                </a>
+                <!-- リビング -->
+                <a href="pages/livingRoom.html" class="location-card bg-white rounded-lg shadow p-6 text-center flex flex-col items-center justify-center">
+                    <span class="text-5xl mb-3">🛋️</span>
+                    <h3 class="text-xl font-bold text-gray-700">リビング</h3>
+                </a>
+            </div>
+        </section>
+    </main>
 
-              <!-- 分析エリア（画像アップロード後） -->
-              <div id="analysisArea" class="hidden mb-6">
-                  <div class="text-center">
-                      <img id="uploadedImage" class="w-full max-w-md mx-auto rounded-lg shadow-lg mb-4">
-                      <p class="text-green-600 font-semibold">✅ 画像アップロード完了</p>
-                  </div>
+    <!-- フッター -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2025 AI掃除アドバイザー. All Rights Reserved.</p>
+            <p class="text-gray-500 text-xs mt-2">
+                当サイトはAmazonアソシエイト・プログラムの参加者です。
+            </p>
+        </div>
+    </footer>
 
-                  <!-- 選択場所表示 -->
-                  <div id="selectedLocationDisplay" class="hidden mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                      <p class="font-semibold text-blue-800"></p>
-                  </div>
-              </div>
-
-              <!-- 場所選択 -->
-              <div class="mb-6">
-                  <h3 class="text-lg font-bold text-gray-800 mb-4">
-                      <span class="mr-2">📍</span>掃除する場所を選択してください
-                  </h3>
-
-                  <!-- 選択場所表示 -->
-                  <div id="selectedLocationText" class="hidden mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-800 font-semibold
-  text-center"></div>
-
-                  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="kitchen">
-                          <div class="text-2xl mb-1">🍳</div>
-                          <div class="font-semibold">キッチン</div>
-                      </button>
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="bathroom">
-                          <div class="text-2xl mb-1">🛁</div>
-                          <div class="font-semibold">浴室・お風呂</div>
-                      </button>
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="toilet">
-                          <div class="text-2xl mb-1">🚽</div>
-                          <div class="font-semibold">トイレ</div>
-                      </button>
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="floor">
-                          <div class="text-2xl mb-1">🏠</div>
-                          <div class="font-semibold">床・フローリング</div>
-                      </button>
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="window">
-                          <div class="text-2xl mb-1">🪟</div>
-                          <div class="font-semibold">窓・ガラス</div>
-                      </button>
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="living">
-                          <div class="text-2xl mb-1">🛋️</div>
-                          <div class="font-semibold">リビング</div>
-                      </button>
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="washer">
-                          <div class="text-2xl mb-1">🧺</div>
-                          <div class="font-semibold">洗濯機</div>
-                      </button>
-                      <button class="location-btn p-3 border-2 rounded-lg transition-colors text-sm text-left border-gray-200 hover:border-blue-300
-  hover:bg-blue-50" data-location="custom">
-                          <div class="text-2xl mb-1">✏️</div>
-                          <div class="font-semibold">その他</div>
-                      </button>
-                  </div>
-
-                  <!-- カスタム場所入力 -->
-                  <div id="customInput" class="hidden mt-4">
-                      <input type="text" id="customLocation" placeholder="掃除したい場所を入力してください"
-                             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                      <div id="customValidation" class="hidden mt-2 p-2 bg-red-100 border border-red-300 rounded text-red-700 text-sm">
-                          場所を入力してください
-                      </div>
-                  </div>
-              </div>
-
-              <!-- 分析ボタン -->
-              <div id="analysisDisplay" class="text-center">
-                  <button id="analyzeBtn" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors
-  disabled:bg-gray-400 disabled:cursor-not-allowed">
-                      <span class="mr-2">🤖</span>AI掃除方法を生成
-                  </button>
-                  <button id="analyzeLoadingBtn" class="hidden bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold">
-                      <span class="loading-spinner mr-2 inline-block">⏳</span>AI分析中...
-                  </button>
-              </div>
-
-              <!-- クリアボタン -->
-              <div class="text-center mt-4">
-                  <button id="clearBtn" class="hidden text-gray-600 hover:text-gray-800 underline text-sm">
-                      🔄 すべてリセット
-                  </button>
-              </div>
-          </div>
-
-          <!-- エラー表示 -->
-          <div id="errorDisplay" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
-              <div class="flex items-center">
-                  <i data-lucide="alert-circle" class="w-5 h-5 mr-2"></i>
-                  <div>
-                      <p class="font-semibold"></p>
-                      <div id="errorDetails" class="hidden text-sm mt-1"></div>
-                  </div>
-              </div>
-          </div>
-
-          <!-- 分析結果 -->
-          <div id="analysisResults" class="hidden bg-white rounded-xl shadow-lg p-8 mb-8">
-              <div class="mb-6">
-                  <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                      <span class="mr-2">🔍</span>分析結果
-                  </h3>
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                      <div class="text-center p-4 bg-gray-50 rounded-lg">
-                          <div class="text-sm text-gray-600 mb-1">汚れタイプ</div>
-                          <div id="dirtTypeText" class="font-bold text-lg text-blue-600"></div>
-                      </div>
-                      <div class="text-center p-4 bg-gray-50 rounded-lg">
-                          <div class="text-sm text-gray-600 mb-1">対象箇所</div>
-                          <div id="surfaceText" class="font-bold text-lg text-green-600"></div>
-                      </div>
-                      <div class="text-center p-4 bg-gray-50 rounded-lg">
-                          <div class="text-sm text-gray-600 mb-1">信頼度</div>
-                          <div id="confidenceText" class="font-bold text-lg text-purple-600"></div>
-                      </div>
-                  </div>
-              </div>
-
-              <!-- 掃除方法 -->
-              <div class="mb-8">
-                  <h4 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                      <span class="mr-2">🧹</span>おすすめ掃除方法
-                  </h4>
-                  <div id="cleaningMethodContent" class="space-y-4">
-                      <!-- 掃除方法がここに動的に表示されます -->
-                  </div>
-                  <div class="text-center mt-6">
-                      <button id="copyMethodBtn" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
-                          📋 掃除方法をコピー
-                      </button>
-                  </div>
-              </div>
-
-              <!-- 商品情報 -->
-              <div class="mb-8">
-                  <div class="flex items-center justify-between mb-4">
-                      <h4 class="text-xl font-bold text-gray-800 flex items-center">
-                          <span class="mr-2">🛒</span>おすすめ商品
-                      </h4>
-                      <button id="refreshPricesBtn" class="text-blue-600 hover:text-blue-800 text-sm underline">
-                          🔄 価格を更新
-                      </button>
-                  </div>
-                  <div id="productsContent">
-                      <!-- 商品情報がここに動的に表示されます -->
-                  </div>
-              </div>
-
-              <!-- 操作ボタン -->
-              <div class="flex flex-wrap justify-center gap-4 mb-6">
-                  <button id="correctionBtn" class="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors flex
-  items-center">
-                      <span class="mr-2">🔧</span>修正・追加情報
-                  </button>
-                  <button id="copyResultBtn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors flex
-  items-center">
-                      <span class="mr-2">📋</span>結果をコピー
-                  </button>
-              </div>
-
-              <!-- 修正オプション（非表示） -->
-              <div id="correctionOptions" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-                  <h5 class="font-bold text-yellow-800 mb-4">修正・追加分析</h5>
-                  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <button class="correction-option bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg text-sm"
-  data-type="more-dirt">
-                          🔍 他の汚れも検出
-                      </button>
-                      <button class="correction-option bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg text-sm"
-  data-type="stronger">
-                          💪 より強力な方法
-                      </button>
-                      <button class="correction-option bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg text-sm"
-  data-type="gentler">
-                          🌱 より優しい方法
-                      </button>
-                      <button class="correction-option bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg text-sm"
-  data-type="budget">
-                          💰 コスト重視
-                      </button>
-                  </div>
-              </div>
-
-              <!-- フィードバック -->
-              <div class="text-center">
-                  <div id="feedbackStatus" class="hidden mb-4 p-3 bg-green-100 border border-green-200 rounded-lg text-green-700 font-semibold">
-                      ✅ フィードバックありがとうございます！
-                  </div>
-                  <p class="text-gray-600 mb-4">この結果は参考になりましたか？</p>
-                  <div class="flex justify-center gap-4">
-                      <button id="feedbackGoodBtn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors flex
-  items-center">
-                          <span class="mr-2">👍</span>参考になった
-                      </button>
-                      <button id="feedbackBadBtn" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors flex
-  items-center">
-                          <span class="mr-2">👎</span>改善が必要
-                      </button>
-                  </div>
-              </div>
-          </div>
-
-          <!-- 使い方ガイド -->
-          <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
-              <h3 class="text-lg font-bold text-gray-800 mb-4">
-                  <span class="mr-2">💡</span>使い方
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                  <div class="text-center p-4 bg-gray-50 rounded-lg">
-                      <div class="text-2xl mb-2">1️⃣</div>
-                      <div class="font-semibold mb-1">画像をアップロード</div>
-                      <div class="text-gray-600">掃除したい汚れの写真を撮影してアップロード</div>
-                  </div>
-                  <div class="text-center p-4 bg-gray-50 rounded-lg">
-                      <div class="text-2xl mb-2">2️⃣</div>
-                      <div class="font-semibold mb-1">場所を選択</div>
-                      <div class="text-gray-600">キッチン、浴室など掃除する場所を選択</div>
-                  </div>
-                  <div class="text-center p-4 bg-gray-50 rounded-lg">
-                      <div class="text-2xl mb-2">3️⃣</div>
-                      <div class="font-semibold mb-1">AI分析実行</div>
-                      <div class="text-gray-600">最適な掃除方法と商品をAIが提案</div>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <!-- フッター -->
-      <footer class="bg-gray-800 text-white py-8 mt-12">
-          <div class="container mx-auto px-4 text-center">
-              <div class="mb-4">
-                  <span class="text-2xl mr-2">🧹</span>
-                  <span class="text-lg font-semibold">AI掃除アドバイザー</span>
-              </div>
-              <div class="text-sm text-gray-400">
-                  <p>© 2025 CX Mainte. Powered by Gemini AI & Amazon PA-API</p>
-                  <p class="mt-1">高精度画像解析による最適な掃除方法をご提案します</p>
-              </div>
-          </div>
-      </footer>
-
-      <!-- モーダル群 -->
-      <!-- フィードバックモーダル -->
-      <div id="feedbackModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-              <h3 class="text-lg font-bold mb-4">詳細なフィードバック</h3>
-              <textarea id="feedbackText" class="w-full p-3 border border-gray-300 rounded-lg resize-none" rows="4"
-  placeholder="改善点や要望があれば教えてください（任意）"></textarea>
-              <div class="flex justify-end gap-3 mt-4">
-                  <button id="closeFeedbackModal" class="px-4 py-2 text-gray-600 hover:text-gray-800">キャンセル</button>
-                  <button id="skipFeedback" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">スキップ</button>
-                  <button id="submitFeedback" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">送信</button>
-              </div>
-          </div>
-      </div>
-
-      <!-- JavaScript -->
-      <script src="config.js"></script>
-      <script src="app.js"></script>
-      <script src="debug.js"></script>
-  </body>
-  </html>
+</body>
+</html>
