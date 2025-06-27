@@ -55,6 +55,9 @@
           // 3. アイコンとUI初期化
           this.initializeLucideIcons();
           this.updateUI();
+
+          // 4. URLパラメータから場所を自動選択
+          this.checkUrlForLocation();
       }
 
 
@@ -104,21 +107,28 @@
               return;
           }
 
+          // 詳細な場所IDから主要な場所IDを抽出
+          const mainLocationId = locationId.split('-')[0];
+
           // 状態を更新
-          this.state.preSelectedLocation = locationId;
+          this.state.preSelectedLocation = mainLocationId; // 主要な場所を保存
+          this.state.customLocation = locationId; // 詳細な場所をカスタムとして保存
 
           // 全ボタンをリセット
           this.resetAllLocationButtons();
 
           // 選択ボタンをハイライト
-          this.highlightSelectedButton(locationId);
+          this.highlightSelectedButton(mainLocationId); // 主要な場所をハイライト
 
           // カスタム入力の表示制御
-          this.handleCustomInput(locationId);
+          this.handleCustomInput(mainLocationId); // 主要な場所に基づいてカスタム入力を制御
 
           // UI更新
           this.updateSelectedLocationDisplay();
           this.updateClearButtonVisibility();
+
+          // 場所が選択されたら自動で分析を実行
+          this.executeAnalysis();
       }
 
       // 成功通知表示
@@ -283,12 +293,8 @@
               this.updateClearButtonVisibility();
           });
 
-          // 画像アップロード
-          this.addEventListenerSafe('imageInput', 'change', (e) => this.handleImageUpload(e));
-          this.addEventListenerSafe('skipPhotoBtn', 'click', () => this.skipPhotoUpload());
-
           // 分析実行
-          this.addEventListenerSafe('analyzeBtn', 'click', () => this.executeAnalysis());
+          // this.addEventListenerSafe('analyzeBtn', 'click', () => this.executeAnalysis());
 
           // 結果操作
           this.addEventListenerSafe('correctionBtn', 'click', () => this.toggleCorrection());
@@ -389,15 +395,13 @@
               }
 
               // 分析エリアでの表示
-              if (this.state.selectedImage) {
-                  const display = document.getElementById('selectedLocationDisplay');
-                  if (display) {
-                      const p = display.querySelector('p');
-                      if (p) {
-                          p.textContent = `📍 選択した場所: ${text.replace('選択中: ', '')}`;
-                      }
-                      display.classList.remove('hidden');
+              const display = document.getElementById('selectedLocationDisplay');
+              if (display) {
+                  const p = display.querySelector('p');
+                  if (p) {
+                      p.textContent = `📍 選択した場所: ${text.replace('選択中: ', '')}`;
                   }
+                  display.classList.remove('hidden');
               }
           } else {
               if (selectedLocationText) {
@@ -442,8 +446,18 @@
       updateClearButtonVisibility() {
           const clearBtn = document.getElementById('clearBtn');
           if (clearBtn) {
-              const shouldShow = this.state.selectedImage || this.state.preSelectedLocation || this.state.customLocation;
+              const shouldShow = this.state.preSelectedLocation || this.state.customLocation;
               clearBtn.classList.toggle('hidden', !shouldShow);
+          }
+      }
+
+      // URLパラメータから場所をチェックし、自動選択する
+      checkUrlForLocation() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const locationFromUrl = urlParams.get('location');
+          if (locationFromUrl) {
+              console.log(`URLパラメータから場所を検出: ${locationFromUrl}`);
+              this.selectLocation(locationFromUrl);
           }
       }
 
@@ -473,258 +487,7 @@
           }
       }
 
-      // 🖼️ 画像アップロード機能（自動圧縮対応版）
-      async handleImageUpload(event) {
-          const file = event.target.files[0];
-          if (!file) {
-              console.log('📷 ファイルが選択されていません');
-              return;
-          }
-
-          console.log(`📷 画像アップロード開始: ${file.name} (${Math.round(file.size/1024)}KB)`);
-
-          // ファイルタイプチェック
-          if (!file.type.startsWith('image/')) {
-              this.showError('ファイル形式エラー', '画像ファイルを選択してください');
-              return;
-          }
-
-          // 圧縮処理開始通知
-          if (file.size > 2 * 1024 * 1024) { // 2MB以上の場合
-              this.showCompressionNotification();
-          }
-
-          try {
-              // 自動画像圧縮
-              const compressedFile = await this.compressImage(file);
-              console.log(`✅ 画像圧縮完了: ${Math.round(file.size/1024)}KB → ${Math.round(compressedFile.size/1024)}KB`);
-
-              // 圧縮後のファイルを読み込み
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                  this.state.selectedImage = e.target.result;
-                  console.log('✅ 画像読み込み成功');
-
-                  const uploadedImage = document.getElementById('uploadedImage');
-                  if (uploadedImage) {
-                      uploadedImage.src = e.target.result;
-                      uploadedImage.style.display = 'block';
-                      console.log('✅ 画像表示完了');
-                  }
-
-                  // UI切り替え
-                  const uploadArea = document.getElementById('uploadArea');
-                  const analysisArea = document.getElementById('analysisArea');
-                  if (uploadArea) {
-                      uploadArea.classList.add('hidden');
-                      console.log('✅ アップロードエリア非表示');
-                  }
-                  if (analysisArea) {
-                      analysisArea.classList.remove('hidden');
-                      console.log('✅ 分析エリア表示');
-                  }
-
-                  this.updateSelectedLocationDisplay();
-                  this.updateClearButtonVisibility();
-                  this.hideResults();
-
-                  // 成功通知
-                  const originalSize = Math.round(file.size/1024);
-                  const compressedSize = Math.round(compressedFile.size/1024);
-                  if (originalSize > compressedSize) {
-                      this.showSuccessNotification(`画像アップロード完了 (${originalSize}KB→${compressedSize}KB)`);
-                  } else {
-                      this.showSuccessNotification('画像アップロード完了');
-                  }
-              };
-
-              reader.onerror = () => {
-                  console.error('💥 画像読み込みエラー');
-                  this.showError('画像読み込みエラー', 'ファイルの読み込みに失敗しました');
-              };
-
-              reader.readAsDataURL(compressedFile);
-
-          } catch (error) {
-              console.error('💥 画像圧縮エラー:', error);
-              this.showError('画像処理エラー', '画像の処理に失敗しました');
-          }
-      }
-
-      // 📦 画像自動圧縮機能
-      async compressImage(file, maxWidth = 1920, maxHeight = 1080, quality = 0.8) {
-          return new Promise((resolve) => {
-              // 小さいファイルはそのまま返す
-              if (file.size <= 2 * 1024 * 1024) { // 2MB以下
-                  resolve(file);
-                  return;
-              }
-
-              const canvas = document.createElement('canvas');
-              const ctx = canvas.getContext('2d');
-              const img = new Image();
-
-              img.onload = () => {
-                  // アスペクト比を維持してリサイズ
-                  let { width, height } = img;
-
-                  if (width > maxWidth || height > maxHeight) {
-                      const ratio = Math.min(maxWidth / width, maxHeight / height);
-                      width = Math.floor(width * ratio);
-                      height = Math.floor(height * ratio);
-                  }
-
-                  canvas.width = width;
-                  canvas.height = height;
-
-                  // 高品質な描画設定
-                  ctx.imageSmoothingEnabled = true;
-                  ctx.imageSmoothingQuality = 'high';
-
-                  // 画像を描画
-                  ctx.drawImage(img, 0, 0, width, height);
-
-                  // Blobに変換
-                  canvas.toBlob((blob) => {
-                      // 圧縮後も大きい場合は品質を下げて再圧縮
-                      if (blob.size > 5 * 1024 * 1024) { // 5MB超過
-                          canvas.toBlob((secondBlob) => {
-                              resolve(new File([secondBlob], file.name, {
-                                  type: 'image/jpeg',
-                                  lastModified: Date.now()
-                              }));
-                          }, 'image/jpeg', 0.6); // 品質60%
-                      } else {
-                          resolve(new File([blob], file.name, {
-                              type: 'image/jpeg',
-                              lastModified: Date.now()
-                          }));
-                      }
-                  }, 'image/jpeg', quality);
-              };
-
-              img.onerror = () => {
-                  console.warn('画像圧縮失敗 - 元ファイルを使用');
-                  resolve(file);
-              };
-
-              // 画像をロード
-              const reader = new FileReader();
-              reader.onload = (e) => img.src = e.target.result;
-              reader.readAsDataURL(file);
-          });
-      }
-
-      // 圧縮中通知
-      showCompressionNotification() {
-          try {
-              const notification = document.createElement('div');
-              notification.id = 'compressionNotification';
-              notification.style.cssText = `
-                  position: fixed;
-                  top: 20px;
-                  right: 20px;
-                  background: #3b82f6;
-                  color: white;
-                  padding: 15px 20px;
-                  border-radius: 8px;
-                  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                  z-index: 10000;
-                  font-weight: bold;
-                  max-width: 300px;
-              `;
-              notification.innerHTML = `
-                  <div style="display: flex; align-items: center;">
-                      <div style="margin-right: 10px;">
-                          <div style="width: 20px; height: 20px; border: 2px solid #ffffff; border-top: 2px solid transparent; border-radius: 50%;
-  animation: spin 1s linear infinite;"></div>
-                      </div>
-                      <div>
-                          <div>画像を最適化中...</div>
-                          <div style="font-size: 12px; opacity: 0.9; margin-top: 4px;">
-                              高速アップロードのため圧縮しています
-                          </div>
-                      </div>
-                  </div>
-              `;
-
-              // スピンアニメーション
-              const style = document.createElement('style');
-              style.textContent = `
-                  @keyframes spin {
-                      0% { transform: rotate(0deg); }
-                      100% { transform: rotate(360deg); }
-                  }
-              `;
-              document.head.appendChild(style);
-
-              document.body.appendChild(notification);
-
-              setTimeout(() => {
-                  const existing = document.getElementById('compressionNotification');
-                  if (existing) existing.remove();
-              }, 8000);
-          } catch (error) {
-              console.warn('圧縮通知表示エラー:', error);
-          }
-      }
-
-      // 📸 写真スキップ機能
-      skipPhotoUpload() {
-          console.log('📸 写真スキップ処理開始');
-
-          if (!this.state.preSelectedLocation) {
-              this.showError('場所選択が必要です', '掃除したい場所を選択してください');
-              return;
-          }
-
-          if (this.state.preSelectedLocation === 'custom' && !this.state.customLocation.trim()) {
-              const customValidation = document.getElementById('customValidation');
-              if (customValidation) {
-                  customValidation.classList.remove('hidden');
-              }
-              const customInput = document.getElementById('customLocation');
-              if (customInput) {
-                  customInput.focus();
-                  customInput.classList.add('error');
-                  setTimeout(() => customInput.classList.remove('error'), 2000);
-              }
-              return;
-          }
-
-          console.log('📍 写真なしで分析開始');
-          this.state.selectedImage = 'no-photo';
-
-          // UI切り替え
-          const uploadArea = document.getElementById('uploadArea');
-          const analysisArea = document.getElementById('analysisArea');
-          if (uploadArea) {
-              uploadArea.classList.add('hidden');
-              console.log('✅ アップロードエリア非表示');
-          }
-          if (analysisArea) {
-              analysisArea.classList.remove('hidden');
-              console.log('✅ 分析エリア表示');
-          }
-
-          const uploadedImage = document.getElementById('uploadedImage');
-          if (uploadedImage) uploadedImage.style.display = 'none';
-
-          this.updateSelectedLocationDisplay();
-          this.updateClearButtonVisibility();
-          this.hideResults();
-
-          // バリデーションメッセージを隠す
-          const customValidation = document.getElementById('customValidation');
-          if (customValidation) {
-              customValidation.classList.add('hidden');
-          }
-
-          // 成功通知
-          this.showSuccessNotification('写真なしで分析準備完了');
-      }
-
-      // 🗑️ クリア機能（完全版）
+      // 🎯 選択場所表示更新
       clearAll() {
           console.log('🔄 データクリア実行');
 
@@ -759,9 +522,6 @@
 
           const customLocation = document.getElementById('customLocation');
           if (customLocation) customLocation.value = '';
-
-          const imageInput = document.getElementById('imageInput');
-          if (imageInput) imageInput.value = '';
 
           const selectedLocationText = document.getElementById('selectedLocationText');
           const selectedLocationDisplay = document.getElementById('selectedLocationDisplay');
@@ -913,70 +673,35 @@
           // 事前選択場所の情報を取得
           let locationInfo = null;
           let dirtType = '油汚れ'; // デフォルト
-          let surface = 'キッチン'; // デフォルト
+          let surface = '対象箇所'; // デフォルト
 
-          if (this.state.preSelectedLocation && this.state.preSelectedLocation !== 'custom') {
-              // 場所設定ファイルが存在するかチェック
-              if (typeof window.COMPREHENSIVE_LOCATION_CONFIG !== 'undefined') {
-                  locationInfo = window.COMPREHENSIVE_LOCATION_CONFIG[this.state.preSelectedLocation];
-                  console.log(`📍 場所情報取得: ${this.state.preSelectedLocation}`, locationInfo);
-              }
+          // 実際の場所IDと表面を決定
+          let actualLocationId = this.state.preSelectedLocation; // 例: 'kitchen'
+          let actualSurface = this.state.customLocation.trim() ? this.state.customLocation : this.state.preSelectedLocation; // 例: 'kitchen-sink' または 'kitchen'
 
-              // 場所に基づく汚れタイプの推定
-              switch(this.state.preSelectedLocation) {
-                  case 'kitchen':
-                      dirtType = '油汚れ';
-                      surface = 'キッチン';
-                      break;
-                  case 'bathroom':
-                      dirtType = 'カビ汚れ';
-                      surface = '浴室';
-                      break;
-                  case 'toilet':
-                      dirtType = 'トイレ汚れ';
-                      surface = 'トイレ';
-                      break;
-                  case 'window':
-                      dirtType = '水垢汚れ';
-                      surface = '窓ガラス';
-                      break;
-                  case 'floor':
-                      dirtType = 'ホコリ';
-                      surface = 'フローリング';
-                      break;
-                  case 'aircon':
-                      dirtType = 'エアコンのホコリ';
-                      surface = 'エアコン';
-                      break;
-                  case 'washer':
-                      dirtType = '洗濯機のカビ';
-                      surface = '洗濯機';
-                      break;
-                  default:
-                      dirtType = '油汚れ';
-                      surface = '対象箇所';
+          if (actualLocationId && actualLocationId !== 'custom') {
+              locationInfo = window.COMPREHENSIVE_LOCATION_CONFIG?.[actualLocationId];
+              if (locationInfo) {
+                  dirtType = locationInfo.dirtTypes?.[0] || dirtType;
+                  // 詳細な場所が指定されている場合はそれを優先
+                  if (!this.state.customLocation.trim()) {
+                      actualSurface = locationInfo.label;
+                  }
               }
-          } else if (this.state.preSelectedLocation === 'custom' && this.state.customLocation) {
-              // カスタム場所の場合
-              surface = this.state.customLocation;
+          } else if (actualLocationId === 'custom' && this.state.customLocation.trim()) {
               dirtType = this.comprehensiveEstimateDirtTypes(this.state.customLocation)[0] || '汚れ';
-          }
-
-          // locationInfoがあればそちらを優先
-          if (locationInfo) {
-              dirtType = locationInfo.dirtTypes?.[0] || dirtType;
-              surface = locationInfo.surface || surface;
           }
 
           // 分析結果を生成
           const result = {
               dirtType: dirtType,
               additionalDirt: locationInfo?.dirtTypes?.slice(1) || [],
-              surface: surface,
+              surface: actualSurface, // 最も具体的な表面を使用
               confidence: 90, // サーバーレス版でも高い信頼度
               isAIAnalyzed: false,
-              hasPhoto: true,
-              location: this.state.preSelectedLocation || 'other',
+              hasPhoto: false,
+              location: actualLocationId, // 主要な場所ID
+              detailedLocation: this.state.customLocation, // 詳細な場所IDを保持
               analysisVersion: 'serverless-local'
           };
 
@@ -984,8 +709,8 @@
 
           // 掃除方法と商品を生成
           try {
-              result.cleaningMethod = this.generateCleaningMethod(result.dirtType, result.surface);
-              result.recommendedProducts = this.getRecommendedProducts(result.dirtType);
+              result.cleaningMethod = this.generateCleaningMethod(result.dirtType, result.surface); // 詳細な表面を渡す
+              result.recommendedProducts = this.getRecommendedProducts(result.dirtType, result.detailedLocation); // 詳細な場所を渡す
               console.log('✅ 掃除方法・商品生成完了');
           } catch (error) {
               console.error('💥 掃除方法生成エラー:', error);

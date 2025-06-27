@@ -926,14 +926,14 @@ const ULTIMATE_PRODUCT_MATCHER = {
                 !p.targetDirt || p.targetDirt.some(target => 
                     target === dirtType || dirtType.includes(target) || target.includes(dirtType)
                 )
-            ),
-            tools: products.tools || [],
-            protection: products.protection || []
+            ).sort((a, b) => a.priority - b.priority).slice(0, 10), // priorityでソートし、最大10個
+            tools: (products.tools || []).sort((a, b) => a.priority - b.priority).slice(0, 10), // priorityでソートし、最大10個
+            protection: (products.protection || []).sort((a, b) => a.priority - b.priority).slice(0, 10) // priorityでソートし、最大10個
         };
         
         // フィルタリング結果が空の場合は元の商品を返す
         if (filteredProducts.cleaners.length === 0) {
-            filteredProducts.cleaners = products.cleaners;
+            filteredProducts.cleaners = products.cleaners.sort((a, b) => a.priority - b.priority).slice(0, 10);
         }
         
         console.log(`🛒 商品選択完了: 洗剤${filteredProducts.cleaners.length}個, ツール${filteredProducts.tools.length}個, 保護具${filteredProducts.protection.length}個`);
