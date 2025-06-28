@@ -18,7 +18,9 @@
       "Bash(npm install)",
       "Bash(npx tailwindcss:*)",
       "Bash(npx netlify:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebFetch(domain:www.amazon.co.jp)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

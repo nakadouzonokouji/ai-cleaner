@@ -1,5 +1,5 @@
 /**
- * Amazon売れ筋商品データベース（画像ID付き）
+ * Amazon売れ筋商品データベース
  * 2025年1月時点の人気商品
  */
 
@@ -9,7 +9,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B07C44DM6S",
             name: "花王 キュキュット クリア除菌 本体 240ml",
-            imageId: "61XYX+0xXiL",
             price: "¥198",
             rating: 4.4,
             reviews: 5432,
@@ -21,7 +20,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B002E1AU3A",
             name: "ライオン チャーミーマジカ 酵素+ 本体 220ml",
-            imageId: "41L3qQHGJLL",
             price: "¥178",
             rating: 4.3,
             reviews: 4321,
@@ -33,7 +31,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B07QN4M52D",
             name: "P&G ジョイ コンパクト 本体 190ml",
-            imageId: "31bAL9DPBGL",
             price: "¥158",
             rating: 4.2,
             reviews: 3987,
@@ -45,7 +42,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B08KQ5F7MN",
             name: "花王 マジックリン キッチン用 本体 400ml",
-            imageId: "71HGG5oTQqL",
             price: "¥298",
             rating: 4.5,
             reviews: 2876,
@@ -61,7 +57,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B0012R4V2S",
             name: "ジョンソン カビキラー 本体 400g",
-            imageId: "51xQx5W3veL",
             price: "¥328",
             rating: 4.3,
             reviews: 8765,
@@ -73,7 +68,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B07S2J294T",
             name: "花王 強力カビハイター 本体 400ml",
-            imageId: "71K2XLMNFTL",
             price: "¥348",
             rating: 4.4,
             reviews: 6543,
@@ -85,7 +79,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B08P5KLM3N",
             name: "激落ちくん カビ取りジェル 100g",
-            imageId: "61PqQFmOjzL",
             price: "¥498",
             rating: 4.5,
             reviews: 3210,
@@ -97,7 +90,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B09KQR8MNP",
             name: "ルック おふろの防カビくん煙剤 5g×3個",
-            imageId: "71YZQxLMNPL",
             price: "¥798",
             rating: 4.2,
             reviews: 2109,
@@ -113,7 +105,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B07KLM5678",
             name: "茂木和哉 水垢洗剤 200ml",
-            imageId: "51N3Q2MNOXL",
             price: "¥1,780",
             rating: 4.6,
             reviews: 4567,
@@ -125,7 +116,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B08NOP9012",
             name: "クエン酸の激落ちくん 粉末タイプ 400g",
-            imageId: "81QRS3MNFTL",
             price: "¥398",
             rating: 4.3,
             reviews: 3456,
@@ -137,7 +127,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B01QRS3456",
             name: "ダイヤモンドパッド S 鏡・ガラス用",
-            imageId: "61TUV2MNOXL",
             price: "¥698",
             rating: 4.4,
             reviews: 2345,
@@ -149,7 +138,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B09LMN7890",
             name: "ウタマロクリーナー 400ml",
-            imageId: "71WXYZ3MNOL",
             price: "¥398",
             rating: 4.5,
             reviews: 5678,
@@ -165,7 +153,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B0019R4QX2",
             name: "花王 トイレマジックリン 消臭・洗浄スプレー 本体 380ml",
-            imageId: "61ABC4MNOXL",
             price: "¥248",
             rating: 4.3,
             reviews: 6789,
@@ -177,7 +164,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B07YHL4567",
             name: "サンポール トイレ洗剤 500ml",
-            imageId: "71DEF5MNOXL",
             price: "¥198",
             rating: 4.4,
             reviews: 5432,
@@ -189,7 +175,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B08YTR8901",
             name: "スクラビングバブル 超強力トイレクリーナー 400g",
-            imageId: "81GHI6MNOXL",
             price: "¥328",
             rating: 4.5,
             reviews: 4321,
@@ -201,7 +186,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B09WXY2345",
             name: "ドメスト 除菌クリーナー 500ml",
-            imageId: "91JKL7MNOXL",
             price: "¥278",
             rating: 4.2,
             reviews: 3210,
@@ -217,7 +201,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B01N05Y41E",
             name: "花王 クイックルワイパー 立体吸着ウエットシート 16枚",
-            imageId: "51A7Y5QXHPL",
             price: "¥398",
             rating: 4.5,
             reviews: 9876,
@@ -229,7 +212,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B005335D9S",
             name: "リンレイ オール床クリーナー 500ml",
-            imageId: "71MNO8MNOXL",
             price: "¥498",
             rating: 4.3,
             reviews: 4567,
@@ -241,7 +223,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B005AILJ3O",
             name: "クイックルワイパー フロア用掃除道具 本体+2種類シートセット",
-            imageId: "81PQR9MNOXL",
             price: "¥1,280",
             rating: 4.4,
             reviews: 7654,
@@ -253,7 +234,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B00OOCWP44",
             name: "激落ちくん メラミンスポンジ 30個入",
-            imageId: "91STU0MNOXL",
             price: "¥298",
             rating: 4.6,
             reviews: 12345,
@@ -269,7 +249,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B073C4QRLS",
             name: "ショーワグローブ ナイスハンド さらっとタッチ Mサイズ",
-            imageId: "61VWX1MNOXL",
             price: "¥298",
             rating: 4.4,
             reviews: 6543,
@@ -281,7 +260,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B07BQFJ5K9",
             name: "山崎産業 ユニットバスボンくん ハンディ",
-            imageId: "71YZ12MNOXL",
             price: "¥698",
             rating: 4.3,
             reviews: 4321,
@@ -293,7 +271,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B01KLM2345",
             name: "マーナ おさかなスポンジ 2個セット",
-            imageId: "81ABC3MNOXL",
             price: "¥398",
             rating: 4.5,
             reviews: 5432,
@@ -305,7 +282,6 @@ window.BESTSELLER_PRODUCTS = {
         {
             asin: "B08BCD3456",
             name: "アズマ工業 浴室掃除スポンジ 抗菌タイプ",
-            imageId: "91DEF4MNOXL",
             price: "¥498",
             rating: 4.2,
             reviews: 3210,

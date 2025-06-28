@@ -84,6 +84,18 @@ class DialogueCleaningAdvisor {
             // 掃除方法が確定した場合は商品を表示
             if (response.showProducts) {
                 await this.showRecommendedProducts(response.location, response.dirtType);
+                
+                // 追加の質問を促すメッセージ
+                setTimeout(() => {
+                    this.addMessage('ai', `\n他にもお困りのことがございましたら、お気軽にご質問ください。\n例えば：\n• 「もっと頑固な汚れの場合は？」\n• 「他の場所も掃除したい」\n• 「おすすめの掃除頻度は？」\nなど、何でもお尋ねください。`);
+                }, 1000);
+            }
+            
+            // 会話継続フラグがある場合
+            if (response.continueConversation) {
+                setTimeout(() => {
+                    this.addMessage('ai', '\n他にご不明な点はございますか？お気軽にお尋ねください。');
+                }, 1000);
             }
             
         } catch (error) {
@@ -98,6 +110,15 @@ class DialogueCleaningAdvisor {
     async getMockResponse(message) {
         // メッセージを解析して適切な応答を返す
         const lowerMessage = message.toLowerCase();
+        
+        // 頑固な汚れやさらに詳しい情報を求める場合
+        if (lowerMessage.includes('頑固') || lowerMessage.includes('がんこ') || 
+            lowerMessage.includes('落ちない') || lowerMessage.includes('取れない')) {
+            return {
+                message: `頑固な汚れでお困りのようですね。より強力な方法をご提案します。\n\n【強力な汚れ落とし方法】\n\n1. **重曹ペースト**を作る\n   - 重曹3：水1の割合で混ぜてペースト状に\n   - 汚れに直接塗って30分放置\n   - ブラシでこすって洗い流す\n\n2. **クエン酸パック**\n   - クエン酸水を濃いめに作る（水200mlに大さじ1）\n   - キッチンペーパーに染み込ませて汚れに貼る\n   - 1時間放置してからこする\n\n3. **専用の強力洗剤**\n   - 茂木和哉などのプロ用洗剤を使用\n   - 使用方法を必ず守って換気を十分に\n\n【注意点】\n・必ず手袋を着用\n・異なる洗剤を混ぜない（危険）\n・換気を十分に行う\n\nそれでも落ちない場合は、プロのクリーニングをご検討ください。`,
+                continueConversation: true
+            };
+        }
         
         // キッチン関連
         if (lowerMessage.includes('キッチン')) {
@@ -581,6 +602,11 @@ class DialogueCleaningAdvisor {
             
             if (response.showProducts) {
                 await this.showRecommendedProducts(response.location, response.dirtType);
+                
+                // 追加の質問を促すメッセージ
+                setTimeout(() => {
+                    this.addMessage('ai', `\n他にもお困りのことがございましたら、お気軽にご質問ください。\n例えば：\n• 「もっと頑固な汚れの場合は？」\n• 「他の場所も掃除したい」\n• 「おすすめの掃除頻度は？」\nなど、何でもお尋ねください。`);
+                }, 1000);
             }
             
         } catch (error) {
@@ -626,7 +652,7 @@ class DialogueCleaningAdvisor {
                 <div class="bg-white rounded-lg shadow-lg p-4">
                     ${product.badge ? `<div class="${badgeClass} text-xs font-bold px-2 py-1 rounded-full mb-2 text-center">${product.badge}</div>` : ''}
                     <div class="aspect-square mb-4 bg-gray-100 rounded flex items-center justify-center">
-                        <img src="https://m.media-amazon.com/images/I/${product.asin}._AC_SL500_.jpg" 
+                        <img src="https://m.media-amazon.com/images/I/${product.imageId || '41defaultXL'}._AC_SL500_.jpg" 
                              alt="${product.name}" 
                              class="max-h-full max-w-full object-contain"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
