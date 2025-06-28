@@ -1,7 +1,0 @@
-# 最小限の.htaccess設定
-
-# config.phpへの直接アクセスを禁止
-<Files "config.php">
-    Order allow,deny
-    Deny from all
-</Files>

@@ -1,11 +1,7 @@
 <?php
-// エラー表示設定（デバッグ用）
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// エラーログも有効化
-ini_set('log_errors', 1);
-ini_set('error_log', 'error.log');
+// エラー表示設定（本番環境では無効化）
+error_reporting(0);
+ini_set('display_errors', 0);
 
 // CORS設定
 header('Content-Type: application/json; charset=utf-8');
