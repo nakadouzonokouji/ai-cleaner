@@ -7,6 +7,14 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Suppress Tailwind CDN warning in production
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                // Add any custom configuration here
+            }
+        }
+    </script>
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

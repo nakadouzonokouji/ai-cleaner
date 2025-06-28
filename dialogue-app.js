@@ -71,32 +71,36 @@ class DialogueCleaningAdvisor {
         try {
             let response;
             
-            // Gemini APIを試す
-            try {
-                const geminiResponse = await fetch('/.netlify/functions/gemini-chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: userMessage,
-                        context: {
-                            previousMessage: this.state.messages.slice(-2)[0]?.content || '',
-                            location: this.state.currentContext?.location || '',
-                            dirtType: this.state.currentContext?.dirtType || ''
-                        }
-                    })
-                });
-                
-                if (geminiResponse.ok) {
-                    response = await geminiResponse.json();
-                    console.log('✅ Gemini APIレスポンス取得成功');
-                } else {
-                    throw new Error('Gemini API利用不可');
+            // Gemini APIを試す（Netlifyドメインの場合のみ）
+            if (window.location.hostname.includes('netlify.app')) {
+                try {
+                    const geminiResponse = await fetch('/.netlify/functions/gemini-chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: userMessage,
+                            context: {
+                                previousMessage: this.state.messages.slice(-2)[0]?.content || '',
+                                location: this.state.currentContext?.location || '',
+                                dirtType: this.state.currentContext?.dirtType || ''
+                            }
+                        })
+                    });
+                    
+                    if (geminiResponse.ok) {
+                        response = await geminiResponse.json();
+                        console.log('✅ Gemini APIレスポンス取得成功');
+                    } else {
+                        throw new Error('Gemini API利用不可');
+                    }
+                } catch (geminiError) {
+                    console.log('⚠️ Gemini API利用不可、フォールバックを使用:', geminiError.message);
+                    response = await this.getMockResponse(userMessage);
                 }
-            } catch (geminiError) {
-                console.log('⚠️ Gemini API利用不可、フォールバックを使用:', geminiError.message);
-                // フォールバック：モックレスポンスを使用
+            } else {
+                // Netlify以外のドメインではモックレスポンスを使用
                 response = await this.getMockResponse(userMessage);
             }
             

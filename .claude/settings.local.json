@@ -20,7 +20,13 @@
       "Bash(npx netlify:*)",
       "Bash(mkdir:*)",
       "WebFetch(domain:www.amazon.co.jp)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(for:*)",
+      "Bash(do if [ -f \"$file\" ])",
+      "Bash(then echo \"✅ $file exists\")",
+      "Bash(else echo \"❌ $file is missing\")",
+      "Bash(fi)",
+      "Bash(done)"
     ],
     "deny": []
   }

@@ -24,10 +24,14 @@ class EnvLoader {
                 };
             } 
             // Netlify Functions経由で環境変数を取得
-            else if (window.location.hostname !== 'localhost') {
-                const response = await fetch('/.netlify/functions/get-env');
-                if (response.ok) {
-                    this.env = await response.json();
+            else if (window.location.hostname.includes('netlify.app')) {
+                try {
+                    const response = await fetch('/.netlify/functions/get-env');
+                    if (response.ok) {
+                        this.env = await response.json();
+                    }
+                } catch (e) {
+                    console.log('Netlify Functions not available on this domain');
                 }
             }
 

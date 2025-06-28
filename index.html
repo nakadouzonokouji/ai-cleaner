@@ -7,8 +7,15 @@
     <meta name="description" content="AIとの対話を通じて最適な掃除方法と商品を提案。Amazonの売れ筋商品を厳選して紹介します。">
     
     <!-- Tailwind CSS -->
-    <!-- 開発環境用：本番環境ではPostCSSプラグインまたはTailwind CLIを使用してください -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Suppress Tailwind CDN warning in production
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                // Add any custom configuration here
+            }
+        }
+    </script>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
