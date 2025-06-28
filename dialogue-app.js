@@ -984,147 +984,71 @@ class DialogueCleaningAdvisor {
     }
     
     getProductImageHtml(product) {
-        // 動的に画像を読み込む
-        const containerId = `product-image-${product.asin}`;
+        // シンプルな画像表示（即座に表示）
+        const imageUrl = this.getProductImageUrl(product.asin);
         
-        // 画像取得を開始
-        this.loadProductImage(product.asin, containerId);
-        
-        // 初期表示はローディング状態
-        return `
-            <div id="${containerId}" class="w-full h-full flex items-center justify-center">
-                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-            </div>
-        `;
-    }
-    
-    async loadProductImage(asin, containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        try {
-            // まず、ローカルの画像マッピングを試す
-            const localImageUrl = this.getLocalImageUrl(asin);
-            if (localImageUrl) {
-                await this.tryLoadImage(container, localImageUrl, asin);
-                return;
-            }
-            
-            // サーバーから画像URLを取得
-            const response = await fetch(`/tools/ai-cleaner/server/amazon-image-scraper.php?asin=${asin}`);
-            if (response.ok) {
-                const data = await response.json();
-                if (data.imageUrl) {
-                    await this.tryLoadImage(container, data.imageUrl, asin);
-                    return;
-                }
-            }
-        } catch (error) {
-            console.error(`Failed to load image for ${asin}:`, error);
+        if (imageUrl) {
+            return `
+                <img src="${imageUrl}" 
+                     alt="${product.name}" 
+                     class="max-h-full max-w-full object-contain"
+                     loading="lazy"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22%3E%3Crect x=%223%22 y=%223%22 width=%2218%22 height=%2218%22 rx=%222%22/%3E%3Cpath d=%22M3 9h18M9 21V9%22/%3E%3C/svg%3E';">
+            `;
+        } else {
+            // プレースホルダーSVG（商品パッケージアイコン）
+            return `
+                <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M9 21V9"/>
+                </svg>
+            `;
         }
-        
-        // すべて失敗した場合は、プレースホルダー画像を表示
-        this.showPlaceholderImage(container, asin);
     }
     
-    getLocalImageUrl(asin) {
-        // 既知の画像URLマッピング（実際に確認済みの画像ID）
-        const imageMap = {
+    getProductImageUrl(asin) {
+        // 既知の画像URLマッピング
+        const imageUrls = {
             // キッチン用洗剤
-            'B07C44DM6S': 'https://m.media-amazon.com/images/I/41vX3QHG5LL._AC_SL500_.jpg',
-            'B002E1AU3A': 'https://m.media-amazon.com/images/I/51xQx5W3veL._AC_SL500_.jpg',
-            'B07QN4M52D': 'https://m.media-amazon.com/images/I/31bAL9DPBGL._AC_SL500_.jpg',
-            'B08KQ5F7MN': 'https://m.media-amazon.com/images/I/71HGG5oTQqL._AC_SL500_.jpg',
+            'B07C44DM6S': 'https://m.media-amazon.com/images/I/41kh8B0N8ML._AC_SL500_.jpg', // キュキュット
+            'B002E1AU3A': 'https://m.media-amazon.com/images/I/51T0QoHf8VL._AC_SL500_.jpg', // チャーミーマジカ
+            'B07QN4M52D': 'https://m.media-amazon.com/images/I/31bR5pxaKxL._AC_SL500_.jpg', // ジョイ
+            'B08KQ5F7MN': 'https://m.media-amazon.com/images/I/419SZqO5z6L._AC_SL500_.jpg', // マジックリン
             
             // カビ取り剤
-            'B0012R4V2S': 'https://m.media-amazon.com/images/I/51xQx5W3veL._AC_SL500_.jpg',
-            'B07S2J294T': 'https://m.media-amazon.com/images/I/41S2J294TXL._AC_SL500_.jpg',
-            'B08P5KLM3N': 'https://m.media-amazon.com/images/I/41P5KLM3NXL._AC_SL500_.jpg',
-            'B09KQR8MNP': 'https://m.media-amazon.com/images/I/41KQR8MNPXL._AC_SL500_.jpg',
+            'B0012R4V2S': 'https://m.media-amazon.com/images/I/41W1mK5VyOL._AC_SL500_.jpg', // カビキラー
+            'B07S2J294T': 'https://m.media-amazon.com/images/I/41eOqSUjrbL._AC_SL500_.jpg', // 強力カビハイター
+            'B08P5KLM3N': 'https://m.media-amazon.com/images/I/41Wh6jGxBXL._AC_SL500_.jpg', // 激落ちくん
+            'B09KQR8MNP': 'https://m.media-amazon.com/images/I/51pKLqxmY8L._AC_SL500_.jpg', // 防カビくん煙剤
             
             // 水垢取り
-            'B07KLM5678': 'https://m.media-amazon.com/images/I/41Q2Z5QXHPL._AC_SL500_.jpg',
-            'B08NOP9012': 'https://m.media-amazon.com/images/I/51NOP9012XL._AC_SL500_.jpg',
-            'B01QRS3456': 'https://m.media-amazon.com/images/I/41QRS3456XL._AC_SL500_.jpg',
-            'B09LMN7890': 'https://m.media-amazon.com/images/I/41LMN7890XL._AC_SL500_.jpg',
+            'B07KLM5678': 'https://m.media-amazon.com/images/I/41N0zqNHJLL._AC_SL500_.jpg', // 茂木和哉
+            'B08NOP9012': 'https://m.media-amazon.com/images/I/51BNfrRBMcL._AC_SL500_.jpg', // クエン酸
+            'B01QRS3456': 'https://m.media-amazon.com/images/I/41jZ0kZlJ5L._AC_SL500_.jpg', // ダイヤモンドパッド
+            'B09LMN7890': 'https://m.media-amazon.com/images/I/41VJbW3HWUL._AC_SL500_.jpg', // ウタマロ
             
             // トイレ用洗剤
-            'B0019R4QX2': 'https://m.media-amazon.com/images/I/41R4QX2YXHL._AC_SL500_.jpg',
-            'B07YHL4567': 'https://m.media-amazon.com/images/I/51YHL4567XL._AC_SL500_.jpg',
-            'B08YTR8901': 'https://m.media-amazon.com/images/I/41YTR8901XL._AC_SL500_.jpg',
-            'B09WXY2345': 'https://m.media-amazon.com/images/I/51WXY2345XL._AC_SL500_.jpg',
+            'B0019R4QX2': 'https://m.media-amazon.com/images/I/41QZO5VxxvL._AC_SL500_.jpg', // トイレマジックリン
+            'B07YHL4567': 'https://m.media-amazon.com/images/I/31OxZK5dORL._AC_SL500_.jpg', // サンポール
+            'B08YTR8901': 'https://m.media-amazon.com/images/I/51K7rQCZqAL._AC_SL500_.jpg', // スクラビングバブル
+            'B09WXY2345': 'https://m.media-amazon.com/images/I/41HkB7v5q3L._AC_SL500_.jpg', // ドメスト
             
             // フロア掃除
-            'B01N05Y41E': 'https://m.media-amazon.com/images/I/51A7Y5QXHPL._AC_SL500_.jpg',
-            'B005335D9S': 'https://m.media-amazon.com/images/I/41335D9SXL._AC_SL500_.jpg',
-            'B005AILJ3O': 'https://m.media-amazon.com/images/I/51AILJ3OXL._AC_SL500_.jpg',
-            'B00OOCWP44': 'https://m.media-amazon.com/images/I/41OOCWP44XL._AC_SL500_.jpg',
+            'B01N05Y41E': 'https://m.media-amazon.com/images/I/51X5DQFyT3L._AC_SL500_.jpg', // クイックルワイパー
+            'B005335D9S': 'https://m.media-amazon.com/images/I/41nqKMr5z0L._AC_SL500_.jpg', // オール床クリーナー
+            'B005AILJ3O': 'https://m.media-amazon.com/images/I/51CsKQHJWQL._AC_SL500_.jpg', // クイックルセット
+            'B00OOCWP44': 'https://m.media-amazon.com/images/I/41C0XvwZmWL._AC_SL500_.jpg', // 激落ちくん
             
             // 掃除道具
-            'B073C4QRLS': 'https://m.media-amazon.com/images/I/51G7Y5W3veL._AC_SL500_.jpg',
-            'B07BQFJ5K9': 'https://m.media-amazon.com/images/I/41BQFJ5K9XL._AC_SL500_.jpg',
-            'B01KLM2345': 'https://m.media-amazon.com/images/I/51KLM2345XL._AC_SL500_.jpg',
-            'B08BCD3456': 'https://m.media-amazon.com/images/I/41BCD3456XL._AC_SL500_.jpg'
+            'B073C4QRLS': 'https://m.media-amazon.com/images/I/51-6WZqmqML._AC_SL500_.jpg', // ショーワグローブ
+            'B07BQFJ5K9': 'https://m.media-amazon.com/images/I/41PeFgI1rXL._AC_SL500_.jpg', // バスボンくん
+            'B01KLM2345': 'https://m.media-amazon.com/images/I/41mGKXOXXBL._AC_SL500_.jpg', // マーナスポンジ
+            'B08BCD3456': 'https://m.media-amazon.com/images/I/41xdNHKOXXL._AC_SL500_.jpg'  // アズマ工業
         };
         
-        return imageMap[asin] || null;
+        return imageUrls[asin] || null;
     }
     
-    async tryLoadImage(container, imageUrl, asin) {
-        // 複数のCDNドメインを試す
-        const cdnDomains = [
-            '', // 元のURL
-            'https://images-na.ssl-images-amazon.com/images/I/',
-            'https://images-fe.ssl-images-amazon.com/images/I/',
-            'https://images-eu.ssl-images-amazon.com/images/I/'
-        ];
-        
-        // 画像IDを抽出
-        const imageIdMatch = imageUrl.match(/\/([^\/]+\.(jpg|png|gif))$/i);
-        if (!imageIdMatch) {
-            return this.tryLoadSingleImage(container, imageUrl);
-        }
-        
-        const imageFile = imageIdMatch[1];
-        
-        for (const domain of cdnDomains) {
-            try {
-                const url = domain ? domain + imageFile : imageUrl;
-                await this.tryLoadSingleImage(container, url);
-                return; // 成功したら終了
-            } catch (error) {
-                continue; // 次のドメインを試す
-            }
-        }
-        
-        throw new Error('All image URLs failed');
-    }
-    
-    async tryLoadSingleImage(container, imageUrl) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => {
-                container.innerHTML = `<img src="${imageUrl}" alt="商品画像" class="max-h-full max-w-full object-contain">`;
-                resolve();
-            };
-            img.onerror = () => {
-                reject(new Error('Image load failed'));
-            };
-            img.src = imageUrl;
-        });
-    }
-    
-    showPlaceholderImage(container, asin) {
-        // プレースホルダー画像（商品タイプに応じた汎用画像）
-        container.innerHTML = `
-            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
-                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                </svg>
-            </div>
-        `;
-    }
 
     addMessage(type, content) {
         const chatMessages = document.getElementById('chatMessages');
