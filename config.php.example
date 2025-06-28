@@ -1,13 +1,17 @@
 <?php
 // APIキー設定ファイルのテンプレート
-// このファイルをconfig.phpにコピーして、実際のAPIキーを設定してください
+// 重要：実際のAPIキーは絶対にGitHubにコミットしないでください！
 
+// 方法1：環境変数から読み込む（推奨）
 return [
-    'gemini_api_key' => 'YOUR_GEMINI_API_KEY',
-    'amazon_associate_tag' => 'YOUR_ASSOCIATE_TAG',
-    'paapi_access_key' => 'YOUR_PAAPI_ACCESS_KEY',
-    'paapi_secret_key' => 'YOUR_PAAPI_SECRET_KEY',
-    'paapi_partner_tag' => 'YOUR_ASSOCIATE_TAG',
+    'gemini_api_key' => getenv('GEMINI_API_KEY') ?: 'YOUR_GEMINI_API_KEY',
+    'amazon_associate_tag' => getenv('AMAZON_ASSOCIATE_TAG') ?: 'YOUR_ASSOCIATE_TAG',
+    'paapi_access_key' => getenv('PAAPI_ACCESS_KEY') ?: 'YOUR_PAAPI_ACCESS_KEY',
+    'paapi_secret_key' => getenv('PAAPI_SECRET_KEY') ?: 'YOUR_PAAPI_SECRET_KEY',
+    'paapi_partner_tag' => getenv('AMAZON_ASSOCIATE_TAG') ?: 'YOUR_ASSOCIATE_TAG',
     'paapi_host' => 'webservices.amazon.co.jp',
     'paapi_region' => 'us-west-2'
 ];
+
+// 方法2：このファイルをconfig.phpにコピーして直接設定
+// 注意：config.phpは必ず.gitignoreに含めてください
