@@ -175,6 +175,7 @@ class AmazonProductSDK {
             // 画像URL
             if (isset($item['Images']['Primary']['Large']['URL'])) {
                 $product['image'] = $item['Images']['Primary']['Large']['URL'];
+                $product['image_proxy'] = './image-proxy.php?url=' . urlencode($product['image']);
             } else {
                 continue; // 画像がない商品はスキップ
             }

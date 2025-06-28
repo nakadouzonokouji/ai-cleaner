@@ -75,7 +75,8 @@ function getAmazonProducts($keyword, $config) {
                     'asin' => $product['asin'],
                     'title' => $product['title'],
                     'image' => $product['image'],
-                    'url' => 'https://www.amazon.co.jp/dp/' . $product['asin'] . '/?tag=' . $config['amazon_associate_tag']
+                    'url' => 'https://www.amazon.co.jp/dp/' . $product['asin'] . '/?tag=' . $config['amazon_associate_tag'],
+                    'image_proxy' => './image-proxy.php?url=' . urlencode($product['image'])
                 ];
                 break;
             }
@@ -89,7 +90,8 @@ function getAmazonProducts($keyword, $config) {
                 'asin' => $popularProducts[$i]['asin'],
                 'title' => $popularProducts[$i]['title'],
                 'image' => $popularProducts[$i]['image'],
-                'url' => 'https://www.amazon.co.jp/dp/' . $popularProducts[$i]['asin'] . '/?tag=' . $config['amazon_associate_tag']
+                'url' => 'https://www.amazon.co.jp/dp/' . $popularProducts[$i]['asin'] . '/?tag=' . $config['amazon_associate_tag'],
+                'image_proxy' => './image-proxy.php?url=' . urlencode($popularProducts[$i]['image'])
             ];
         }
     }

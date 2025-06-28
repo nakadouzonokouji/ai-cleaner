@@ -166,6 +166,7 @@ class AmazonProductAPI {
                 'asin' => $asin,
                 'title' => $title,
                 'image' => $image,
+                'image_proxy' => './image-proxy.php?url=' . urlencode($image),
                 'url' => 'https://www.amazon.co.jp/dp/' . $asin . '/?tag=' . $this->partnerTag
             ];
             

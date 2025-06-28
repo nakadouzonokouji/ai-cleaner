@@ -29,3 +29,6 @@ error_log
 # 一時ファイル
 *.tmp
 *.temp
+
+# キャッシュディレクトリ
+cache/
