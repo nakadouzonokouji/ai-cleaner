@@ -74,12 +74,32 @@ function getCleaningAdvice($query, $config) {
         ]
     ];
     
-    $context = stream_context_create($options);
-    $result = @file_get_contents($url, false, $context);
+    // cURLを使用してAPIを呼び出し
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen(json_encode($data))
+    ));
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // SSL証明書の検証を一時的に無効化
+    
+    $result = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error = curl_error($ch);
+    curl_close($ch);
     
     if ($result === FALSE) {
         http_response_code(500);
-        echo json_encode(['error' => 'Gemini API error']);
+        echo json_encode(['error' => 'Gemini API error: ' . $error]);
+        return;
+    }
+    
+    if ($httpCode !== 200) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Gemini API returned status code: ' . $httpCode]);
         return;
     }
     
