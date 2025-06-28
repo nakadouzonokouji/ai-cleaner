@@ -315,6 +315,7 @@
     <script>
         // API エンドポイント
         const API_ENDPOINT = './api.php';
+        const AMAZON_ASSOCIATE_TAG = 'asdfghj12-22';
         
         async function analyzeCleaningQuery() {
             const query = document.getElementById('cleaningQuery').value.trim();
@@ -436,12 +437,14 @@
             products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
+                
+                // Amazon商品画像用のiframe（アソシエイトプログラム準拠）
+                const amazonImageFrame = `<iframe src="https://rcm-fe.amazon-adsystem.com/e/cm?o=9&p=8&l=as1&IS1=1&ref=tf_til&asins=${product.asin}&linkId=&t=${AMAZON_ASSOCIATE_TAG}&language=ja_JP" width="120" height="240" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border:none;"></iframe>`;
+                
                 productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.title}" class="product-image">
+                    <div style="margin-bottom: 10px;">${amazonImageFrame}</div>
                     <h4 class="product-title">${product.title}</h4>
-                    <p class="product-price">${product.price}</p>
-                    <p class="product-rating">★ ${product.rating}</p>
-                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="buy-button">Amazonで見る</a>
+                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="buy-button">Amazonで購入</a>
                 `;
                 productsGrid.appendChild(productCard);
             });
