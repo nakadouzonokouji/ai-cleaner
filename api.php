@@ -81,7 +81,8 @@ function getCleaningAdvice($query, $config) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json',
-        'Content-Length: ' . strlen(json_encode($data))
+        'Content-Length: ' . strlen(json_encode($data)),
+        'Referer: https://cxmainte.com/'
     ));
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // SSL証明書の検証を一時的に無効化
