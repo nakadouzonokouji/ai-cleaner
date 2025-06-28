@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お掃除アドバイザー - 対話式でより詳しいアドバイス</title>
+    <meta name="description" content="AIがあなたの掃除の悩みを詳しく聞いて、最適な掃除方法と商品をご提案。対話形式でより具体的なアドバイスを提供します。">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        main {
+            min-height: calc(100vh - 200px);
+            padding: 2rem 0;
+        }
+        
+        .input-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .input-section h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.5rem;
+        }
+        
+        #cleaningQuery {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        #cleaningQuery:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* 詳細選択セクション */
+        .detail-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .detail-section.active {
+            display: block;
+        }
+        
+        .detail-section h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .clarification-message {
+            margin-bottom: 1.5rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .detail-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .option-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .option-btn:hover {
+            background-color: #e9ecef;
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.selected {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        /* ローディング */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            display: none;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 結果セクション */
+        .result-section {
+            display: none;
+        }
+        
+        .result-section.active {
+            display: block;
+        }
+        
+        .cleaning-method {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .cleaning-method h3 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.3rem;
+        }
+        
+        .cleaning-steps {
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        .products-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .products-section h3 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.3rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background-color: #f8f9fa;
+        }
+        
+        .product-title {
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #333;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .buy-button {
+            display: block;
+            background-color: #ff9800;
+            color: white;
+            text-align: center;
+            padding: 0.8rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .buy-button:hover {
+            background-color: #f57c00;
+        }
+        
+        .more-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .more-button:hover {
+            background-color: #0056b3;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #bdc3c7;
+            margin-top: 1rem;
+        }
+        
+        .error-message {
+            display: none;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        
+        .error-message.active {
+            display: block;
+        }
+        
+        /* 会話履歴 */
+        .conversation-history {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .conversation-history.active {
+            display: block;
+        }
+        
+        .history-item {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🧹 お掃除アドバイザー（対話式）</h1>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <section class="input-section">
+                <h2>お掃除のお悩みをお聞かせください</h2>
+                <div class="conversation-history" id="conversationHistory"></div>
+                <textarea id="cleaningQuery" placeholder="例：お風呂を掃除したい&#10;例：キッチンの汚れが気になる&#10;例：窓をきれいにしたい&#10;&#10;まずは大まかな場所や気になることを教えてください。"></textarea>
+                <button class="submit-btn" onclick="analyzeCleaningQuery()">ＡＩに相談する</button>
+                <div class="error-message" id="errorMessage"></div>
+            </section>
+            
+            <!-- 詳細選択セクション -->
+            <section class="detail-section" id="detailSection">
+                <h3>🤔 より詳しくお聞かせください</h3>
+                <p class="clarification-message" id="clarificationMessage"></p>
+                <div class="detail-options" id="detailOptions"></div>
+            </section>
+            
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p>AIが最適な掃除方法を分析中...</p>
+            </div>
+            
+            <section class="result-section" id="resultSection">
+                <div class="cleaning-method">
+                    <h3>📋 推奨する掃除方法</h3>
+                    <div class="cleaning-steps" id="cleaningSteps"></div>
+                </div>
+                
+                <div class="products-section">
+                    <h3>🛒 おすすめの掃除用品（売れ筋商品）</h3>
+                    <div class="products-grid" id="productsGrid"></div>
+                    <div class="more-products" id="moreProductsSection" style="text-align: center; margin-top: 2rem; display: none;">
+                        <a href="#" id="moreProductsLink" target="_blank" rel="noopener noreferrer" class="more-button">
+                            もっと掃除用品を見る →
+                        </a>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                            Amazonでさらに多くの商品をご覧いただけます
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 お掃除アドバイザー</p>
+            <p class="disclaimer">
+                当サイトはAmazonアソシエイト・プログラムに参加しています。
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // API エンドポイント
+        const API_ENDPOINT = './api.php';
+        const AMAZON_ASSOCIATE_TAG = 'asdfghj12-22';
+        
+        // 詳細質問の定義
+        const detailQuestions = {
+            'お風呂': {
+                message: 'お風呂のどの部分を掃除したいですか？',
+                options: ['浴槽の水垢・湯垢', '排水口の詰まり・汚れ', '鏡の水垢・ウロコ', '床・壁のカビ', 'シャワーヘッド', '換気扇', '全体的に掃除']
+            },
+            'キッチン': {
+                message: 'キッチンのどの部分が気になりますか？',
+                options: ['換気扇・レンジフードの油汚れ', 'コンロ周りの油汚れ', 'シンクの水垢・ヌメリ', '排水口の詰まり・臭い', '電子レンジの汚れ', '冷蔵庫の掃除', '全体的に掃除']
+            },
+            'トイレ': {
+                message: 'トイレのどの部分を掃除したいですか？',
+                options: ['便器の黄ばみ・尿石', '便座・フタの汚れ', '床・壁の汚れ', 'タンクの掃除', '換気扇', '全体的に掃除']
+            },
+            '窓': {
+                message: '窓掃除で気になる点は？',
+                options: ['窓ガラスの汚れ', '網戸の汚れ', 'サッシの汚れ', '結露・カビ', '全体的に掃除']
+            },
+            '床': {
+                message: 'どんな床材ですか？',
+                options: ['フローリング', '畳', 'カーペット・絨毯', 'クッションフロア', 'タイル']
+            },
+            'エアコン': {
+                message: 'エアコンのどの部分が気になりますか？',
+                options: ['フィルターのホコリ', '吹き出し口のカビ', '内部の臭い', '室外機', '全体的に掃除']
+            }
+        };
+        
+        let conversationContext = '';
+        
+        async function analyzeCleaningQuery() {
+            const query = document.getElementById('cleaningQuery').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            const loadingSection = document.getElementById('loadingSection');
+            const resultSection = document.getElementById('resultSection');
+            const detailSection = document.getElementById('detailSection');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            // エラーメッセージをクリア
+            errorMessage.classList.remove('active');
+            errorMessage.textContent = '';
+            
+            // 入力チェック
+            if (!query) {
+                errorMessage.textContent = '掃除に関するお悩みを入力してください。';
+                errorMessage.classList.add('active');
+                return;
+            }
+            
+            // 会話履歴に追加
+            addToConversationHistory('あなた: ' + query);
+            
+            // キーワードをチェックして詳細質問を表示
+            const needsClarification = checkForClarification(query);
+            
+            if (needsClarification) {
+                showDetailOptions(needsClarification, query);
+            } else {
+                // 詳細が明確な場合は直接処理
+                await processCleaningRequest(query);
+            }
+        }
+        
+        function checkForClarification(query) {
+            for (const [key, value] of Object.entries(detailQuestions)) {
+                if (query.includes(key)) {
+                    // すでに詳細が含まれているかチェック
+                    const hasDetail = value.options.some(option => 
+                        query.includes(option.replace(/・/g, '')) || 
+                        query.includes(option.split('・')[0])
+                    );
+                    if (!hasDetail) {
+                        return key;
+                    }
+                }
+            }
+            return null;
+        }
+        
+        function showDetailOptions(category, originalQuery) {
+            const detailSection = document.getElementById('detailSection');
+            const clarificationMessage = document.getElementById('clarificationMessage');
+            const detailOptions = document.getElementById('detailOptions');
+            
+            const details = detailQuestions[category];
+            clarificationMessage.textContent = details.message;
+            
+            // オプションボタンをクリア
+            detailOptions.innerHTML = '';
+            
+            // オプションボタンを作成
+            details.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option;
+                button.onclick = async function() {
+                    // 選択されたオプションを強調
+                    document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    // 詳細を含めた質問を作成
+                    const detailedQuery = `${originalQuery} - ${option}`;
+                    addToConversationHistory('詳細: ' + option);
+                    
+                    // 処理を実行
+                    await processCleaningRequest(detailedQuery);
+                };
+                detailOptions.appendChild(button);
+            });
+            
+            detailSection.classList.add('active');
+        }
+        
+        function addToConversationHistory(text) {
+            const historyDiv = document.getElementById('conversationHistory');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            historyItem.textContent = text;
+            historyDiv.appendChild(historyItem);
+            historyDiv.classList.add('active');
+            
+            conversationContext += text + '\n';
+        }
+        
+        async function processCleaningRequest(detailedQuery) {
+            const loadingSection = document.getElementById('loadingSection');
+            const resultSection = document.getElementById('resultSection');
+            const detailSection = document.getElementById('detailSection');
+            const submitBtn = document.querySelector('.submit-btn');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // UIの状態を変更
+            submitBtn.disabled = true;
+            loadingSection.classList.add('active');
+            resultSection.classList.remove('active');
+            detailSection.classList.remove('active');
+            
+            try {
+                // Gemini APIを呼び出して掃除方法を取得
+                const cleaningAdvice = await getCleaningAdvice(detailedQuery);
+                displayCleaningAdvice(cleaningAdvice);
+                
+                // Amazon商品を検索して表示
+                const products = await searchAmazonProducts(detailedQuery);
+                displayProducts(products, detailedQuery);
+                
+                // 結果を表示
+                resultSection.classList.add('active');
+                
+                // 入力欄をクリア
+                document.getElementById('cleaningQuery').value = '';
+            } catch (error) {
+                console.error('エラー:', error);
+                errorMessage.textContent = 'エラーが発生しました。もう一度お試しください。';
+                errorMessage.classList.add('active');
+            } finally {
+                loadingSection.classList.remove('active');
+                submitBtn.disabled = false;
+            }
+        }
+        
+        async function getCleaningAdvice(query) {
+            const response = await fetch(API_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'getCleaningAdvice',
+                    query: query
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('APIエラー');
+            }
+            
+            const data = await response.json();
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            return data.advice;
+        }
+        
+        function displayCleaningAdvice(advice) {
+            const cleaningSteps = document.getElementById('cleaningSteps');
+            // 改行をHTMLの改行タグに変換し、番号付きリストを強調
+            const formattedAdvice = advice
+                .replace(/\n/g, '<br>')
+                .replace(/(\d+\.)/g, '<strong>$1</strong>');
+            cleaningSteps.innerHTML = formattedAdvice;
+        }
+        
+        async function searchAmazonProducts(query) {
+            const response = await fetch(API_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'searchProducts',
+                    query: query
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('商品検索エラー');
+            }
+            
+            const data = await response.json();
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            return data.products || [];
+        }
+        
+        function displayProducts(products, query) {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                // 商品画像の処理（プロキシ経由で表示）
+                const imageUrl = product.image_proxy || product.image;
+                const productImage = imageUrl ? 
+                    `<img src="${imageUrl}" alt="${product.title}" class="product-image" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'200\\' viewBox=\\'0 0 200 200\\'%3E%3Crect width=\\'200\\' height=\\'200\\' fill=\\'%23f0f0f0\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%23999\\' font-family=\\'sans-serif\\' font-size=\\'14\\'>No Image%3C/text%3E%3C/svg%3E';">` :
+                    `<div class="product-image" style="background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#999;">画像なし</div>`;
+                
+                productCard.innerHTML = `
+                    ${productImage}
+                    <h4 class="product-title">${product.title}</h4>
+                    <a href="${product.url}" target="_blank" rel="noopener noreferrer" class="buy-button">Amazonで購入</a>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+            
+            // もっと見るリンクを設定
+            setupMoreProductsLink(query);
+        }
+        
+        function setupMoreProductsLink(query) {
+            const moreSection = document.getElementById('moreProductsSection');
+            const moreLink = document.getElementById('moreProductsLink');
+            
+            // カテゴリーURLを決定
+            let categoryUrl = 'https://www.amazon.co.jp/s?k=掃除用品';
+            
+            // クエリに基づいてカテゴリーを選択
+            if (query.includes('換気扇') || query.includes('油') || query.includes('キッチン')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=キッチン+油汚れ+洗剤&rh=n%3A3828871';
+            } else if (query.includes('浴') || query.includes('風呂') || query.includes('カビ')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=お風呂+カビ+洗剤&rh=n%3A3828871';
+            } else if (query.includes('トイレ')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=トイレ+洗剤&rh=n%3A3828871';
+            } else if (query.includes('窓') || query.includes('ガラス')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=窓+ガラス+クリーナー&rh=n%3A3828871';
+            } else if (query.includes('床') || query.includes('フローリング')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=フローリング+掃除&rh=n%3A3828871';
+            }
+            
+            // アソシエイトタグを追加
+            categoryUrl += `&tag=${AMAZON_ASSOCIATE_TAG}`;
+            
+            moreLink.href = categoryUrl;
+            moreSection.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

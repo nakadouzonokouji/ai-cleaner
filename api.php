@@ -48,10 +48,29 @@ function getCleaningAdvice($query, $config) {
     $apiKey = $config['gemini_api_key'];
     $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $apiKey;
     
+    // クエリに詳細情報が含まれているかチェック
+    $hasDetail = false;
+    $detailKeywords = ['浴槽', '排水口', '鏡', '床', '壁', 'シャワー', '換気扇', 'コンロ', 'シンク', 'レンジフード', '便器', '便座', 'タンク', '窓ガラス', '網戸', 'サッシ', 'フローリング', '畳', 'カーペット', 'フィルター', '水垢', '油汚れ', 'カビ', '尿石', '黄ばみ'];
+    
+    foreach ($detailKeywords as $keyword) {
+        if (mb_strpos($query, $keyword) !== false) {
+            $hasDetail = true;
+            break;
+        }
+    }
+    
     $prompt = "次の掃除に関する質問に対して、具体的で実践的なアドバイスを提供してください：\n\n" .
-              "質問: " . $query . "\n\n" .
-              "以下の形式で回答してください：\n" .
-              "1. 汚れの種類と原因の説明\n" .
+              "質問: " . $query . "\n\n";
+    
+    if ($hasDetail) {
+        // 詳細が含まれている場合は、より具体的なアドバイスを提供
+        $prompt .= "以下の形式で、非常に具体的で詳細な回答をしてください：\n";
+    } else {
+        // 詳細がない場合は、一般的なアドバイスを提供
+        $prompt .= "以下の形式で回答してください：\n";
+    }
+    
+    $prompt .= "1. 汚れの種類と原因の説明\n" .
               "2. 必要な道具や洗剤\n" .
               "3. 具体的な掃除手順（ステップバイステップ）\n" .
               "4. 注意点やコツ\n" .
@@ -112,8 +131,8 @@ function getCleaningAdvice($query, $config) {
 
 // Amazon PA APIを使用して商品を検索
 function searchAmazonProducts($query, $config) {
-    // 掃除関連のキーワードを生成
-    $searchKeywords = generateCleaningKeywords($query);
+    // 掃除関連のキーワードを生成（詳細度に応じて）
+    $searchKeywords = generateDetailedCleaningKeywords($query);
     
     // Amazon PA API v5の実装
     $products = [];
@@ -136,44 +155,121 @@ function searchAmazonProducts($query, $config) {
     echo json_encode(['products' => $products]);
 }
 
-// 掃除関連のキーワードを生成
-function generateCleaningKeywords($query) {
+// 詳細な掃除関連のキーワードを生成
+function generateDetailedCleaningKeywords($query) {
     $keywords = [];
     
     // 基本的な掃除用品
     $keywords[] = '掃除 洗剤 人気';
     
-    // クエリに基づいたキーワード
-    if (strpos($query, '換気扇') !== false) {
-        $keywords[] = '換気扇 掃除 洗剤';
-        $keywords[] = '油汚れ クリーナー';
-        $keywords[] = 'マジックリン 換気扇';
-    }
-    
-    if (strpos($query, '浴') !== false || strpos($query, '風呂') !== false) {
+    // 詳細なクエリに基づいたキーワード
+    // お風呂関連
+    if (strpos($query, '浴槽') !== false && strpos($query, '水垢') !== false) {
+        $keywords[] = '浴槽 水垢 クリーナー';
+        $keywords[] = 'バスタブクレンジング';
+        $keywords[] = '水垢落とし スポンジ';
+    } elseif (strpos($query, '排水口') !== false) {
+        $keywords[] = '排水口 クリーナー';
+        $keywords[] = 'パイプユニッシュ';
+        $keywords[] = '排水口 ヌメリ取り';
+    } elseif (strpos($query, '鏡') !== false && strpos($query, 'ウロコ') !== false) {
+        $keywords[] = '鏡 ウロコ取り';
+        $keywords[] = 'クエン酸 クリーナー';
+        $keywords[] = 'ダイヤモンドパッド';
+    } elseif (strpos($query, 'カビ') !== false) {
+        $keywords[] = 'カビキラー';
+        $keywords[] = '防カビ スプレー';
+        $keywords[] = 'カビ取り剤 強力';
+    } elseif (strpos($query, 'シャワーヘッド') !== false) {
+        $keywords[] = 'シャワーヘッド クリーナー';
+        $keywords[] = 'シャワーヘッド カビ取り';
+    } elseif (strpos($query, '浴') !== false || strpos($query, '風呂') !== false) {
         $keywords[] = '風呂 掃除 洗剤';
         $keywords[] = 'カビキラー';
         $keywords[] = '水垢 クリーナー';
         $keywords[] = 'バスマジックリン';
     }
     
-    if (strpos($query, '窓') !== false) {
-        $keywords[] = '窓 ガラス クリーナー';
-        $keywords[] = 'ガラスマジックリン';
-        $keywords[] = '窓掃除 道具';
+    // キッチン関連
+    if (strpos($query, '換気扇') !== false || strpos($query, 'レンジフード') !== false) {
+        $keywords[] = '換気扇 フィルター';
+        $keywords[] = 'マジックリン 換気扇';
+        $keywords[] = '油汚れ落とし 強力';
+        $keywords[] = 'レンジフード クリーナー';
+    } elseif (strpos($query, 'コンロ') !== false) {
+        $keywords[] = 'コンロ クリーナー';
+        $keywords[] = '焦げ付き落とし';
+        $keywords[] = 'IHクリーナー';
+    } elseif (strpos($query, 'シンク') !== false) {
+        $keywords[] = 'シンク クリーナー';
+        $keywords[] = 'ステンレス クリーナー';
+        $keywords[] = '排水口 ネット';
+    } elseif (strpos($query, '電子レンジ') !== false) {
+        $keywords[] = '電子レンジ クリーナー';
+        $keywords[] = 'レンジ スチームクリーナー';
+    } elseif (strpos($query, '冷蔵庫') !== false) {
+        $keywords[] = '冷蔵庫 クリーナー';
+        $keywords[] = '冷蔵庫 消臭剤';
+    } elseif (strpos($query, 'キッチン') !== false || strpos($query, '台所') !== false) {
+        $keywords[] = 'キッチン 掃除 洗剤';
+        $keywords[] = '油汚れ 洗剤';
+        $keywords[] = 'キッチンマジックリン';
     }
     
-    if (strpos($query, 'トイレ') !== false) {
+    // トイレ関連
+    if (strpos($query, '便器') !== false && strpos($query, '尿石') !== false) {
+        $keywords[] = 'サンポール';
+        $keywords[] = '尿石除去剤';
+        $keywords[] = 'トイレ 酸性クリーナー';
+    } elseif (strpos($query, '便座') !== false) {
+        $keywords[] = '便座 クリーナー';
+        $keywords[] = 'トイレ 除菌シート';
+    } elseif (strpos($query, 'タンク') !== false) {
+        $keywords[] = 'トイレタンク クリーナー';
+        $keywords[] = 'ブルーレット';
+    } elseif (strpos($query, 'トイレ') !== false) {
         $keywords[] = 'トイレ 掃除 洗剤';
         $keywords[] = 'トイレマジックリン';
         $keywords[] = 'サンポール';
         $keywords[] = 'トイレブラシ';
     }
     
-    if (strpos($query, 'キッチン') !== false || strpos($query, '台所') !== false) {
-        $keywords[] = 'キッチン 掃除 洗剤';
-        $keywords[] = '油汚れ 洗剤';
-        $keywords[] = 'キッチンマジックリン';
+    // 窓関連
+    if (strpos($query, '窓ガラス') !== false) {
+        $keywords[] = 'ガラスマジックリン';
+        $keywords[] = '窓 スクイジー';
+        $keywords[] = '窓拭き ロボット';
+    } elseif (strpos($query, '網戸') !== false) {
+        $keywords[] = '網戸 クリーナー';
+        $keywords[] = '網戸 ブラシ';
+    } elseif (strpos($query, 'サッシ') !== false) {
+        $keywords[] = 'サッシ クリーナー';
+        $keywords[] = 'サッシ ブラシ';
+    } elseif (strpos($query, '窓') !== false) {
+        $keywords[] = '窓 ガラス クリーナー';
+        $keywords[] = 'ガラスマジックリン';
+        $keywords[] = '窓掃除 道具';
+    }
+    
+    // 床関連
+    if (strpos($query, 'フローリング') !== false) {
+        $keywords[] = 'フローリング ワックス';
+        $keywords[] = 'フローリング モップ';
+        $keywords[] = 'フローリング クリーナー';
+    } elseif (strpos($query, '畳') !== false) {
+        $keywords[] = '畳 クリーナー';
+        $keywords[] = '畳 ダニ取り';
+    } elseif (strpos($query, 'カーペット') !== false || strpos($query, '絨毯') !== false) {
+        $keywords[] = 'カーペット クリーナー';
+        $keywords[] = 'カーペット シミ取り';
+        $keywords[] = 'リンサークリーナー';
+    }
+    
+    // エアコン関連
+    if (strpos($query, 'エアコン') !== false || strpos($query, 'フィルター') !== false) {
+        $keywords[] = 'エアコン クリーナー';
+        $keywords[] = 'エアコン フィルター スプレー';
+        $keywords[] = 'エアコン カビ取り';
     }
     
     return $keywords;
