@@ -1195,4 +1195,8 @@ window.UI_CONFIG = UI_CONFIG;
 window.DEBUG_CONFIG = DEBUG_CONFIG;
 window.SECURITY_CONFIG = SECURITY_CONFIG;
 
-// 本番環境用 - console.logは削除済み
+// デバッグ用 - 問題解決後に削除予定
+console.log('🔧 config.js 読み込み完了');
+console.log('📦 ULTIMATE_PRODUCT_MATCHER:', typeof window.ULTIMATE_PRODUCT_MATCHER);
+console.log('📦 COMPREHENSIVE_PRODUCT_DATABASE:', typeof window.COMPREHENSIVE_PRODUCT_DATABASE);
+console.log('📦 COMPREHENSIVE_FALLBACK_DATA:', typeof window.COMPREHENSIVE_FALLBACK_DATA);

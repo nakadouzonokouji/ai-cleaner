@@ -1078,6 +1078,10 @@
       // 🛒 おすすめ商品取得（Amazon PA-API連携版）
       async getRecommendedProducts(dirtType) {
           console.log(`🛒 商品取得: ${dirtType}`);
+          console.log('🔍 変数チェック:');
+          console.log('  - window.ULTIMATE_PRODUCT_MATCHER:', typeof window.ULTIMATE_PRODUCT_MATCHER);
+          console.log('  - window.amazonAPI:', typeof window.amazonAPI);
+          console.log('  - window.COMPREHENSIVE_PRODUCT_DATABASE:', typeof window.COMPREHENSIVE_PRODUCT_DATABASE);
 
           if (typeof window.ULTIMATE_PRODUCT_MATCHER === 'undefined' || typeof window.amazonAPI === 'undefined') {
               console.warn('⚠️ ULTIMATE_PRODUCT_MATCHER または amazonAPI が未定義です。フォールバックデータを使用します。');

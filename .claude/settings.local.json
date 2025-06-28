@@ -17,7 +17,8 @@
       "Bash(npm run build-css:*)",
       "Bash(npm install)",
       "Bash(npx tailwindcss:*)",
-      "Bash(npx netlify:*)"
+      "Bash(npx netlify:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }
