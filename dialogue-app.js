@@ -915,11 +915,7 @@ class DialogueCleaningAdvisor {
                 <div class="bg-white rounded-lg shadow-lg p-4">
                     ${product.badge ? `<div class="${badgeClass} text-xs font-bold px-2 py-1 rounded-full mb-2 text-center">${product.badge}</div>` : ''}
                     <div class="aspect-square mb-4 bg-gray-100 rounded flex items-center justify-center">
-                        <img src="https://m.media-amazon.com/images/I/${product.imageId || '41defaultXL'}._AC_SL500_.jpg" 
-                             alt="${product.name}" 
-                             class="max-h-full max-w-full object-contain"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="text-6xl" style="display:none;">${product.emoji || '🧴'}</div>
+                        ${this.getProductImageHtml(product)}
                     </div>
                     <h4 class="font-bold text-sm mb-2 line-clamp-2">${product.name}</h4>
                     <div class="text-2xl font-bold text-red-600 mb-2">${product.price}</div>
@@ -954,6 +950,41 @@ class DialogueCleaningAdvisor {
         if (productArea) {
             productArea.innerHTML = html;
         }
+    }
+    
+    getProductImageHtml(product) {
+        // 複数の画像URLパターンを試す
+        const imagePatterns = [
+            // パターン1: imageIdを使用
+            product.imageId ? `https://m.media-amazon.com/images/I/${product.imageId}._AC_SL500_.jpg` : null,
+            // パターン2: ASINを使った代替パターン
+            `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`,
+            // パターン3: Amazon広告ウィジェット
+            `https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${product.asin}&Format=_SL250_&ID=AsinImage&tag=asdfghj12-22`
+        ].filter(url => url !== null);
+        
+        let imageHtml = '';
+        imagePatterns.forEach((url, index) => {
+            const display = index === 0 ? 'block' : 'none';
+            imageHtml += `
+                <img src="${url}" 
+                     alt="${product.name}" 
+                     class="max-h-full max-w-full object-contain product-image-${index}"
+                     style="display: ${display};"
+                     onerror="this.style.display='none'; 
+                              const next = this.parentElement.querySelector('.product-image-${index + 1}');
+                              if (next) { 
+                                  next.style.display='block'; 
+                              } else {
+                                  this.parentElement.querySelector('.product-emoji').style.display='flex';
+                              }">
+            `;
+        });
+        
+        // フォールバック用の絵文字
+        imageHtml += `<div class="text-6xl product-emoji" style="display:none;">${product.emoji || '🧴'}</div>`;
+        
+        return imageHtml;
     }
 
     addMessage(type, content) {

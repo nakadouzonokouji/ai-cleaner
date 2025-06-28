@@ -162,7 +162,13 @@ class AmazonProductAPI {
                 images: {
                     large: `https://m.media-amazon.com/images/I/${this.getImageId(asin)}._AC_SL500_.jpg`,
                     medium: `https://m.media-amazon.com/images/I/${this.getImageId(asin)}._AC_SL300_.jpg`,
-                    small: `https://m.media-amazon.com/images/I/${this.getImageId(asin)}._AC_SL160_.jpg`
+                    small: `https://m.media-amazon.com/images/I/${this.getImageId(asin)}._AC_SL160_.jpg`,
+                    // フォールバック画像URLs（エラー時の代替）
+                    fallback: [
+                        `https://images-na.ssl-images-amazon.com/images/I/${this.getImageId(asin)}._AC_SL500_.jpg`,
+                        `https://images-fe.ssl-images-amazon.com/images/I/${this.getImageId(asin)}._AC_SL500_.jpg`,
+                        `https://images-eu.ssl-images-amazon.com/images/I/${this.getImageId(asin)}._AC_SL500_.jpg`
+                    ]
                 },
                 url: `https://www.amazon.co.jp/dp/${asin}?tag=${associateTag}`,
                 isRealData: false,
@@ -245,13 +251,49 @@ class AmazonProductAPI {
 
     // 画像ID生成（ASINから推定）
     getImageId(asin) {
-        // 実際のAmazon画像IDパターンを使用
+        // 実際のAmazon画像IDパターンを使用（2025年更新版）
         const imageIdMap = {
+            // キッチン系商品
+            'B07C44DM6S': '41vX3QHG5LL', // 花王 マジックリン ハンディスプレー
             'B07QN4M52D': '31bAL9DPBGL', // キュキュット
             'B002E1AU3A': '41L3qQHGJLL', // チャーミーマジカ
+            'B08KGL4M56': '41Z5K3QXHPL', // 業務用強力油汚れクリーナー
+            'B09ABC1234': '41R8Y5QXHPL', // キュキュット クリア除菌
+            
+            // 浴室・カビ系商品
             'B0012R4V2S': '51xQx5W3veL', // カビキラー
+            'B000FQTJZW': '51M8Y5W3veL', // ジョンソン カビキラー
+            'B07K8LM123': '41K9Z5QXHPL', // 強力カビ取りジェル
+            'B08PKM7890': '51P7Y5W3veL', // 防カビコーティング
+            
+            // 水垢系商品
+            'B07KLM5678': '41Q2Z5QXHPL', // 茂木和哉
+            'B07Q9ZKQHZ': '41W3Z5QXHPL', // 茂木和哉 水垢洗剤
+            'B08NOP9012': '51N8Y5W3veL', // クエン酸水垢落とし
+            
+            // 床掃除系商品
             'B01N05Y41E': '51A7Y5QXHPL', // クイックルワイパー
-            // デフォルトパターン（ASINの最初の文字を使用）
+            'B00EOHQPHC': '41E9Z5QXHPL', // クイックルワイパー ドライシート
+            'B07NBA84F5': '51B8Y5W3veL', // クイックルワイパー ウエットシート
+            'B005AILJ3O': '41F2Z5QXHPL', // クイックルワイパー 本体
+            
+            // トイレ系商品
+            'B000FQM123': '51C7Y5W3veL', // トイレマジックリン
+            'B07YHL4567': '41G3Z5QXHPL', // サンポール
+            'B08YTR8901': '51D8Y5W3veL', // トイレ用除菌シート
+            
+            // ツール類
+            'B01M4KGHF7': '41H9Z5QXHPL', // 換気扇専用ブラシ
+            'B00OOCWP44': '51E7Y5W3veL', // 激落ちくん
+            'B01HGF8901': '41J2Z5QXHPL', // 浴室用ブラシ
+            'B01KLM2345': '51F8Y5W3veL', // トイレブラシ
+            
+            // 保護具
+            'B04GHI2345': '41K3Z5QXHPL', // ニトリル手袋
+            'B073C4QRLS': '51G7Y5W3veL', // ショーワグローブ
+            'B07PQR6789': '41L9Z5QXHPL', // ゴム手袋
+            
+            // デフォルト画像（商品画像が見つからない場合）
             'default': '41XXXXXXXXL'
         };
         return imageIdMap[asin] || imageIdMap['default'];

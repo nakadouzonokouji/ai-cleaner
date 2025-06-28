@@ -1197,6 +1197,7 @@
                           reviews: realTime.reviewCount || staticProduct.reviews,
                           url: realTime.url || staticProduct.url,
                           images: realTime.images || staticProduct.images,
+                          imageId: window.amazonAPI?.getImageId(staticProduct.asin) || staticProduct.imageId,
                           isRealData: realTime.isRealData !== undefined ? realTime.isRealData : true
                       };
                   }
@@ -1376,9 +1377,11 @@
             `;
             
             products.cleaners.forEach((product) => {
-                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
-                const imageUrl2 = product.images?.medium || `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
-                const imageUrl3 = `https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${product.asin}&Format=_SL160_&ID=AsinImage`;
+                // Amazon画像URL生成（2025年対応版）
+                const imageId = product.imageId || window.amazonAPI?.getImageId(product.asin) || '41XXXXXXXXL';
+                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${imageId}._AC_SL500_.jpg`;
+                const imageUrl2 = product.images?.medium || `https://m.media-amazon.com/images/I/${imageId}._AC_SL300_.jpg`;
+                const imageUrl3 = product.images?.small || `https://m.media-amazon.com/images/I/${imageId}._AC_SL160_.jpg`;
                 
                 html += `
                     <div class="product-card border-2 border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
@@ -1430,9 +1433,11 @@
             `;
             
             products.tools.forEach((product) => {
-                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
-                const imageUrl2 = product.images?.medium || `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
-                const imageUrl3 = `https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${product.asin}&Format=_SL160_&ID=AsinImage`;
+                // Amazon画像URL生成（2025年対応版）
+                const imageId = product.imageId || window.amazonAPI?.getImageId(product.asin) || '41XXXXXXXXL';
+                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${imageId}._AC_SL500_.jpg`;
+                const imageUrl2 = product.images?.medium || `https://m.media-amazon.com/images/I/${imageId}._AC_SL300_.jpg`;
+                const imageUrl3 = product.images?.small || `https://m.media-amazon.com/images/I/${imageId}._AC_SL160_.jpg`;
                 
                 html += `
                     <div class="product-card border-2 border-green-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">
@@ -1484,9 +1489,11 @@
             `;
             
             products.protection.forEach((product) => {
-                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${product.asin}._AC_SL1000_.jpg`;
-                const imageUrl2 = product.images?.medium || `https://images-na.ssl-images-amazon.com/images/P/${product.asin}.01._SCLZZZZZZZ_.jpg`;
-                const imageUrl3 = `https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${product.asin}&Format=_SL160_&ID=AsinImage`;
+                // Amazon画像URL生成（2025年対応版）
+                const imageId = product.imageId || window.amazonAPI?.getImageId(product.asin) || '41XXXXXXXXL';
+                const imageUrl1 = product.images?.large || `https://m.media-amazon.com/images/I/${imageId}._AC_SL500_.jpg`;
+                const imageUrl2 = product.images?.medium || `https://m.media-amazon.com/images/I/${imageId}._AC_SL300_.jpg`;
+                const imageUrl3 = product.images?.small || `https://m.media-amazon.com/images/I/${imageId}._AC_SL160_.jpg`;
                 
                 html += `
                     <div class="product-card border-2 border-purple-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 bg-white">

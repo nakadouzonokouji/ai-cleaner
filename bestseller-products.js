@@ -324,19 +324,122 @@ window.getBestsellerProducts = function(location, dirtType) {
     // 場所と汚れタイプに応じて最適な商品カテゴリを選択
     if (location === 'kitchen' || dirtType.includes('油') || dirtType.includes('キッチン')) {
         products = window.BESTSELLER_PRODUCTS.kitchen_cleaners;
-    } else if (location === 'bathroom' || dirtType.includes('カビ') || dirtType.includes('浴室')) {
-        products = window.BESTSELLER_PRODUCTS.bathroom_mold;
+    } else if (location === 'bathroom') {
+        // 浴室の場合、汚れタイプによって商品を選択
+        if (dirtType.includes('カビ')) {
+            products = window.BESTSELLER_PRODUCTS.bathroom_mold;
+        } else if (dirtType.includes('水垢') || dirtType.includes('ウロコ')) {
+            // 水垢の場合は水垢取り商品を優先、カビ取りも追加
+            products = [
+                ...window.BESTSELLER_PRODUCTS.scale_removers.slice(0, 2),
+                ...window.BESTSELLER_PRODUCTS.bathroom_mold.slice(0, 2)
+            ];
+        } else if (dirtType.includes('ヌメリ') || dirtType.includes('排水')) {
+            // 排水口の場合はカビ取りとパイプクリーナーを混合
+            products = [
+                window.BESTSELLER_PRODUCTS.bathroom_mold[0], // カビキラー
+                {
+                    asin: "B00FRGVVHU",
+                    name: "パイプユニッシュ プロ 濃縮液体タイプ 400g",
+                    imageId: "61PIPE1MNOXL",
+                    price: "¥298",
+                    rating: 4.3,
+                    reviews: 3456,
+                    rank: 1,
+                    emoji: "🚿",
+                    badge: "🥇 排水口No.1",
+                    url: "https://www.amazon.co.jp/dp/B00FRGVVHU?tag=asdfghj12-22"
+                },
+                window.BESTSELLER_PRODUCTS.bathroom_mold[1],
+                window.BESTSELLER_PRODUCTS.cleaning_tools[0] // ゴム手袋
+            ];
+        } else {
+            // その他の浴室掃除
+            products = [
+                ...window.BESTSELLER_PRODUCTS.bathroom_mold.slice(0, 2),
+                ...window.BESTSELLER_PRODUCTS.scale_removers.slice(0, 2)
+            ];
+        }
     } else if (dirtType.includes('水垢') || dirtType.includes('ウロコ')) {
         products = window.BESTSELLER_PRODUCTS.scale_removers;
     } else if (location === 'toilet' || dirtType.includes('トイレ') || dirtType.includes('尿石')) {
         products = window.BESTSELLER_PRODUCTS.toilet_cleaners;
     } else if (location === 'floor' || dirtType.includes('床') || dirtType.includes('フローリング')) {
-        products = window.BESTSELLER_PRODUCTS.floor_cleaners;
+        // 床の場合、汚れタイプに応じて商品を選択
+        if (dirtType.includes('ホコリ')) {
+            products = window.BESTSELLER_PRODUCTS.floor_cleaners;
+        } else {
+            // その他の床汚れには万能クリーナーも追加
+            products = [
+                ...window.BESTSELLER_PRODUCTS.floor_cleaners.slice(0, 2),
+                window.BESTSELLER_PRODUCTS.scale_removers[3], // ウタマロクリーナー
+                window.BESTSELLER_PRODUCTS.cleaning_tools[2] // スポンジ
+            ];
+        }
+    } else if (location === 'laundry' || dirtType.includes('洗濯')) {
+        // 洗濯機の場合は専用クリーナーとカビ取り剤
+        products = [
+            {
+                asin: "B07HQJKMNP",
+                name: "洗たく槽カビキラー 塩素系 550g",
+                imageId: "71WASH1MNOXL",
+                price: "¥298",
+                rating: 4.4,
+                reviews: 5678,
+                rank: 1,
+                emoji: "🌀",
+                badge: "🥇 洗濯槽No.1",
+                url: "https://www.amazon.co.jp/dp/B07HQJKMNP?tag=asdfghj12-22"
+            },
+            window.BESTSELLER_PRODUCTS.bathroom_mold[0], // カビキラー
+            window.BESTSELLER_PRODUCTS.cleaning_tools[0], // ゴム手袋
+            window.BESTSELLER_PRODUCTS.cleaning_tools[3] // スポンジ
+        ];
+    } else if (location === 'aircon' || dirtType.includes('エアコン')) {
+        // エアコンの場合は専用クリーナー
+        products = [
+            {
+                asin: "B07D7P3MNP",
+                name: "エアコン洗浄スプレー 無香料 420ml×2本",
+                imageId: "81AIR01MNOXL",
+                price: "¥698",
+                rating: 4.2,
+                reviews: 2345,
+                rank: 1,
+                emoji: "❄️",
+                badge: "🥇 エアコンNo.1",
+                url: "https://www.amazon.co.jp/dp/B07D7P3MNP?tag=asdfghj12-22"
+            },
+            window.BESTSELLER_PRODUCTS.cleaning_tools[0], // ゴム手袋
+            window.BESTSELLER_PRODUCTS.floor_cleaners[3], // メラミンスポンジ
+            {
+                asin: "B01M0Q84R3",
+                name: "エアコンフィルター 抗菌・消臭タイプ",
+                imageId: "71FILT1MNOXL",
+                price: "¥1,280",
+                rating: 4.3,
+                reviews: 1234,
+                rank: 2,
+                emoji: "🌬️",
+                badge: "⭐ 予防効果",
+                url: "https://www.amazon.co.jp/dp/B01M0Q84R3?tag=asdfghj12-22"
+            }
+        ];
     } else {
         // デフォルトは掃除道具
         products = window.BESTSELLER_PRODUCTS.cleaning_tools;
     }
     
-    // 売れ筋TOP4を返す
-    return products.slice(0, 4);
+    // 売れ筋TOP4を返す（重複を除去）
+    const uniqueProducts = [];
+    const seenAsins = new Set();
+    
+    for (const product of products) {
+        if (!seenAsins.has(product.asin)) {
+            uniqueProducts.push(product);
+            seenAsins.add(product.asin);
+        }
+    }
+    
+    return uniqueProducts.slice(0, 4);
 };

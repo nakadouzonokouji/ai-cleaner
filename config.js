@@ -243,7 +243,8 @@ const COMPREHENSIVE_PRODUCT_DATABASE = {
                 priority: 1,
                 brand: "花王",
                 features: ["界面活性剤", "油汚れ分解", "スプレータイプ"],
-                targetDirt: ["油汚れ", "ベトベト汚れ"]
+                targetDirt: ["油汚れ", "ベトベト汚れ"],
+                imageId: "41vX3QHG5LL"
             },
             {
                 asin: "B002E1AU3A",
