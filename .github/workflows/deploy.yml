@@ -19,8 +19,8 @@ jobs:
         return [
             'gemini_api_key' => '${{ secrets.GEMINI_API_KEY }}',
             'amazon_associate_tag' => '${{ secrets.AMAZON_ASSOCIATE_TAG }}',
-            'paapi_access_key' => '${{ secrets.PAAPI_ACCESS_KEY }}',
-            'paapi_secret_key' => '${{ secrets.PAAPI_SECRET_KEY }}',
+            'paapi_access_key' => '${{ secrets.AMAZON_ACCESS_KEY }}',
+            'paapi_secret_key' => '${{ secrets.AMAZON_SECRET_KEY }}',
             'paapi_partner_tag' => '${{ secrets.AMAZON_ASSOCIATE_TAG }}',
             'paapi_host' => 'webservices.amazon.co.jp',
             'paapi_region' => 'us-west-2'
@@ -30,10 +30,10 @@ jobs:
     - name: Deploy to Xserver via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.3
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{ secrets.FTP_SERVER_DIR }}
+        server: ${{ secrets.XSERVER_FTP_HOST }}
+        username: ${{ secrets.XSERVER_FTP_USER }}
+        password: ${{ secrets.XSERVER_FTP_PASS }}
+        server-dir: /cxmainte.com/public_html/tools/ai-cleaner/
         exclude: |
           **/.git*
           **/.git*/**
