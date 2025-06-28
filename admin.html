@@ -5,14 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI掃除アドバイザー - 統合管理ダッシュボード</title>
     <script>
-        // Suppress Tailwind CDN warning by setting config before loading
-        window.tailwind = {
-            config: {
-                // Custom configuration can be added here
+        // Override console.warn to filter out Tailwind CDN warning
+        const originalWarn = console.warn;
+        console.warn = function(...args) {
+            if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) {
+                return; // Suppress this specific warning
             }
+            originalWarn.apply(console, args);
         };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Restore original console.warn after Tailwind loads
+        setTimeout(() => {
+            console.warn = originalWarn;
+        }, 100);
+    </script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
