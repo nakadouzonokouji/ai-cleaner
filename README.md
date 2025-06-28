@@ -18,7 +18,7 @@ GitHubリポジトリの Settings > Secrets and variables > Actions で以下を
    - `FTP_SERVER`: FTPサーバーアドレス (例: sv123.xserver.jp)
    - `FTP_USERNAME`: FTPユーザー名
    - `FTP_PASSWORD`: FTPパスワード
-   - `FTP_SERVER_DIR`: デプロイ先ディレクトリ (例: /public_html/cleaning-advisor/)
+   - `FTP_SERVER_DIR`: デプロイ先ディレクトリ (例: /cxmainte.com/public_html/tools/ai-cleaner/)
 
 ### 自動デプロイの流れ
 
@@ -51,7 +51,7 @@ cleaning-advisor-app/
 ### 1. ファイルのアップロード
 
 1. エックスサーバーのファイルマネージャーまたはFTPクライアントを使用
-2. public_html内に新しいディレクトリを作成（例：`cleaning-advisor`）
+2. public_html内に新しいディレクトリを作成（例：`ai-cleaner`）
 3. すべてのファイルをアップロード
 
 ### 2. パーミッション設定
