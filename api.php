@@ -124,14 +124,14 @@ function searchAmazonProducts($query, $config) {
             $products = array_merge($products, $searchResults);
         }
         
-        // 10個集まったら終了
-        if (count($products) >= 10) {
+        // 4個集まったら終了
+        if (count($products) >= 4) {
             break;
         }
     }
     
-    // 10個に絞る
-    $products = array_slice($products, 0, 10);
+    // 4個に絞る
+    $products = array_slice($products, 0, 4);
     
     echo json_encode(['products' => $products]);
 }
@@ -181,120 +181,42 @@ function generateCleaningKeywords($query) {
 
 // Amazon商品を取得
 function callAmazonAPI($keyword, $config) {
-    // PA APIクラスを読み込み
-    require_once 'amazon-paapi.php';
+    // Amazon SDKを使用
+    require_once 'amazon-sdk.php';
     
     try {
+        // SDKを使用して商品を検索
+        $products = searchAmazonProductsSDK($keyword, $config, 4);
+        
+        // SDKが成功した場合はその結果を返す
+        if ($products !== false && !empty($products)) {
+            error_log('Amazon SDK successful, found ' . count($products) . ' products');
+            return $products;
+        }
+        
+        // SDKが失敗した場合、従来のPA API実装を試す
+        error_log('Amazon SDK failed, trying PA API implementation');
+        require_once 'amazon-paapi.php';
+        
         $api = new AmazonProductAPI($config);
         $products = $api->searchItems($keyword, 4);
         
-        // APIが成功した場合はその結果を返す
         if ($products !== false && !empty($products)) {
             return $products;
         }
+        
+        // それも失敗した場合のみ、フォールバックとして簡易実装を使用
+        error_log('Both SDK and PA API failed, using fallback implementation');
+        require_once 'amazon-simple.php';
+        return getAmazonProducts($keyword, $config);
+        
     } catch (Exception $e) {
-        error_log('Amazon PA API error: ' . $e->getMessage());
-    }
-    
-    // APIが失敗した場合は固定のASINを使用（フォールバック）
-    // 掃除用品の実際のASIN（2024年現在の有効な商品）
-    $cleaningProducts = [
-        // 油汚れ・キッチン用
-        'B07BNKXBCD' => 'ウタマロクリーナー 400ml',
-        'B07P98CBLC' => '花王 マジックリン ハンディスプレー',
-        'B07W7PT4SK' => 'レック 激落ち 黒カビくん',
-        'B08R8GJC4F' => 'セスキの激落ちくん 400ml',
+        error_log('Amazon API error: ' . $e->getMessage());
         
-        // カビ・浴室用  
-        'B00V4MFQ7K' => 'カビキラー カビ取り剤 特大',
-        'B07WG37VQV' => 'バスマジックリン 泡立ちスプレー',
-        'B07Q2M3J5Q' => 'ルック おふろの防カビくん煙剤',
-        
-        // トイレ用
-        'B01LWPQZJ4' => 'トイレマジックリン スプレー',
-        'B00V4LPUHC' => 'サンポール トイレ洗剤',
-        'B07VNGQDHK' => 'スクラビングバブル トイレスタンプ',
-        
-        // 万能クリーナー
-        'B00VQE5IQA' => 'オキシクリーン 1500g',
-        'B07BNKXBCD' => 'ウタマロクリーナー',
-        'B00V9L09TE' => 'パイプユニッシュ PRO'
-    ];
-    
-    // キーワードに基づいて適切な商品を選択
-    $selectedASINs = [];
-    
-    // キーワードマッチング
-    foreach ($cleaningProducts as $asin => $productName) {
-        if (strpos($keyword, '油') !== false || strpos($keyword, 'キッチン') !== false || strpos($keyword, '換気扇') !== false) {
-            if (in_array($asin, ['B07BNKXBCD', 'B07P98CBLC', 'B07W7PT4SK', 'B08R8GJC4F'])) {
-                $selectedASINs[$asin] = $productName;
-            }
-        }
-        
-        if (strpos($keyword, 'カビ') !== false || strpos($keyword, '風呂') !== false || strpos($keyword, '浴') !== false) {
-            if (in_array($asin, ['B00V4MFQ7K', 'B07WG37VQV', 'B07Q2M3J5Q'])) {
-                $selectedASINs[$asin] = $productName;
-            }
-        }
-        
-        if (strpos($keyword, 'トイレ') !== false || strpos($keyword, '便器') !== false) {
-            if (in_array($asin, ['B01LWPQZJ4', 'B00V4LPUHC', 'B07VNGQDHK'])) {
-                $selectedASINs[$asin] = $productName;
-            }
-        }
+        // エラーが発生した場合も簡易実装にフォールバック
+        require_once 'amazon-simple.php';
+        return getAmazonProducts($keyword, $config);
     }
-    
-    // 選択された商品がない場合は万能クリーナーを追加
-    if (empty($selectedASINs)) {
-        $selectedASINs = $cleaningProducts;
-    }
-    
-    // 売れ筋商品（2024年人気商品）
-    $bestSellers = [
-        'B07BNKXBCD' => 'ウタマロクリーナー 400ml',
-        'B00V4MFQ7K' => 'カビキラー カビ取り剤 特大',
-        'B00VQE5IQA' => 'オキシクリーン 1500g',
-        'B07P98CBLC' => '花王 マジックリン ハンディスプレー'
-    ];
-    
-    // 選択された商品から開始
-    $products = [];
-    foreach ($selectedASINs as $asin => $title) {
-        $products[] = [
-            'asin' => $asin,
-            'title' => $title,
-            'image' => 'https://m.media-amazon.com/images/I/41PLACEHOLDER.jpg',
-            'url' => 'https://www.amazon.co.jp/dp/' . $asin . '/?tag=' . $config['amazon_associate_tag']
-        ];
-        if (count($products) >= 4) break;
-    }
-    
-    // 不足分を売れ筋商品で補充
-    if (count($products) < 4) {
-        foreach ($bestSellers as $asin => $title) {
-            $alreadyAdded = false;
-            foreach ($products as $product) {
-                if ($product['asin'] === $asin) {
-                    $alreadyAdded = true;
-                    break;
-                }
-            }
-            
-            if (!$alreadyAdded) {
-                $products[] = [
-                    'asin' => $asin,
-                    'title' => $title,
-                    'image' => 'https://m.media-amazon.com/images/I/41PLACEHOLDER.jpg',
-                    'url' => 'https://www.amazon.co.jp/dp/' . $asin . '/?tag=' . $config['amazon_associate_tag']
-                ];
-            }
-            
-            if (count($products) >= 4) break;
-        }
-    }
-    
-    return $products;
 }
 
 // 実際のAmazon PA API v5実装用の署名生成関数

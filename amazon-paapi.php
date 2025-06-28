@@ -75,7 +75,17 @@ class AmazonProductAPI {
         }
         
         if ($httpCode !== 200) {
-            error_log('API HTTP error: ' . $httpCode . ' Response: ' . $response);
+            error_log('Amazon PA API HTTP error: ' . $httpCode);
+            error_log('Response: ' . $response);
+            
+            // エラーの詳細を解析
+            $errorData = json_decode($response, true);
+            if (isset($errorData['Errors'])) {
+                foreach ($errorData['Errors'] as $error) {
+                    error_log('API Error: ' . $error['Code'] . ' - ' . $error['Message']);
+                }
+            }
+            
             return false;
         }
         
