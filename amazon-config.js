@@ -4,7 +4,7 @@
 window.AMAZON_CONFIG = {
     // 本番環境：サーバーサイドプロキシ経由でAPIキーを隠蔽
     useServerProxy: true, // Netlify Functionsプロキシ経由でAPI呼び出し
-    proxyEndpoint: '/.netlify/functions/amazon-proxy', // Netlify Functionsのエンドポイント
+    proxyEndpoint: '/tools/ai-cleaner/server/amazon-proxy.php', // Xサーバー用PHPプロキシ
     
     // GitHub Secrets経由で設定される環境変数
     // 実際の値はGitHub Actions deployment時に注入される

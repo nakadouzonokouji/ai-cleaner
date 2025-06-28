@@ -908,7 +908,7 @@
           };
 
           result.cleaningMethod = this.generateCleaningMethod(result.dirtType, result.surface);
-          result.recommendedProducts = this.getRecommendedProducts(result.dirtType);
+          result.recommendedProducts = await this.getRecommendedProducts(result.dirtType);
 
           return result;
       }
@@ -934,7 +934,7 @@
           };
 
           result.cleaningMethod = this.generateCleaningMethod(result.dirtType, result.surface);
-          result.recommendedProducts = this.getRecommendedProducts(result.dirtType);
+          result.recommendedProducts = await this.getRecommendedProducts(result.dirtType);
 
           return result;
       }
