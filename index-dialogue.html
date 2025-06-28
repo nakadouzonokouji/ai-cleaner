@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI掃除アドバイザー - 対話型掃除相談システム</title>
+    <meta name="description" content="AIとの対話を通じて最適な掃除方法と商品を提案。Amazonの売れ筋商品を厳選して紹介します。">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        #chatMessages::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chatMessages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        #chatMessages::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        #chatMessages::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- ヘッダー -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl font-bold text-gray-800">🤖 AI掃除アドバイザー</h1>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- 説明セクション -->
+            <section class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">掃除のお悩み、AIにご相談ください</h2>
+                <p class="text-gray-600">どんな掃除のお悩みでも、AIが詳しくお伺いして最適な解決方法をご提案します。</p>
+            </section>
+
+            <!-- チャットエリア -->
+            <section class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div id="chatMessages" class="bg-gray-50 rounded-lg p-4 mb-4 h-96 overflow-y-auto">
+                    <!-- メッセージがここに表示されます -->
+                </div>
+                
+                <!-- 入力エリア -->
+                <div class="flex gap-2">
+                    <textarea id="cleaningInput" 
+                        class="flex-1 p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none resize-none" 
+                        rows="2" 
+                        placeholder="例：キッチンを掃除したい"></textarea>
+                    <button id="analyzeBtn" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                        送信
+                    </button>
+                </div>
+            </section>
+
+            <!-- 商品表示エリア -->
+            <section id="resultArea" class="hidden">
+                <div id="productArea">
+                    <!-- 商品がここに表示されます -->
+                </div>
+            </section>
+
+            <!-- 使い方 -->
+            <section class="bg-blue-50 rounded-lg p-6 mt-8">
+                <h3 class="text-lg font-bold mb-3">💡 使い方のヒント</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li>• 「キッチンを掃除したい」と入力すると、AIが詳しい箇所を質問します</li>
+                    <li>• 質問に答えていくと、最適な掃除方法を提案します</li>
+                    <li>• おすすめの掃除用品も画像付きで紹介します</li>
+                    <li>• 「もっと見る」ボタンでAmazonの他の商品も確認できます</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2025 AI掃除アドバイザー. All Rights Reserved.</p>
+            <p class="text-gray-500 text-xs mt-2">
+                このアプリはAmazonアソシエイト・プログラムの参加者です。
+            </p>
+        </div>
+    </footer>
+
+    <!-- スクリプト読み込み -->
+    <script src="amazon-config.js"></script>
+    <script src="amazon-api.js"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+    <script src="dialogue-app.js"></script>
+</body>
+</html>
