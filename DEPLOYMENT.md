@@ -28,19 +28,34 @@
 
 #### 3. 環境変数の設定
 
+**重要**: GitHubリポジトリシークレットに既に設定されている場合も、Netlifyで使用するには別途設定が必要です。
+
 1. Netlifyのサイト管理画面を開く
 2. 「Site configuration」→「Build & deploy」→「Environment」へ
 3. 「Environment variables」セクションで「Edit variables」をクリック
-4. 以下の変数を追加：
+4. 以下の環境変数を全て追加：
 
 ```
-AMAZON_ACCESS_KEY = [あなたのアクセスキー]
-AMAZON_SECRET_KEY = [あなたのシークレットキー]
-AMAZON_ASSOCIATE_TAG = asdfghj12-22
+AMAZON_ACCESS_KEY = [GitHubシークレットと同じ値]
+AMAZON_SECRET_KEY = [GitHubシークレットと同じ値]
+AMAZON_ASSOCIATE_TAG = [GitHubシークレットと同じ値]
+GEMINI_API_KEY = [GitHubシークレットと同じ値]
 ```
+
+**GitHubシークレットの値を確認する方法**:
+- GitHubシークレットは一度設定すると値を表示できません
+- 値が不明な場合は、新しく生成する必要があります：
+  - Amazon PA-API: [Amazon開発者コンソール](https://developer.amazon.com/)
+  - Gemini API: [Google AI Studio](https://aistudio.google.com/)
 
 5. 「Save」をクリック
 6. 「Deploys」→「Trigger deploy」→「Deploy site」でサイトを再デプロイ
+
+**環境変数が正しく設定されているか確認**:
+- デプロイ後、ブラウザの開発者ツール（F12）を開く
+- Consoleタブで以下のメッセージを確認：
+  - ✅ Amazon設定を環境変数から更新しました
+  - ✅ Gemini APIキーを環境変数から設定しました
 
 #### 4. アクセスURL
 

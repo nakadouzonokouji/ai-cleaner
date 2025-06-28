@@ -1,8 +1,29 @@
 {
+  "name": "ai-cleaner",
+  "version": "3.0.0",
+  "description": "AI掃除アドバイザー - 対話型掃除相談システム",
+  "main": "index.html",
+  "scripts": {
+    "build-css": "./node_modules/.bin/tailwindcss -i ./input.css -o ./dist/output.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nakadouzonokouji/ai-cleaner.git"
+  },
+  "keywords": [
+    "cleaning",
+    "ai",
+    "gemini",
+    "amazon",
+    "advisor"
+  ],
+  "author": "CX Mainte",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
   "devDependencies": {
     "tailwindcss": "^4.1.11"
-  },
-  "scripts": {
-    "build-css": "./node_modules/.bin/tailwindcss -i ./input.css -o ./dist/output.css --minify"
   }
 }
