@@ -1,7 +1,7 @@
 <?php
-// エラー表示設定（本番環境では無効化）
-error_reporting(0);
-ini_set('display_errors', 0);
+// エラー表示設定（一時的にデバッグ有効）
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // CORS設定
 header('Content-Type: application/json; charset=utf-8');
@@ -15,7 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // 設定ファイルを読み込み
-$config = require_once 'config.php';
+if (!file_exists('config.php')) {
+    http_response_code(500);
+    die(json_encode(['error' => 'Configuration file not found']));
+}
+
+try {
+    $config = require_once 'config.php';
+} catch (Exception $e) {
+    http_response_code(500);
+    die(json_encode(['error' => 'Failed to load configuration: ' . $e->getMessage()]));
+}
 
 // リクエストデータを取得
 $input = json_decode(file_get_contents('php://input'), true);
