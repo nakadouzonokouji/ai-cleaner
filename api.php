@@ -181,40 +181,28 @@ function generateCleaningKeywords($query) {
 
 // Amazon商品を取得（実際のASINを使用）
 function callAmazonAPI($keyword, $config) {
-    // 掃除用品の実際のASIN（Amazon商品ID）
+    // 掃除用品の実際のASIN（2024年現在の有効な商品）
     $cleaningProducts = [
         // 油汚れ・キッチン用
-        'B07F3QQQ3N' => 'ウタマロクリーナー',
-        'B005IXQIYI' => 'マジックリン キッチン用',
-        'B08R5TLLBQ' => '激落ちくん',
-        'B07KXNZ5TQ' => 'セスキの激落ちくん',
+        'B07BNKXBCD' => 'ウタマロクリーナー 400ml',
+        'B07P98CBLC' => '花王 マジックリン ハンディスプレー',
+        'B07W7PT4SK' => 'レック 激落ち 黒カビくん',
+        'B08R8GJC4F' => 'セスキの激落ちくん 400ml',
         
-        // カビ・浴室用
-        'B00V4MFQ7K' => 'カビキラー',
-        'B0011M8PT0' => 'バスマジックリン',
-        'B07KPLGVDQ' => 'おふろの防カビくん煙剤',
+        // カビ・浴室用  
+        'B00V4MFQ7K' => 'カビキラー カビ取り剤 特大',
+        'B07WG37VQV' => 'バスマジックリン 泡立ちスプレー',
+        'B07Q2M3J5Q' => 'ルック おふろの防カビくん煙剤',
         
         // トイレ用
-        'B01LWPTD5R' => 'トイレマジックリン',
-        'B00IJ7AFCQ' => 'サンポール',
-        'B074Z8PJCR' => 'トイレスタンプ',
-        
-        // 窓・ガラス用
-        'B00IJ7AFD4' => 'ガラスマジックリン',
-        'B07JZ7NQPG' => 'キレイキレイ',
+        'B01LWPQZJ4' => 'トイレマジックリン スプレー',
+        'B00V4LPUHC' => 'サンポール トイレ洗剤',
+        'B07VNGQDHK' => 'スクラビングバブル トイレスタンプ',
         
         // 万能クリーナー
-        'B00NMZD0KC' => 'オキシクリーン',
-        'B074J7X1DN' => 'ウタマロ石けん',
-        'B07DHLG9YR' => 'パイプユニッシュ',
-        
-        // 床・フローリング用
-        'B00V4MIUF4' => 'フローリングマジックリン',
-        'B07CG3WZ9G' => 'かんたんマイペット',
-        
-        // 除菌・消臭
-        'B086L4QNQC' => 'ファブリーズ',
-        'B01M8MDMF3' => 'リセッシュ'
+        'B00VQE5IQA' => 'オキシクリーン 1500g',
+        'B07BNKXBCD' => 'ウタマロクリーナー',
+        'B00V9L09TE' => 'パイプユニッシュ PRO'
     ];
     
     // キーワードに基づいて適切な商品を選択
@@ -223,25 +211,19 @@ function callAmazonAPI($keyword, $config) {
     // キーワードマッチング
     foreach ($cleaningProducts as $asin => $productName) {
         if (strpos($keyword, '油') !== false || strpos($keyword, 'キッチン') !== false || strpos($keyword, '換気扇') !== false) {
-            if (in_array($asin, ['B07F3QQQ3N', 'B005IXQIYI', 'B08R5TLLBQ', 'B07KXNZ5TQ'])) {
+            if (in_array($asin, ['B07BNKXBCD', 'B07P98CBLC', 'B07W7PT4SK', 'B08R8GJC4F'])) {
                 $selectedASINs[$asin] = $productName;
             }
         }
         
         if (strpos($keyword, 'カビ') !== false || strpos($keyword, '風呂') !== false || strpos($keyword, '浴') !== false) {
-            if (in_array($asin, ['B00V4MFQ7K', 'B0011M8PT0', 'B07KPLGVDQ'])) {
+            if (in_array($asin, ['B00V4MFQ7K', 'B07WG37VQV', 'B07Q2M3J5Q'])) {
                 $selectedASINs[$asin] = $productName;
             }
         }
         
         if (strpos($keyword, 'トイレ') !== false || strpos($keyword, '便器') !== false) {
-            if (in_array($asin, ['B01LWPTD5R', 'B00IJ7AFCQ', 'B074Z8PJCR'])) {
-                $selectedASINs[$asin] = $productName;
-            }
-        }
-        
-        if (strpos($keyword, '窓') !== false || strpos($keyword, 'ガラス') !== false) {
-            if (in_array($asin, ['B00IJ7AFD4', 'B07JZ7NQPG'])) {
+            if (in_array($asin, ['B01LWPQZJ4', 'B00V4LPUHC', 'B07VNGQDHK'])) {
                 $selectedASINs[$asin] = $productName;
             }
         }
@@ -252,18 +234,12 @@ function callAmazonAPI($keyword, $config) {
         $selectedASINs = $cleaningProducts;
     }
     
-    // 売れ筋商品（人気商品）を優先的に追加
+    // 売れ筋商品（2024年人気商品）
     $bestSellers = [
-        'B07F3QQQ3N' => 'ウタマロクリーナー',
-        'B08R5TLLBQ' => '激落ちくん', 
-        'B00V4MFQ7K' => 'カビキラー',
-        'B00NMZD0KC' => 'オキシクリーン',
-        'B005IXQIYI' => 'マジックリン キッチン用',
-        'B01LWPTD5R' => 'トイレマジックリン',
-        'B07KXNZ5TQ' => 'セスキの激落ちくん',
-        'B0011M8PT0' => 'バスマジックリン',
-        'B00IJ7AFCQ' => 'サンポール',
-        'B07DHLG9YR' => 'パイプユニッシュ'
+        'B07BNKXBCD' => 'ウタマロクリーナー 400ml',
+        'B00V4MFQ7K' => 'カビキラー カビ取り剤 特大',
+        'B00VQE5IQA' => 'オキシクリーン 1500g',
+        'B07P98CBLC' => '花王 マジックリン ハンディスプレー'
     ];
     
     // 選択された商品から開始
@@ -279,7 +255,7 @@ function callAmazonAPI($keyword, $config) {
     }
     
     // 不足分を売れ筋商品で補充
-    if (count($products) < 10) {
+    if (count($products) < 4) {
         foreach ($bestSellers as $asin => $title) {
             $alreadyAdded = false;
             foreach ($products as $product) {
