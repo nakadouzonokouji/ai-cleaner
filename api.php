@@ -46,7 +46,7 @@ switch ($action) {
 // Gemini APIを使用して掃除アドバイスを取得
 function getCleaningAdvice($query, $config) {
     $apiKey = $config['gemini_api_key'];
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" . $apiKey;
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $apiKey;
     
     $prompt = "次の掃除に関する質問に対して、具体的で実践的なアドバイスを提供してください：\n\n" .
               "質問: " . $query . "\n\n" .
