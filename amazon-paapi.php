@@ -1,6 +1,5 @@
 <?php
 // Amazon PA API v5 実装
-// このファイルは実際のAmazon商品を取得する場合に使用します
 
 class AmazonProductAPI {
     private $accessKey;
@@ -17,42 +16,66 @@ class AmazonProductAPI {
         $this->region = $config['paapi_region'];
     }
     
-    public function searchItems($keywords, $limit = 10) {
-        $serviceName = 'ProductAdvertisingAPI';
-        $target = '/paapi5/searchitems';
-        $httpMethod = 'POST';
+    public function searchItems($keywords, $limit = 4) {
+        $timestamp = gmdate('Ymd\THis\Z');
+        $date = gmdate('Ymd');
         
-        $payload = json_encode([
-            'Keywords' => $keywords,
-            'SearchIndex' => 'All',
+        $payload = [
             'PartnerTag' => $this->partnerTag,
             'PartnerType' => 'Associates',
+            'Keywords' => $keywords,
+            'SearchIndex' => 'All',
             'ItemCount' => $limit,
             'Resources' => [
                 'Images.Primary.Large',
                 'ItemInfo.Title',
-                'Offers.Listings.Price',
-                'CustomerReviews.StarRating',
-                'BrowseNodeInfo.WebsiteSalesRank'
+                'ItemInfo.ByLineInfo',
+                'ItemInfo.ContentInfo',
+                'ItemInfo.Features',
+                'Offers.Listings.Price'
             ],
             'Marketplace' => 'www.amazon.co.jp'
-        ]);
+        ];
         
-        $headers = $this->createHeaders($payload, $target, $httpMethod);
+        $payloadJson = json_encode($payload);
+        $target = '/paapi5/searchitems';
         
+        // 正規化されたリクエストを作成
+        $canonicalRequest = $this->createCanonicalRequest('POST', $target, '', $payloadJson, $timestamp);
+        
+        // 署名を作成
+        $signature = $this->createSignature($canonicalRequest, $date, $timestamp);
+        
+        // Authorizationヘッダーを作成
+        $authHeader = $this->createAuthorizationHeader($date, $signature);
+        
+        // APIリクエストを実行
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'https://' . $this->host . $target);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadJson);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'X-Amz-Date: ' . $timestamp,
+            'X-Amz-Target: com.amazon.paapi5.v1.ProductAdvertisingAPIv1.SearchItems',
+            'Authorization: ' . $authHeader,
+            'Host: ' . $this->host
+        ]);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
         curl_close($ch);
         
+        if ($response === false) {
+            error_log('cURL error: ' . $error);
+            return false;
+        }
+        
         if ($httpCode !== 200) {
+            error_log('API HTTP error: ' . $httpCode . ' Response: ' . $response);
             return false;
         }
         
@@ -60,60 +83,48 @@ class AmazonProductAPI {
         return $this->formatProducts($data);
     }
     
-    private function createHeaders($payload, $target, $httpMethod) {
-        $datetime = gmdate('Ymd\THis\Z');
-        $date = gmdate('Ymd');
+    private function createCanonicalRequest($method, $uri, $queryString, $payload, $timestamp) {
+        $canonicalHeaders = 'content-type:application/json' . "\n" .
+                          'host:' . $this->host . "\n" .
+                          'x-amz-date:' . $timestamp . "\n" .
+                          'x-amz-target:com.amazon.paapi5.v1.ProductAdvertisingAPIv1.SearchItems' . "\n";
         
-        $headers = [
-            'content-encoding' => 'amz-1.0',
-            'content-type' => 'application/json; charset=utf-8',
-            'host' => $this->host,
-            'x-amz-date' => $datetime,
-            'x-amz-target' => 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.SearchItems'
-        ];
+        $signedHeaders = 'content-type;host;x-amz-date;x-amz-target';
         
-        // 署名の作成
-        $canonicalHeaders = '';
-        $signedHeaders = '';
-        
-        ksort($headers);
-        foreach ($headers as $key => $value) {
-            $canonicalHeaders .= $key . ':' . $value . "\n";
-            $signedHeaders .= $key . ';';
-        }
-        $signedHeaders = rtrim($signedHeaders, ';');
-        
-        $canonicalRequest = $httpMethod . "\n" .
-                          $target . "\n" .
-                          "\n" .
+        $canonicalRequest = $method . "\n" .
+                          $uri . "\n" .
+                          $queryString . "\n" .
                           $canonicalHeaders . "\n" .
                           $signedHeaders . "\n" .
                           hash('sha256', $payload);
         
+        return $canonicalRequest;
+    }
+    
+    private function createSignature($canonicalRequest, $date, $timestamp) {
         $algorithm = 'AWS4-HMAC-SHA256';
         $scope = $date . '/' . $this->region . '/ProductAdvertisingAPI/aws4_request';
         
         $stringToSign = $algorithm . "\n" .
-                       $datetime . "\n" .
+                       $timestamp . "\n" .
                        $scope . "\n" .
                        hash('sha256', $canonicalRequest);
         
         $signingKey = $this->getSignatureKey($date);
         $signature = hash_hmac('sha256', $stringToSign, $signingKey);
         
-        $authorizationHeader = $algorithm . ' ' .
-                             'Credential=' . $this->accessKey . '/' . $scope . ', ' .
-                             'SignedHeaders=' . $signedHeaders . ', ' .
-                             'Signature=' . $signature;
+        return $signature;
+    }
+    
+    private function createAuthorizationHeader($date, $signature) {
+        $algorithm = 'AWS4-HMAC-SHA256';
+        $scope = $date . '/' . $this->region . '/ProductAdvertisingAPI/aws4_request';
+        $signedHeaders = 'content-type;host;x-amz-date;x-amz-target';
         
-        return [
-            'Content-Type: application/json; charset=utf-8',
-            'Content-Encoding: amz-1.0',
-            'Host: ' . $this->host,
-            'X-Amz-Date: ' . $datetime,
-            'X-Amz-Target: com.amazon.paapi5.v1.ProductAdvertisingAPIv1.SearchItems',
-            'Authorization: ' . $authorizationHeader
-        ];
+        return $algorithm . ' ' .
+               'Credential=' . $this->accessKey . '/' . $scope . ', ' .
+               'SignedHeaders=' . $signedHeaders . ', ' .
+               'Signature=' . $signature;
     }
     
     private function getSignatureKey($date) {
@@ -132,44 +143,28 @@ class AmazonProductAPI {
         }
         
         foreach ($data['SearchResult']['Items'] as $item) {
-            $product = [
-                'title' => $item['ItemInfo']['Title']['DisplayValue'] ?? '',
-                'price' => $this->extractPrice($item),
-                'rating' => $this->extractRating($item),
-                'image' => $item['Images']['Primary']['Large']['URL'] ?? 'https://via.placeholder.com/150',
-                'url' => $item['DetailPageURL'] ?? '',
-                'salesRank' => $this->extractSalesRank($item)
+            $asin = $item['ASIN'] ?? '';
+            $title = $item['ItemInfo']['Title']['DisplayValue'] ?? '商品名なし';
+            $image = $item['Images']['Primary']['Large']['URL'] ?? '';
+            
+            // 画像がない場合はスキップ
+            if (empty($image)) {
+                continue;
+            }
+            
+            $products[] = [
+                'asin' => $asin,
+                'title' => $title,
+                'image' => $image,
+                'url' => 'https://www.amazon.co.jp/dp/' . $asin . '/?tag=' . $this->partnerTag
             ];
             
-            $products[] = $product;
+            // 4個まで
+            if (count($products) >= 4) {
+                break;
+            }
         }
-        
-        // 売れ筋順にソート
-        usort($products, function($a, $b) {
-            return ($a['salesRank'] ?? PHP_INT_MAX) - ($b['salesRank'] ?? PHP_INT_MAX);
-        });
         
         return $products;
-    }
-    
-    private function extractPrice($item) {
-        if (isset($item['Offers']['Listings'][0]['Price']['DisplayAmount'])) {
-            return $item['Offers']['Listings'][0]['Price']['DisplayAmount'];
-        }
-        return '価格情報なし';
-    }
-    
-    private function extractRating($item) {
-        if (isset($item['CustomerReviews']['StarRating']['Value'])) {
-            return $item['CustomerReviews']['StarRating']['Value'];
-        }
-        return '0';
-    }
-    
-    private function extractSalesRank($item) {
-        if (isset($item['BrowseNodeInfo']['WebsiteSalesRank']['SalesRank'])) {
-            return $item['BrowseNodeInfo']['WebsiteSalesRank']['SalesRank'];
-        }
-        return PHP_INT_MAX;
     }
 }

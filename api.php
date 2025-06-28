@@ -179,8 +179,24 @@ function generateCleaningKeywords($query) {
     return $keywords;
 }
 
-// Amazon商品を取得（実際のASINを使用）
+// Amazon商品を取得
 function callAmazonAPI($keyword, $config) {
+    // PA APIクラスを読み込み
+    require_once 'amazon-paapi.php';
+    
+    try {
+        $api = new AmazonProductAPI($config);
+        $products = $api->searchItems($keyword, 4);
+        
+        // APIが成功した場合はその結果を返す
+        if ($products !== false && !empty($products)) {
+            return $products;
+        }
+    } catch (Exception $e) {
+        error_log('Amazon PA API error: ' . $e->getMessage());
+    }
+    
+    // APIが失敗した場合は固定のASINを使用（フォールバック）
     // 掃除用品の実際のASIN（2024年現在の有効な商品）
     $cleaningProducts = [
         // 油汚れ・キッチン用
