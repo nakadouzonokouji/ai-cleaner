@@ -275,7 +275,7 @@ function callAmazonAPI($keyword, $config) {
             'image' => 'https://m.media-amazon.com/images/I/41PLACEHOLDER.jpg',
             'url' => 'https://www.amazon.co.jp/dp/' . $asin . '/?tag=' . $config['amazon_associate_tag']
         ];
-        if (count($products) >= 10) break;
+        if (count($products) >= 4) break;
     }
     
     // 不足分を売れ筋商品で補充
@@ -298,7 +298,7 @@ function callAmazonAPI($keyword, $config) {
                 ];
             }
             
-            if (count($products) >= 10) break;
+            if (count($products) >= 4) break;
         }
     }
     

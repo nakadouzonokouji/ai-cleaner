@@ -236,6 +236,21 @@
             background-color: #e68a00;
         }
         
+        .more-button {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            display: inline-block;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .more-button:hover {
+            background-color: #0056b3;
+        }
+        
         footer {
             background-color: #2c3e50;
             color: white;
@@ -298,6 +313,14 @@
                 <div class="products-section">
                     <h3>🛒 おすすめの掃除用品（売れ筋商品）</h3>
                     <div class="products-grid" id="productsGrid"></div>
+                    <div class="more-products" id="moreProductsSection" style="text-align: center; margin-top: 2rem; display: none;">
+                        <a href="#" id="moreProductsLink" target="_blank" rel="noopener noreferrer" class="more-button">
+                            もっと掃除用品を見る →
+                        </a>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                            Amazonでさらに多くの商品をご覧いただけます
+                        </p>
+                    </div>
                 </div>
             </section>
         </div>
@@ -347,7 +370,7 @@
                 
                 // Amazon商品を検索して表示
                 const products = await searchAmazonProducts(query);
-                displayProducts(products);
+                displayProducts(products, query);
                 
                 // 結果を表示
                 resultSection.classList.add('active');
@@ -430,7 +453,7 @@
             return keywords;
         }
         
-        function displayProducts(products) {
+        function displayProducts(products, query) {
             const productsGrid = document.getElementById('productsGrid');
             productsGrid.innerHTML = '';
             
@@ -448,6 +471,36 @@
                 `;
                 productsGrid.appendChild(productCard);
             });
+            
+            // もっと見るリンクを設定
+            setupMoreProductsLink(query);
+        }
+        
+        function setupMoreProductsLink(query) {
+            const moreSection = document.getElementById('moreProductsSection');
+            const moreLink = document.getElementById('moreProductsLink');
+            
+            // カテゴリーURLを決定
+            let categoryUrl = 'https://www.amazon.co.jp/s?k=掃除用品';
+            
+            // クエリに基づいてカテゴリーを選択
+            if (query.includes('換気扇') || query.includes('油') || query.includes('キッチン')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=キッチン+油汚れ+洗剤&rh=n%3A3828871';
+            } else if (query.includes('浴') || query.includes('風呂') || query.includes('カビ')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=お風呂+カビ+洗剤&rh=n%3A3828871';
+            } else if (query.includes('トイレ')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=トイレ+洗剤&rh=n%3A3828871';
+            } else if (query.includes('窓') || query.includes('ガラス')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=窓+ガラス+クリーナー&rh=n%3A3828871';
+            } else if (query.includes('床') || query.includes('フローリング')) {
+                categoryUrl = 'https://www.amazon.co.jp/s?k=フローリング+掃除&rh=n%3A3828871';
+            }
+            
+            // アソシエイトタグを追加
+            categoryUrl += `&tag=${AMAZON_ASSOCIATE_TAG}`;
+            
+            moreLink.href = categoryUrl;
+            moreSection.style.display = 'block';
         }
     </script>
 </body>
