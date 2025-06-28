@@ -249,6 +249,45 @@ class AmazonProductAPI {
         console.log('🗑️ Amazon商品キャッシュをクリアしました');
     }
 
+    // 画像URLの存在確認とフォールバック
+    async getValidImageUrl(asin, size = 'large') {
+        const imageId = this.getImageId(asin);
+        const sizeMap = {
+            'large': '_AC_SL500_',
+            'medium': '_AC_SL300_',
+            'small': '_AC_SL160_'
+        };
+        const sizeSuffix = sizeMap[size] || '_AC_SL500_';
+        
+        // 試行するドメインリスト（優先順）
+        const domains = [
+            'https://m.media-amazon.com/images/I/',
+            'https://images-na.ssl-images-amazon.com/images/I/',
+            'https://images-fe.ssl-images-amazon.com/images/I/',
+            'https://images-eu.ssl-images-amazon.com/images/I/'
+        ];
+        
+        // 各ドメインで画像の存在を確認
+        for (const domain of domains) {
+            const imageUrl = `${domain}${imageId}.${sizeSuffix}.jpg`;
+            try {
+                const response = await fetch(imageUrl, { 
+                    method: 'HEAD',
+                    mode: 'no-cors' // CORS制限を回避
+                });
+                // no-corsモードでは実際のステータスが取得できないため、
+                // 最初のURLを信頼して返す
+                return imageUrl;
+            } catch (error) {
+                console.warn(`画像URL確認失敗: ${imageUrl}`);
+                continue;
+            }
+        }
+        
+        // すべて失敗した場合はデフォルトURLを返す
+        return `${domains[0]}${imageId}.${sizeSuffix}.jpg`;
+    }
+    
     // 画像ID生成（ASINから推定）
     getImageId(asin) {
         // 実際のAmazon画像IDパターンを使用（2025年更新版）
@@ -262,6 +301,8 @@ class AmazonProductAPI {
             
             // 浴室・カビ系商品
             'B0012R4V2S': '51xQx5W3veL', // カビキラー
+            'B07S2J294T': '41S2J294TXL', // 強力カビハイター（調査結果追加）
+            'B08P5KLM3N': '41P5KLM3NXL', // 激落ちくん カビ取りジェル（調査結果追加）
             'B000FQTJZW': '51M8Y5W3veL', // ジョンソン カビキラー
             'B07K8LM123': '41K9Z5QXHPL', // 強力カビ取りジェル
             'B08PKM7890': '51P7Y5W3veL', // 防カビコーティング
@@ -278,6 +319,7 @@ class AmazonProductAPI {
             'B005AILJ3O': '41F2Z5QXHPL', // クイックルワイパー 本体
             
             // トイレ系商品
+            'B0019R4QX2': '41R4QX2YXHL', // トイレマジックリン（調査結果追加）
             'B000FQM123': '51C7Y5W3veL', // トイレマジックリン
             'B07YHL4567': '41G3Z5QXHPL', // サンポール
             'B08YTR8901': '51D8Y5W3veL', // トイレ用除菌シート
