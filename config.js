@@ -235,7 +235,7 @@ const COMPREHENSIVE_PRODUCT_DATABASE = {
     kitchen_oil: {
         cleaners: [
             {
-                asin: "B000TGNG0W",
+                asin: "B07C44DM6S",
                 name: "花王 マジックリン ハンディスプレー 400ml",
                 badge: "🏆 換気扇No.1",
                 emoji: "🧴",
@@ -246,7 +246,7 @@ const COMPREHENSIVE_PRODUCT_DATABASE = {
                 targetDirt: ["油汚れ", "ベトベト汚れ"]
             },
             {
-                asin: "B08XKJM789",
+                asin: "B002E1AU3A",
                 name: "ライオン ママレモン 大容量 800ml",
                 badge: "💪 強力洗浄",
                 emoji: "🍋",
@@ -257,7 +257,7 @@ const COMPREHENSIVE_PRODUCT_DATABASE = {
                 targetDirt: ["油汚れ", "換気扇汚れ"]
             },
             {
-                asin: "B07YWJ8234",
+                asin: "B07QN4M52D",
                 name: "重曹ちゃん キッチン泡スプレー 300ml",
                 badge: "🌿 天然成分",
                 emoji: "💚",

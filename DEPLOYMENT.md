@@ -1,13 +1,59 @@
-# 🚀 AI掃除アドバイザー - GitHub Pages デプロイメントガイド
+# 🚀 AI掃除アドバイザー - デプロイメントガイド
 
 ## 📋 前提条件
 
 - GitHubアカウント
-- Gemini APIキー（[Google AI Studio](https://aistudio.google.com/)で取得）
+- Netlifyアカウント（無料プランでOK）
+- Amazonアソシエイトアカウント（オプション）
+- Gemini APIキー（オプション）
 
 ## 🎯 デプロイ手順
 
-### 1. GitHubリポジトリの作成
+### 🅰️ Netlifyへのデプロイ（推奨）
+
+#### 1. Netlifyにログイン
+
+1. [Netlify](https://www.netlify.com)にアクセス
+2. GitHubアカウントでログイン
+
+#### 2. GitHubリポジトリを接続
+
+1. 「Add new site」→「Import an existing project」
+2. GitHubを選択
+3. このリポジトリを選択
+4. ビルド設定：
+   - **Build command**: （空欄のまま）
+   - **Publish directory**: `.`
+5. 「Deploy site」をクリック
+
+#### 3. 環境変数の設定
+
+1. Netlifyのサイト管理画面を開く
+2. 「Site configuration」→「Build & deploy」→「Environment」へ
+3. 「Environment variables」セクションで「Edit variables」をクリック
+4. 以下の変数を追加：
+
+```
+AMAZON_ACCESS_KEY = [あなたのアクセスキー]
+AMAZON_SECRET_KEY = [あなたのシークレットキー]
+AMAZON_ASSOCIATE_TAG = asdfghj12-22
+```
+
+5. 「Save」をクリック
+6. 「Deploys」→「Trigger deploy」→「Deploy site」でサイトを再デプロイ
+
+#### 4. アクセスURL
+
+デプロイ完了後、以下のURLでアクセス可能：
+
+- **メインアプリ**: `https://YOUR-SITE-NAME.netlify.app/`
+- **管理者ダッシュボード**: `https://YOUR-SITE-NAME.netlify.app/admin.html`
+
+---
+
+### 🅱️ GitHub Pagesへのデプロイ（代替手段）
+
+#### 1. GitHubリポジトリの作成
 
 1. [GitHub](https://github.com)にログイン
 2. 「New repository」をクリック

@@ -3,14 +3,14 @@
 
 window.AMAZON_CONFIG = {
     // 本番環境：サーバーサイドプロキシ経由でAPIキーを隠蔽
-    useServerProxy: false, // 直接API呼び出し
-    proxyEndpoint: '/api/amazon-proxy', // サーバーサイドプロキシのエンドポイント
+    useServerProxy: true, // Netlify Functionsプロキシ経由でAPI呼び出し
+    proxyEndpoint: '/.netlify/functions/amazon-proxy', // Netlify Functionsのエンドポイント
     
     // GitHub Secrets経由で設定される環境変数
     // 実際の値はGitHub Actions deployment時に注入される
     accessKey: window.ENV?.AMAZON_ACCESS_KEY || '', 
     secretKey: window.ENV?.AMAZON_SECRET_KEY || '', 
-    associateTag: window.ENV?.AMAZON_ASSOCIATE_TAG || '',
+    associateTag: window.ENV?.AMAZON_ASSOCIATE_TAG || 'asdfghj12-22',
     
     // API エンドポイント（日本）
     endpoint: 'webservices.amazon.co.jp',
