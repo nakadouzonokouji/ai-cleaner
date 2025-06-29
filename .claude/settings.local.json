@@ -28,7 +28,8 @@
       "Bash(fi)",
       "Bash(done)",
       "Bash(sed:*)",
-      "WebFetch(domain:stackoverflow.com)"
+      "WebFetch(domain:stackoverflow.com)",
+      "Bash(npm install:*)"
     ],
     "deny": []
   }

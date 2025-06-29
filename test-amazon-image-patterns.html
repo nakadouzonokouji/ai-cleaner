@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon画像URLパターンテスト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .product h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .image-test {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+        }
+        .image-test img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: white;
+            border: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+        .image-test .url {
+            font-size: 10px;
+            color: #666;
+            word-break: break-all;
+            margin-bottom: 5px;
+        }
+        .status {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .status.success {
+            background: #4CAF50;
+            color: white;
+        }
+        .status.error {
+            background: #f44336;
+            color: white;
+        }
+        .status.loading {
+            background: #FF9800;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Amazon商品画像URLパターンテスト</h1>
+        <p>各商品に対して複数のURLパターンをテストし、実際に動作するパターンを見つけます。</p>
+        
+        <div id="products"></div>
+    </div>
+
+    <script>
+        // テスト対象の商品
+        const testProducts = [
+            {
+                asin: "B07C44DM6S",
+                name: "花王 キュキュット クリア除菌",
+                possibleImageIds: ["41kh8B0N8ML", "41vX3QHG5LL", "41KXXX8ML"]
+            },
+            {
+                asin: "B002E1AU3A",
+                name: "ライオン チャーミーマジカ",
+                possibleImageIds: ["51T0QoHf8VL", "51TXXXVL"]
+            },
+            {
+                asin: "B07QN4M52D",
+                name: "P&G ジョイ コンパクト",
+                possibleImageIds: ["31bR5pxaKxL", "31BXXXL"]
+            },
+            {
+                asin: "B08KQ5F7MN",
+                name: "花王 マジックリン キッチン用",
+                possibleImageIds: ["419SZqO5z6L", "41XXXL"]
+            }
+        ];
+
+        // テストするURLパターン
+        function generateImagePatterns(product) {
+            const patterns = [];
+            const { asin, possibleImageIds } = product;
+            
+            // ASINベースのパターン
+            patterns.push({
+                name: "ASIN Pattern 1",
+                url: `https://images-na.ssl-images-amazon.com/images/P/${asin}.01._SCLZZZZZZZ_.jpg`
+            });
+            patterns.push({
+                name: "ASIN Pattern 2",
+                url: `https://images-na.ssl-images-amazon.com/images/P/${asin}.01.LZZZZZZZ.jpg`
+            });
+            patterns.push({
+                name: "ASIN Pattern 3",
+                url: `https://images-na.ssl-images-amazon.com/images/P/${asin}.01._SL500_.jpg`
+            });
+            patterns.push({
+                name: "ASIN Pattern 4",
+                url: `https://images-jp.amazon.com/images/P/${asin}.09.LZZZZZZZ.jpg`
+            });
+            
+            // 画像IDベースのパターン
+            possibleImageIds.forEach(imageId => {
+                patterns.push({
+                    name: `ImageID ${imageId} - Pattern 1`,
+                    url: `https://m.media-amazon.com/images/I/${imageId}._AC_SL500_.jpg`
+                });
+                patterns.push({
+                    name: `ImageID ${imageId} - Pattern 2`,
+                    url: `https://m.media-amazon.com/images/I/${imageId}._SL500_.jpg`
+                });
+                patterns.push({
+                    name: `ImageID ${imageId} - Pattern 3`,
+                    url: `https://m.media-amazon.com/images/I/${imageId}._AC_.jpg`
+                });
+                patterns.push({
+                    name: `ImageID ${imageId} - Pattern 4`,
+                    url: `https://images-na.ssl-images-amazon.com/images/I/${imageId}._AC_SL500_.jpg`
+                });
+                patterns.push({
+                    name: `ImageID ${imageId} - Pattern 5`,
+                    url: `https://m.media-amazon.com/images/I/${imageId}.jpg`
+                });
+            });
+            
+            // 新しいパターン（2024-2025年）
+            patterns.push({
+                name: "New Pattern 1",
+                url: `https://m.media-amazon.com/images/S/aplus-media-library-service-media/jp/${asin}._SL500_.jpg`
+            });
+            patterns.push({
+                name: "New Pattern 2",
+                url: `https://images-fe.ssl-images-amazon.com/images/P/${asin}.01._SCLZZZZZZZ_.jpg`
+            });
+            
+            return patterns;
+        }
+
+        // 画像テストを作成
+        function createImageTest(pattern, productName) {
+            const div = document.createElement('div');
+            div.className = 'image-test';
+            
+            const img = document.createElement('img');
+            img.src = pattern.url;
+            img.alt = pattern.name;
+            
+            const urlDiv = document.createElement('div');
+            urlDiv.className = 'url';
+            urlDiv.textContent = pattern.url;
+            
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'status loading';
+            statusDiv.textContent = '読み込み中...';
+            
+            img.onload = function() {
+                statusDiv.className = 'status success';
+                statusDiv.textContent = '✓ 成功';
+                console.log(`✓ 成功: ${productName} - ${pattern.name}`);
+            };
+            
+            img.onerror = function() {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '✗ 失敗';
+                img.style.display = 'none';
+            };
+            
+            div.appendChild(img);
+            div.appendChild(urlDiv);
+            div.appendChild(statusDiv);
+            
+            return div;
+        }
+
+        // 商品ごとにテストを実行
+        function runTests() {
+            const container = document.getElementById('products');
+            
+            testProducts.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                
+                const title = document.createElement('h3');
+                title.textContent = `${product.name} (ASIN: ${product.asin})`;
+                productDiv.appendChild(title);
+                
+                const gridDiv = document.createElement('div');
+                gridDiv.className = 'image-grid';
+                
+                const patterns = generateImagePatterns(product);
+                patterns.forEach(pattern => {
+                    const testDiv = createImageTest(pattern, product.name);
+                    gridDiv.appendChild(testDiv);
+                });
+                
+                productDiv.appendChild(gridDiv);
+                container.appendChild(productDiv);
+            });
+        }
+
+        // テスト実行
+        runTests();
+    </script>
+</body>
+</html>

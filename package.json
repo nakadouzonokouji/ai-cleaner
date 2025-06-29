@@ -21,7 +21,8 @@
   "author": "CX Mainte",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "playwright": "^1.53.1"
   },
   "devDependencies": {
     "tailwindcss": "^4.1.11"

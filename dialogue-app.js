@@ -984,70 +984,71 @@ class DialogueCleaningAdvisor {
     }
     
     getProductImageHtml(product) {
-        // シンプルな画像表示（即座に表示）
-        const imageUrl = this.getProductImageUrl(product.asin);
+        // カテゴリーベースの商品画像を表示
+        const categoryImage = this.getCategoryImage(product);
         
-        if (imageUrl) {
-            return `
-                <img src="${imageUrl}" 
-                     alt="${product.name}" 
-                     class="max-h-full max-w-full object-contain"
-                     loading="lazy"
-                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22%3E%3Crect x=%223%22 y=%223%22 width=%2218%22 height=%2218%22 rx=%222%22/%3E%3Cpath d=%22M3 9h18M9 21V9%22/%3E%3C/svg%3E';">
-            `;
-        } else {
-            // プレースホルダーSVG（商品パッケージアイコン）
-            return `
-                <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    <path d="M3 9h18M9 21V9"/>
-                </svg>
-            `;
-        }
+        return `
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br ${categoryImage.gradient} p-4">
+                <div class="text-center">
+                    <div class="text-5xl mb-2">${categoryImage.icon}</div>
+                    <div class="text-xs font-semibold text-white bg-black bg-opacity-50 px-2 py-1 rounded">
+                        ${categoryImage.label}
+                    </div>
+                </div>
+            </div>
+        `;
     }
     
-    getProductImageUrl(asin) {
-        // 既知の画像URLマッピング
-        const imageUrls = {
+    getCategoryImage(product) {
+        // カテゴリーに応じたアイコンと背景色
+        const categories = {
             // キッチン用洗剤
-            'B07C44DM6S': 'https://m.media-amazon.com/images/I/41kh8B0N8ML._AC_SL500_.jpg', // キュキュット
-            'B002E1AU3A': 'https://m.media-amazon.com/images/I/51T0QoHf8VL._AC_SL500_.jpg', // チャーミーマジカ
-            'B07QN4M52D': 'https://m.media-amazon.com/images/I/31bR5pxaKxL._AC_SL500_.jpg', // ジョイ
-            'B08KQ5F7MN': 'https://m.media-amazon.com/images/I/419SZqO5z6L._AC_SL500_.jpg', // マジックリン
+            'B07C44DM6S': { icon: '🧴', label: '食器用洗剤', gradient: 'from-blue-400 to-blue-600' },
+            'B002E1AU3A': { icon: '🍋', label: '食器用洗剤', gradient: 'from-yellow-400 to-yellow-600' },
+            'B07QN4M52D': { icon: '💚', label: '食器用洗剤', gradient: 'from-green-400 to-green-600' },
+            'B08KQ5F7MN': { icon: '✨', label: 'キッチン用', gradient: 'from-purple-400 to-purple-600' },
             
             // カビ取り剤
-            'B0012R4V2S': 'https://m.media-amazon.com/images/I/41W1mK5VyOL._AC_SL500_.jpg', // カビキラー
-            'B07S2J294T': 'https://m.media-amazon.com/images/I/41eOqSUjrbL._AC_SL500_.jpg', // 強力カビハイター
-            'B08P5KLM3N': 'https://m.media-amazon.com/images/I/41Wh6jGxBXL._AC_SL500_.jpg', // 激落ちくん
-            'B09KQR8MNP': 'https://m.media-amazon.com/images/I/51pKLqxmY8L._AC_SL500_.jpg', // 防カビくん煙剤
+            'B0012R4V2S': { icon: '🦠', label: 'カビ取り剤', gradient: 'from-red-400 to-red-600' },
+            'B07S2J294T': { icon: '💪', label: 'カビ取り剤', gradient: 'from-orange-400 to-orange-600' },
+            'B08P5KLM3N': { icon: '🧪', label: 'カビ取り剤', gradient: 'from-pink-400 to-pink-600' },
+            'B09KQR8MNP': { icon: '🌫️', label: '防カビ剤', gradient: 'from-gray-400 to-gray-600' },
             
             // 水垢取り
-            'B07KLM5678': 'https://m.media-amazon.com/images/I/41N0zqNHJLL._AC_SL500_.jpg', // 茂木和哉
-            'B08NOP9012': 'https://m.media-amazon.com/images/I/51BNfrRBMcL._AC_SL500_.jpg', // クエン酸
-            'B01QRS3456': 'https://m.media-amazon.com/images/I/41jZ0kZlJ5L._AC_SL500_.jpg', // ダイヤモンドパッド
-            'B09LMN7890': 'https://m.media-amazon.com/images/I/41VJbW3HWUL._AC_SL500_.jpg', // ウタマロ
+            'B07KLM5678': { icon: '💎', label: '水垢洗剤', gradient: 'from-cyan-400 to-cyan-600' },
+            'B08NOP9012': { icon: '🍋', label: 'クエン酸', gradient: 'from-lime-400 to-lime-600' },
+            'B01QRS3456': { icon: '✨', label: '研磨パッド', gradient: 'from-indigo-400 to-indigo-600' },
+            'B09LMN7890': { icon: '🧽', label: '万能洗剤', gradient: 'from-teal-400 to-teal-600' },
             
             // トイレ用洗剤
-            'B0019R4QX2': 'https://m.media-amazon.com/images/I/41QZO5VxxvL._AC_SL500_.jpg', // トイレマジックリン
-            'B07YHL4567': 'https://m.media-amazon.com/images/I/31OxZK5dORL._AC_SL500_.jpg', // サンポール
-            'B08YTR8901': 'https://m.media-amazon.com/images/I/51K7rQCZqAL._AC_SL500_.jpg', // スクラビングバブル
-            'B09WXY2345': 'https://m.media-amazon.com/images/I/41HkB7v5q3L._AC_SL500_.jpg', // ドメスト
+            'B0019R4QX2': { icon: '🚽', label: 'トイレ用', gradient: 'from-blue-500 to-blue-700' },
+            'B07YHL4567': { icon: '💪', label: 'トイレ用', gradient: 'from-red-500 to-red-700' },
+            'B08YTR8901': { icon: '🫧', label: 'トイレ用', gradient: 'from-purple-500 to-purple-700' },
+            'B09WXY2345': { icon: '🦠', label: '除菌洗剤', gradient: 'from-green-500 to-green-700' },
             
             // フロア掃除
-            'B01N05Y41E': 'https://m.media-amazon.com/images/I/51X5DQFyT3L._AC_SL500_.jpg', // クイックルワイパー
-            'B005335D9S': 'https://m.media-amazon.com/images/I/41nqKMr5z0L._AC_SL500_.jpg', // オール床クリーナー
-            'B005AILJ3O': 'https://m.media-amazon.com/images/I/51CsKQHJWQL._AC_SL500_.jpg', // クイックルセット
-            'B00OOCWP44': 'https://m.media-amazon.com/images/I/41C0XvwZmWL._AC_SL500_.jpg', // 激落ちくん
+            'B01N05Y41E': { icon: '🧹', label: 'フロア用', gradient: 'from-amber-400 to-amber-600' },
+            'B005335D9S': { icon: '✨', label: '床クリーナー', gradient: 'from-rose-400 to-rose-600' },
+            'B005AILJ3O': { icon: '🧽', label: 'フロア用', gradient: 'from-violet-400 to-violet-600' },
+            'B00OOCWP44': { icon: '🧽', label: 'メラミン', gradient: 'from-slate-400 to-slate-600' },
             
             // 掃除道具
-            'B073C4QRLS': 'https://m.media-amazon.com/images/I/51-6WZqmqML._AC_SL500_.jpg', // ショーワグローブ
-            'B07BQFJ5K9': 'https://m.media-amazon.com/images/I/41PeFgI1rXL._AC_SL500_.jpg', // バスボンくん
-            'B01KLM2345': 'https://m.media-amazon.com/images/I/41mGKXOXXBL._AC_SL500_.jpg', // マーナスポンジ
-            'B08BCD3456': 'https://m.media-amazon.com/images/I/41xdNHKOXXL._AC_SL500_.jpg'  // アズマ工業
+            'B073C4QRLS': { icon: '🧤', label: '手袋', gradient: 'from-emerald-400 to-emerald-600' },
+            'B07BQFJ5K9': { icon: '🪥', label: 'ブラシ', gradient: 'from-sky-400 to-sky-600' },
+            'B01KLM2345': { icon: '🐟', label: 'スポンジ', gradient: 'from-fuchsia-400 to-fuchsia-600' },
+            'B08BCD3456': { icon: '🧽', label: 'スポンジ', gradient: 'from-zinc-400 to-zinc-600' }
         };
         
-        return imageUrls[asin] || null;
+        // デフォルト
+        const defaultCategory = { 
+            icon: '🧴', 
+            label: '掃除用品', 
+            gradient: 'from-gray-400 to-gray-600' 
+        };
+        
+        return categories[product.asin] || defaultCategory;
     }
+    
     
 
     addMessage(type, content) {

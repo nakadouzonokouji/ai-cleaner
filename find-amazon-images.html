@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon画像URL取得ヘルパー</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .product-link {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #1976d2;
+            transition: background 0.3s;
+        }
+        .product-link:hover {
+            background: #e0e0e0;
+        }
+        .code-block {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            background: #fafafa;
+            border-left: 4px solid #4caf50;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #2e7d32;
+        }
+        .warning {
+            background: #fff3e0;
+            border-left-color: #ff9800;
+        }
+        .warning h3 {
+            color: #ef6c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Amazon商品画像URL取得方法</h1>
+        
+        <div class="instructions">
+            <h2>対象商品のAmazonページ</h2>
+            <p>以下のリンクから各商品のAmazonページを開いて、実際の画像URLを確認してください：</p>
+        </div>
+
+        <div class="step">
+            <h3>1. 商品ページを開く</h3>
+            <a href="https://www.amazon.co.jp/dp/B07C44DM6S" target="_blank" class="product-link">
+                B07C44DM6S - 花王 キュキュット クリア除菌
+            </a>
+            <a href="https://www.amazon.co.jp/dp/B002E1AU3A" target="_blank" class="product-link">
+                B002E1AU3A - ライオン チャーミーマジカ
+            </a>
+            <a href="https://www.amazon.co.jp/dp/B07QN4M52D" target="_blank" class="product-link">
+                B07QN4M52D - P&G ジョイ コンパクト
+            </a>
+            <a href="https://www.amazon.co.jp/dp/B08KQ5F7MN" target="_blank" class="product-link">
+                B08KQ5F7MN - 花王 マジックリン キッチン用
+            </a>
+        </div>
+
+        <div class="step">
+            <h3>2. 開発者ツールで画像URLを確認</h3>
+            <ol>
+                <li>商品ページで右クリック → 「検証」または「要素を検証」を選択</li>
+                <li>Networkタブを開く</li>
+                <li>Filterで「Img」を選択</li>
+                <li>ページをリロード（F5）</li>
+                <li>商品画像のURLを確認（通常は最も大きなサイズの画像）</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>3. コンソールで画像URLを取得</h3>
+            <p>商品ページのコンソールで以下のコードを実行してください：</p>
+            <div class="code-block">
+// メイン商品画像を取得
+const mainImage = document.querySelector('#landingImage, #imgBlkFront, [data-a-image-name="landingImage"]');
+if (mainImage) {
+    console.log('メイン画像URL:', mainImage.src);
+    
+    // 高解像度版のURLを生成
+    const highResUrl = mainImage.src.replace(/\._.*_\./, '._AC_SL1500_.');
+    console.log('高解像度URL:', highResUrl);
+    
+    // 画像IDを抽出
+    const match = mainImage.src.match(/\/I\/([^\/]+)\./);
+    if (match) {
+        console.log('画像ID:', match[1]);
+    }
+}
+
+// すべての商品画像を取得
+const allImages = document.querySelectorAll('img[src*="/images/I/"]');
+console.log('\n全商品画像:');
+allImages.forEach((img, index) => {
+    if (img.src.includes('._AC_') || img.src.includes('._SL')) {
+        console.log(`${index + 1}:`, img.src);
+    }
+});
+            </div>
+        </div>
+
+        <div class="step warning">
+            <h3>⚠️ 注意事項</h3>
+            <ul>
+                <li>Amazon商品画像のURLは定期的に変更される可能性があります</li>
+                <li>画像IDは商品によって異なり、ASINとは関係ありません</li>
+                <li>CORS制限により、外部サイトから直接Amazon画像を読み込めない場合があります</li>
+                <li>商品によっては複数の画像バリエーションが存在します</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>4. 推奨される画像URLパターン（2025年1月現在）</h3>
+            <div class="code-block">
+// 最も信頼性の高いパターン（画像IDが必要）
+https://m.media-amazon.com/images/I/{imageId}._AC_SL500_.jpg
+
+// 代替パターン
+https://m.media-amazon.com/images/I/{imageId}._AC_.jpg
+https://images-na.ssl-images-amazon.com/images/I/{imageId}._AC_SL500_.jpg
+
+// ASINベースのパターン（動作しない場合が多い）
+https://images-na.ssl-images-amazon.com/images/P/{asin}.01._SCLZZZZZZZ_.jpg
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>5. 実装の推奨事項</h3>
+            <ol>
+                <li><strong>画像IDをデータベースに保存</strong>: ASINと一緒に画像IDも保存する</li>
+                <li><strong>フォールバック機能</strong>: 複数のURLパターンを試す</li>
+                <li><strong>キャッシュ機能</strong>: 一度取得した画像URLをキャッシュする</li>
+                <li><strong>プロキシサーバー</strong>: CORS問題を回避するためのプロキシを実装</li>
+                <li><strong>定期的な更新</strong>: 画像URLの有効性を定期的にチェック</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

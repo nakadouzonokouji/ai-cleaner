@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Amazon画像URLテスト</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .product { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        .images { display: flex; gap: 10px; flex-wrap: wrap; }
+        .image-test { 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            text-align: center;
+            width: 200px;
+        }
+        .image-test img { max-width: 180px; max-height: 180px; }
+        .success { background-color: #e7f5e7; }
+        .error { background-color: #ffe7e7; }
+    </style>
+</head>
+<body>
+    <h1>Amazon商品画像URLテスト</h1>
+    
+    <div id="results"></div>
+
+    <script>
+        const products = [
+            {
+                asin: 'B07C44DM6S',
+                name: '花王 キュキュット クリア除菌',
+                testUrls: [
+                    'https://m.media-amazon.com/images/I/41kh8B0N8ML._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/41vX3QHG5LL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/41+vX3QHG5LL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/51kh8B0N8ML._AC_SL500_.jpg',
+                    'https://images-na.ssl-images-amazon.com/images/I/41kh8B0N8ML._AC_SL500_.jpg',
+                    'https://ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07C44DM6S&Format=_SL250_&ID=AsinImage&MarketPlace=JP&ServiceVersion=20070822&WS=1&tag=asdfghj12-22'
+                ]
+            },
+            {
+                asin: 'B002E1AU3A',
+                name: 'ライオン チャーミーマジカ',
+                testUrls: [
+                    'https://m.media-amazon.com/images/I/51T0QoHf8VL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/41T0QoHf8VL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/51+T0QoHf8VL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/61T0QoHf8VL._AC_SL500_.jpg',
+                    'https://images-na.ssl-images-amazon.com/images/I/51T0QoHf8VL._AC_SL500_.jpg'
+                ]
+            },
+            {
+                asin: 'B07QN4M52D',
+                name: 'P&G ジョイ コンパクト',
+                testUrls: [
+                    'https://m.media-amazon.com/images/I/31bR5pxaKxL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/41bR5pxaKxL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/31+bR5pxaKxL._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/51bR5pxaKxL._AC_SL500_.jpg',
+                    'https://images-na.ssl-images-amazon.com/images/I/31bR5pxaKxL._AC_SL500_.jpg'
+                ]
+            },
+            {
+                asin: 'B08KQ5F7MN',
+                name: '花王 マジックリン キッチン用',
+                testUrls: [
+                    'https://m.media-amazon.com/images/I/419SZqO5z6L._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/41+9SZqO5z6L._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/519SZqO5z6L._AC_SL500_.jpg',
+                    'https://m.media-amazon.com/images/I/619SZqO5z6L._AC_SL500_.jpg',
+                    'https://images-na.ssl-images-amazon.com/images/I/419SZqO5z6L._AC_SL500_.jpg'
+                ]
+            }
+        ];
+
+        const resultsDiv = document.getElementById('results');
+
+        products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.className = 'product';
+            productDiv.innerHTML = `
+                <h2>${product.name} (${product.asin})</h2>
+                <div class="images" id="images-${product.asin}"></div>
+            `;
+            resultsDiv.appendChild(productDiv);
+
+            const imagesDiv = document.getElementById(`images-${product.asin}`);
+
+            product.testUrls.forEach((url, index) => {
+                const testDiv = document.createElement('div');
+                testDiv.className = 'image-test';
+                testDiv.innerHTML = `
+                    <img src="${url}" 
+                         alt="Test ${index + 1}"
+                         onload="this.parentElement.classList.add('success'); this.parentElement.querySelector('.status').textContent='✅ 成功';"
+                         onerror="this.parentElement.classList.add('error'); this.parentElement.querySelector('.status').textContent='❌ 失敗'; this.style.display='none';">
+                    <div class="status">⏳ 読込中...</div>
+                    <div style="font-size: 10px; word-break: break-all;">${url.split('/').pop()}</div>
+                `;
+                imagesDiv.appendChild(testDiv);
+            });
+        });
+    </script>
+</body>
+</html>
