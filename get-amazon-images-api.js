@@ -2,6 +2,8 @@
  * Amazon PA-API を使用して商品画像を取得
  */
 
+console.log('🔧 get-amazon-images-api.js 読み込み開始');
+
 class AmazonImageFetcher {
     constructor() {
         // cxmainte.comの場合はPHPプロキシを使用
