@@ -65,7 +65,8 @@ try {
         'secretKey' => AMAZON_SECRET_KEY,
         'associateTag' => AMAZON_ASSOCIATE_TAG,
         'endpoint' => 'webservices.amazon.co.jp',
-        'region' => 'us-west-2'
+        'region' => 'us-west-2',
+        'service' => 'ProductAdvertisingAPI'
     ];
     
     // APIキー検証
@@ -116,15 +117,23 @@ function callAmazonAPI($asins, $config) {
     $timestamp = gmdate('Ymd\THis\Z');
     
     // AWS署名v4生成
-    $signature = generateAWSSignature('POST', $path, '', $payload, $config, $timestamp);
+    $canonicalHeaders = 'content-type:application/json; charset=utf-8' . "\n" .
+                       'host:' . $config['endpoint'] . "\n" .
+                       'x-amz-date:' . $timestamp . "\n" .
+                       'x-amz-target:com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems' . "\n";
+    
+    $signedHeaders = 'content-type;host;x-amz-date;x-amz-target';
+    
+    $signature = generateAWSSignature('POST', $path, '', $payload, $config, $timestamp, $canonicalHeaders, $signedHeaders);
     
     // HTTPリクエスト実行
     $url = 'https://' . $config['endpoint'] . $path;
     $headers = [
-        'Content-Type: application/json; charset=UTF-8',
+        'Content-Type: application/json; charset=utf-8',
         'Host: ' . $config['endpoint'],
         'X-Amz-Date: ' . $timestamp,
-        'Authorization: ' . buildAuthorizationHeader($config, $timestamp, $signature)
+        'X-Amz-Target: com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems',
+        'Authorization: ' . buildAuthorizationHeader($config, $timestamp, $signature, $signedHeaders)
     ];
     
     $ch = curl_init();
@@ -147,7 +156,14 @@ function callAmazonAPI($asins, $config) {
     curl_close($ch);
     
     if ($httpCode !== 200) {
-        throw new Exception('Amazon API error: HTTP ' . $httpCode);
+        // デバッグ情報を含めてエラーを投げる
+        $errorInfo = [
+            'http_code' => $httpCode,
+            'response' => substr($response, 0, 500), // 最初の500文字
+            'url' => $url,
+            'headers_sent' => $headers
+        ];
+        throw new Exception('Amazon API error: HTTP ' . $httpCode . ' - ' . json_encode($errorInfo));
     }
     
     $data = json_decode($response, true);
@@ -159,21 +175,19 @@ function callAmazonAPI($asins, $config) {
     return processAmazonResponse($data, $config['associateTag']);
 }
 
-function generateAWSSignature($method, $path, $queryString, $payload, $config, $timestamp) {
+function generateAWSSignature($method, $path, $queryString, $payload, $config, $timestamp, $canonicalHeaders, $signedHeaders) {
     $date = substr($timestamp, 0, 8);
     
     $canonicalRequest = implode("\n", [
         $method,
         $path,
         $queryString,
-        'host:' . $config['endpoint'],
-        'x-amz-date:' . $timestamp,
-        '',
-        'host;x-amz-date',
+        $canonicalHeaders,
+        $signedHeaders,
         hash('sha256', $payload)
     ]);
     
-    $scope = $date . '/' . $config['region'] . '/ProductAdvertisingAPI/aws4_request';
+    $scope = $date . '/' . $config['region'] . '/' . $config['service'] . '/aws4_request';
     $stringToSign = implode("\n", [
         'AWS4-HMAC-SHA256',
         $timestamp,
@@ -183,19 +197,19 @@ function generateAWSSignature($method, $path, $queryString, $payload, $config, $
     
     $kDate = hash_hmac('sha256', $date, 'AWS4' . $config['secretKey'], true);
     $kRegion = hash_hmac('sha256', $config['region'], $kDate, true);
-    $kService = hash_hmac('sha256', 'ProductAdvertisingAPI', $kRegion, true);
+    $kService = hash_hmac('sha256', $config['service'], $kRegion, true);
     $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
     
     return bin2hex(hash_hmac('sha256', $stringToSign, $kSigning, true));
 }
 
-function buildAuthorizationHeader($config, $timestamp, $signature) {
+function buildAuthorizationHeader($config, $timestamp, $signature, $signedHeaders) {
     $date = substr($timestamp, 0, 8);
-    $scope = $date . '/' . $config['region'] . '/ProductAdvertisingAPI/aws4_request';
+    $scope = $date . '/' . $config['region'] . '/' . $config['service'] . '/aws4_request';
     
     return 'AWS4-HMAC-SHA256 ' .
            'Credential=' . $config['accessKey'] . '/' . $scope . ', ' .
-           'SignedHeaders=host;x-amz-date, ' .
+           'SignedHeaders=' . $signedHeaders . ', ' .
            'Signature=' . $signature;
 }
 
