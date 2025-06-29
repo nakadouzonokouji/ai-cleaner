@@ -8,12 +8,13 @@ class AmazonImageFetcher {
     constructor() {
         // cxmainte.comの場合はPHPプロキシを使用
         if (window.location.hostname === 'cxmainte.com' || window.location.hostname === 'www.cxmainte.com') {
-            this.proxyUrl = '/tools/ai-cleaner/server/amazon-proxy.php';
+            // 一時的にシンプル版を使用
+            this.proxyUrl = '/tools/ai-cleaner/server/amazon-proxy-simple.php';
         } else if (window.location.hostname.includes('netlify.app')) {
             this.proxyUrl = '/.netlify/functions/amazon-proxy';
         } else {
             // ローカル開発環境
-            this.proxyUrl = '/server/amazon-proxy.php';
+            this.proxyUrl = '/server/amazon-proxy-simple.php';
         }
         
         console.log('Amazon API Proxy URL:', this.proxyUrl);
@@ -63,17 +64,14 @@ class AmazonImageFetcher {
         const imageMap = {};
         
         Object.entries(products).forEach(([asin, product]) => {
-            if (product.images) {
-                // 優先順位: large > medium > small
-                const imageUrl = product.images.large || 
-                                product.images.medium || 
-                                product.images.small ||
-                                null;
-                
-                if (imageUrl) {
-                    imageMap[asin] = imageUrl;
-                    console.log(`✅ ${asin}: ${imageUrl}`);
-                }
+            // シンプル版のレスポンスに対応
+            const imageUrl = product.image || 
+                            (product.images && (product.images.large || product.images.medium || product.images.small)) ||
+                            null;
+            
+            if (imageUrl) {
+                imageMap[asin] = imageUrl;
+                console.log(`✅ ${asin}: ${imageUrl}`);
             }
         });
         
