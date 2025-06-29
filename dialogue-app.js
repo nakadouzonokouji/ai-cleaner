@@ -41,11 +41,42 @@ class DialogueCleaningAdvisor {
                 if (images && Object.keys(images).length > 0) {
                     this.productImages = images;
                     console.log('✅ PA-APIから商品画像を取得しました:', Object.keys(images).length, '件');
+                    return;
                 }
             }
         } catch (error) {
             console.error('PA-API画像取得エラー:', error);
-            // エラーが発生してもアプリは続行（カテゴリー画像を使用）
+        }
+        
+        // PA-APIが失敗した場合は直接URLを使用
+        console.log('PA-APIが利用できないため、直接URLを使用します');
+        await this.loadProductImagesDirect();
+    }
+    
+    async loadProductImagesDirect() {
+        try {
+            // amazon-image-direct.jsを動的に読み込み
+            if (!window.AmazonImageDirect) {
+                const script = document.createElement('script');
+                script.src = '/tools/ai-cleaner/amazon-image-direct.js';
+                document.head.appendChild(script);
+                
+                await new Promise(resolve => {
+                    script.onload = resolve;
+                    setTimeout(resolve, 2000);
+                });
+            }
+            
+            if (window.AmazonImageDirect) {
+                const imageDirect = new window.AmazonImageDirect();
+                const validImages = await imageDirect.getValidImages();
+                if (validImages && Object.keys(validImages).length > 0) {
+                    this.productImages = validImages;
+                    console.log('✅ 直接URLから商品画像を取得しました:', Object.keys(validImages).length, '件');
+                }
+            }
+        } catch (error) {
+            console.error('直接URL画像取得エラー:', error);
         }
     }
 
