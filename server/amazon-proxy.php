@@ -60,12 +60,13 @@ try {
     $asins = $request['asins'];
     
     // セキュアなAmazon PA-API設定（サーバーサイドから取得）
+    // 日本のPA-APIはap-northeast-1リージョンを使用
     $amazonConfig = [
         'accessKey' => AMAZON_ACCESS_KEY,
         'secretKey' => AMAZON_SECRET_KEY,
         'associateTag' => AMAZON_ASSOCIATE_TAG,
         'endpoint' => 'webservices.amazon.co.jp',
-        'region' => 'us-west-2',
+        'region' => 'us-west-2',  // PA-APIは全世界でus-west-2を使用
         'service' => 'ProductAdvertisingAPI'
     ];
     
@@ -101,39 +102,75 @@ function callAmazonAPI($asins, $config) {
         'Resources' => [
             'Images.Primary.Large',
             'Images.Primary.Medium',
+            'Images.Primary.Small',
             'ItemInfo.Title',
-            'ItemInfo.ByLineInfo',
-            'Offers.Listings.Price',
-            'CustomerReviews.StarRating',
-            'CustomerReviews.Count'
+            'ItemInfo.ByLineInfo.Brand',
+            'Offers.Listings.Price.DisplayAmount',
+            'Offers.Listings.Price.Amount'
         ],
         'PartnerTag' => $config['associateTag'],
         'PartnerType' => 'Associates',
-        'Marketplace' => 'www.amazon.co.jp'
+        'Marketplace' => 'www.amazon.co.jp',
+        'Operation' => 'GetItems'
     ];
     
+    $host = $config['endpoint'];
     $path = '/paapi5/getitems';
-    $payload = json_encode($requestPayload);
+    $payload = json_encode($requestPayload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     $timestamp = gmdate('Ymd\THis\Z');
+    $datestamp = gmdate('Ymd');
     
-    // AWS署名v4生成
-    $canonicalHeaders = 'content-type:application/json; charset=utf-8' . "\n" .
-                       'host:' . $config['endpoint'] . "\n" .
+    // Content-Typeヘッダーの正規化
+    $contentType = 'application/json; charset=utf-8';
+    $amzTarget = 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems';
+    
+    // 正規ヘッダー（改行で終わる必要がある）
+    $canonicalHeaders = 'content-type:' . $contentType . "\n" .
+                       'host:' . $host . "\n" .
                        'x-amz-date:' . $timestamp . "\n" .
-                       'x-amz-target:com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems' . "\n";
+                       'x-amz-target:' . $amzTarget . "\n";
     
     $signedHeaders = 'content-type;host;x-amz-date;x-amz-target';
     
-    $signature = generateAWSSignature('POST', $path, '', $payload, $config, $timestamp, $canonicalHeaders, $signedHeaders);
+    // 正規リクエストの作成
+    $canonicalRequest = "POST\n" .
+                       $path . "\n" .
+                       "\n" .
+                       $canonicalHeaders . "\n" .
+                       $signedHeaders . "\n" .
+                       hash('sha256', $payload);
+    
+    // 署名の生成
+    $algorithm = 'AWS4-HMAC-SHA256';
+    $credentialScope = $datestamp . '/' . $config['region'] . '/' . $config['service'] . '/aws4_request';
+    
+    $stringToSign = $algorithm . "\n" .
+                   $timestamp . "\n" .
+                   $credentialScope . "\n" .
+                   hash('sha256', $canonicalRequest);
+    
+    // 署名キーの生成
+    $kDate = hash_hmac('sha256', $datestamp, 'AWS4' . $config['secretKey'], true);
+    $kRegion = hash_hmac('sha256', $config['region'], $kDate, true);
+    $kService = hash_hmac('sha256', $config['service'], $kRegion, true);
+    $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
+    $signature = hash_hmac('sha256', $stringToSign, $kSigning);
+    
+    // Authorization ヘッダーの生成
+    $authorizationHeader = $algorithm . ' ' .
+                          'Credential=' . $config['accessKey'] . '/' . $credentialScope . ', ' .
+                          'SignedHeaders=' . $signedHeaders . ', ' .
+                          'Signature=' . $signature;
     
     // HTTPリクエスト実行
-    $url = 'https://' . $config['endpoint'] . $path;
+    $url = 'https://' . $host . $path;
     $headers = [
-        'Content-Type: application/json; charset=utf-8',
-        'Host: ' . $config['endpoint'],
+        'Content-Type: ' . $contentType,
+        'Host: ' . $host,
         'X-Amz-Date: ' . $timestamp,
-        'X-Amz-Target: com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems',
-        'Authorization: ' . buildAuthorizationHeader($config, $timestamp, $signature, $signedHeaders)
+        'X-Amz-Target: ' . $amzTarget,
+        'Authorization: ' . $authorizationHeader,
+        'Content-Length: ' . strlen($payload)
     ];
     
     $ch = curl_init();
@@ -175,61 +212,41 @@ function callAmazonAPI($asins, $config) {
     return processAmazonResponse($data, $config['associateTag']);
 }
 
-function generateAWSSignature($method, $path, $queryString, $payload, $config, $timestamp, $canonicalHeaders, $signedHeaders) {
-    $date = substr($timestamp, 0, 8);
-    
-    $canonicalRequest = implode("\n", [
-        $method,
-        $path,
-        $queryString,
-        $canonicalHeaders,
-        $signedHeaders,
-        hash('sha256', $payload)
-    ]);
-    
-    $scope = $date . '/' . $config['region'] . '/' . $config['service'] . '/aws4_request';
-    $stringToSign = implode("\n", [
-        'AWS4-HMAC-SHA256',
-        $timestamp,
-        $scope,
-        hash('sha256', $canonicalRequest)
-    ]);
-    
-    $kDate = hash_hmac('sha256', $date, 'AWS4' . $config['secretKey'], true);
-    $kRegion = hash_hmac('sha256', $config['region'], $kDate, true);
-    $kService = hash_hmac('sha256', $config['service'], $kRegion, true);
-    $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
-    
-    return bin2hex(hash_hmac('sha256', $stringToSign, $kSigning, true));
-}
-
-function buildAuthorizationHeader($config, $timestamp, $signature, $signedHeaders) {
-    $date = substr($timestamp, 0, 8);
-    $scope = $date . '/' . $config['region'] . '/' . $config['service'] . '/aws4_request';
-    
-    return 'AWS4-HMAC-SHA256 ' .
-           'Credential=' . $config['accessKey'] . '/' . $scope . ', ' .
-           'SignedHeaders=' . $signedHeaders . ', ' .
-           'Signature=' . $signature;
-}
+// 署名生成関数は callAmazonAPI 内に統合されたため削除
 
 function processAmazonResponse($data, $associateTag) {
     $results = [];
     
     if (isset($data['ItemsResult']['Items'])) {
         foreach ($data['ItemsResult']['Items'] as $item) {
-            $asin = $item['ASIN'];
+            $asin = $item['ASIN'] ?? '';
+            
+            // 画像URLの取得
+            $largeImage = null;
+            $mediumImage = null;
+            $smallImage = null;
+            
+            if (isset($item['Images']['Primary'])) {
+                $largeImage = $item['Images']['Primary']['Large']['URL'] ?? null;
+                $mediumImage = $item['Images']['Primary']['Medium']['URL'] ?? null;
+                $smallImage = $item['Images']['Primary']['Small']['URL'] ?? null;
+            }
+            
+            // 価格情報の取得
+            $price = null;
+            if (isset($item['Offers']['Listings'][0]['Price']['DisplayAmount'])) {
+                $price = $item['Offers']['Listings'][0]['Price']['DisplayAmount'];
+            }
             
             $results[$asin] = [
                 'asin' => $asin,
                 'title' => $item['ItemInfo']['Title']['DisplayValue'] ?? '商品名取得不可',
                 'brand' => $item['ItemInfo']['ByLineInfo']['Brand']['DisplayValue'] ?? '',
-                'price' => $item['Offers']['Listings'][0]['Price']['DisplayAmount'] ?? null,
-                'rating' => $item['CustomerReviews']['StarRating']['Value'] ?? null,
-                'reviewCount' => $item['CustomerReviews']['Count'] ?? null,
+                'price' => $price,
                 'images' => [
-                    'large' => $item['Images']['Primary']['Large']['URL'] ?? null,
-                    'medium' => $item['Images']['Primary']['Medium']['URL'] ?? null
+                    'large' => $largeImage,
+                    'medium' => $mediumImage,
+                    'small' => $smallImage
                 ],
                 'url' => 'https://www.amazon.co.jp/dp/' . $asin . '?tag=' . $associateTag,
                 'isRealData' => true
