@@ -4,9 +4,17 @@
 
 class AmazonImageFetcher {
     constructor() {
-        this.proxyUrl = window.location.hostname.includes('netlify.app') 
-            ? '/.netlify/functions/amazon-proxy'
-            : '/tools/ai-cleaner/server/amazon-proxy.php';
+        // cxmainte.comの場合はPHPプロキシを使用
+        if (window.location.hostname === 'cxmainte.com' || window.location.hostname === 'www.cxmainte.com') {
+            this.proxyUrl = '/tools/ai-cleaner/server/amazon-proxy.php';
+        } else if (window.location.hostname.includes('netlify.app')) {
+            this.proxyUrl = '/.netlify/functions/amazon-proxy';
+        } else {
+            // ローカル開発環境
+            this.proxyUrl = '/server/amazon-proxy.php';
+        }
+        
+        console.log('Amazon API Proxy URL:', this.proxyUrl);
     }
 
     async fetchProductImages(asins) {

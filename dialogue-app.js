@@ -93,10 +93,19 @@ class DialogueCleaningAdvisor {
         try {
             let response;
             
-            // Gemini APIを試す（Netlifyドメインの場合のみ）
-            if (window.location.hostname.includes('netlify.app')) {
+            // Gemini APIを試す
+            let geminiProxyUrl;
+            if (window.location.hostname === 'cxmainte.com' || window.location.hostname === 'www.cxmainte.com') {
+                geminiProxyUrl = '/tools/ai-cleaner/server/gemini-proxy.php';
+            } else if (window.location.hostname.includes('netlify.app')) {
+                geminiProxyUrl = '/.netlify/functions/gemini-chat';
+            } else {
+                geminiProxyUrl = null; // ローカルではモックを使用
+            }
+            
+            if (geminiProxyUrl) {
                 try {
-                    const geminiResponse = await fetch('/.netlify/functions/gemini-chat', {
+                    const geminiResponse = await fetch(geminiProxyUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

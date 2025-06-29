@@ -3,8 +3,22 @@
 
 window.AMAZON_CONFIG = {
     // 本番環境：サーバーサイドプロキシ経由でAPIキーを隠蔽
-    useServerProxy: true, // Netlify Functionsプロキシ経由でAPI呼び出し
-    proxyEndpoint: '/tools/ai-cleaner/server/amazon-proxy.php', // Xサーバー用PHPプロキシ
+    useServerProxy: true,
+    
+    // 環境に応じたプロキシエンドポイント
+    proxyEndpoint: (() => {
+        const hostname = window.location.hostname;
+        if (hostname === 'cxmainte.com' || hostname === 'www.cxmainte.com') {
+            console.log('🌐 cxmainte.com環境を検出');
+            return '/tools/ai-cleaner/server/amazon-proxy.php';
+        } else if (hostname.includes('netlify.app')) {
+            console.log('🌐 Netlify環境を検出');
+            return '/.netlify/functions/amazon-proxy';
+        } else {
+            console.log('🌐 ローカル環境を検出');
+            return '/server/amazon-proxy.php';
+        }
+    })(),
     
     // GitHub Secrets経由で設定される環境変数
     // 実際の値はGitHub Actions deployment時に注入される
