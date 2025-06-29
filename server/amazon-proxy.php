@@ -1,9 +1,23 @@
 <?php
 // XServer用 Amazon PA-API v5 セキュアプロキシ
+
+// エラー報告を有効化（デバッグ用）
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: https://cxmainte.com');
+
+// 動的CORS設定
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (strpos($origin, 'cxmainte.com') !== false || strpos($origin, 'localhost') !== false) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+} else {
+    header('Access-Control-Allow-Origin: https://cxmainte.com');
+}
+
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Credentials: true');
 
 // OPTIONSリクエスト（プリフライト）対応
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -18,7 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // セキュア設定を読み込み
-require_once __DIR__ . '/config.php';
+$configPath = __DIR__ . '/config.php';
+if (!file_exists($configPath)) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Configuration file not found', 'path' => $configPath]);
+    exit;
+}
+
+require_once $configPath;
+
+// 設定の検証
+if (!defined('AMAZON_ACCESS_KEY') || !defined('AMAZON_SECRET_KEY') || !defined('AMAZON_ASSOCIATE_TAG')) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Amazon API credentials not configured']);
+    exit;
+}
 
 try {
     // リクエストボディを取得
@@ -59,6 +87,8 @@ try {
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage(),
+        'line' => $e->getLine(),
+        'file' => basename($e->getFile()),
         'timestamp' => date('c')
     ]);
 }

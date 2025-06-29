@@ -22,27 +22,29 @@ class AmazonImageFetcher {
     async fetchProductImages(asins) {
         try {
             console.log('PA-APIで商品画像を取得中...', asins);
+            console.log('プロキシURL:', this.proxyUrl);
             
+            // シンプルなリクエスト（config不要、サーバー側で設定を使用）
             const response = await fetch(this.proxyUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    asins: asins,
-                    config: {
-                        accessKey: window.AMAZON_CONFIG?.accessKey,
-                        secretKey: window.AMAZON_CONFIG?.secretKey,
-                        associateTag: window.AMAZON_CONFIG?.associateTag || 'asdfghj12-22'
-                    }
+                    asins: asins
                 })
             });
 
+            console.log('レスポンスステータス:', response.status);
+            
             if (!response.ok) {
-                throw new Error(`API Error: ${response.status}`);
+                const errorText = await response.text();
+                console.error('エラーレスポンス:', errorText);
+                throw new Error(`API Error: ${response.status} - ${errorText}`);
             }
 
             const data = await response.json();
+            console.log('レスポンスデータ:', data);
             
             if (data.success && data.products) {
                 console.log('✅ PA-APIから商品データ取得成功:', data.products);
@@ -51,7 +53,8 @@ class AmazonImageFetcher {
                 throw new Error(data.error || 'Failed to fetch products');
             }
         } catch (error) {
-            console.error('❌ PA-API エラー:', error);
+            console.error('❌ PA-API エラー詳細:', error);
+            console.error('エラースタック:', error.stack);
             return null;
         }
     }

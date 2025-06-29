@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon PA-API テスト</title>
+    <style>
+        body {
+            font-family: -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #FF9900;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #FF8800;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .product img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+        .error {
+            color: red;
+            background: #fee;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            color: green;
+            background: #efe;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Amazon PA-API テスト</h1>
+        
+        <h2>1. 設定確認</h2>
+        <button onclick="checkConfig()">設定を確認</button>
+        <div id="config-result"></div>
+        
+        <h2>2. シンプルテスト</h2>
+        <button onclick="simpleTest()">シンプルなAPIテスト</button>
+        <div id="simple-result"></div>
+        
+        <h2>3. 商品画像取得テスト</h2>
+        <button onclick="testProductImages()">商品画像を取得</button>
+        <div id="image-result"></div>
+        
+        <h2>4. 取得した商品</h2>
+        <div id="products"></div>
+    </div>
+
+    <script>
+        // プロキシURL設定
+        const getProxyUrl = () => {
+            if (window.location.hostname === 'cxmainte.com' || window.location.hostname === 'www.cxmainte.com') {
+                return '/tools/ai-cleaner/server/amazon-proxy.php';
+            } else if (window.location.hostname.includes('netlify.app')) {
+                return '/.netlify/functions/amazon-proxy';
+            } else {
+                return '/server/amazon-proxy.php';
+            }
+        };
+
+        async function checkConfig() {
+            const resultDiv = document.getElementById('config-result');
+            resultDiv.innerHTML = '<div class="result">確認中...</div>';
+            
+            try {
+                const response = await fetch('/tools/ai-cleaner/server/test-amazon-api.php');
+                const text = await response.text();
+                resultDiv.innerHTML = `<div class="result">${text}</div>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">エラー: ${error.message}</div>`;
+            }
+        }
+
+        async function simpleTest() {
+            const resultDiv = document.getElementById('simple-result');
+            resultDiv.innerHTML = '<div class="result">テスト中...</div>';
+            
+            try {
+                const proxyUrl = getProxyUrl();
+                console.log('プロキシURL:', proxyUrl);
+                
+                // シンプルなテストリクエスト
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        asins: ['B07C44DM6S'] // テスト用ASIN
+                    })
+                });
+                
+                console.log('レスポンスステータス:', response.status);
+                const text = await response.text();
+                console.log('レスポンステキスト:', text);
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    throw new Error('JSONパースエラー: ' + text);
+                }
+                
+                if (response.ok && data.success) {
+                    resultDiv.innerHTML = `<div class="success">✅ 成功！\n${JSON.stringify(data, null, 2)}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ エラー (${response.status}):\n${text}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ エラー: ${error.message}</div>`;
+                console.error('詳細:', error);
+            }
+        }
+
+        async function testProductImages() {
+            const resultDiv = document.getElementById('image-result');
+            const productsDiv = document.getElementById('products');
+            
+            resultDiv.innerHTML = '<div class="result">画像取得中...</div>';
+            productsDiv.innerHTML = '';
+            
+            try {
+                // get-amazon-images-api.js を読み込み
+                if (!window.AmazonImageFetcher) {
+                    const script = document.createElement('script');
+                    script.src = '/tools/ai-cleaner/get-amazon-images-api.js';
+                    document.head.appendChild(script);
+                    
+                    // スクリプトの読み込み待ち
+                    await new Promise(resolve => {
+                        script.onload = resolve;
+                        setTimeout(resolve, 2000);
+                    });
+                }
+                
+                if (!window.AmazonImageFetcher) {
+                    throw new Error('AmazonImageFetcherが読み込めません');
+                }
+                
+                const fetcher = new window.AmazonImageFetcher();
+                const images = await fetcher.updateProductImages();
+                
+                if (images && Object.keys(images).length > 0) {
+                    resultDiv.innerHTML = `<div class="success">✅ ${Object.keys(images).length}個の画像を取得しました</div>`;
+                    
+                    // 商品表示
+                    Object.entries(images).forEach(([asin, imageUrl]) => {
+                        const productDiv = document.createElement('div');
+                        productDiv.className = 'product';
+                        productDiv.innerHTML = `
+                            <img src="${imageUrl}" alt="${asin}" onerror="this.src='https://via.placeholder.com/100'">
+                            <div>
+                                <strong>ASIN:</strong> ${asin}<br>
+                                <strong>画像URL:</strong> ${imageUrl}
+                            </div>
+                        `;
+                        productsDiv.appendChild(productDiv);
+                    });
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ 画像を取得できませんでした</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ エラー: ${error.message}</div>`;
+                console.error('詳細:', error);
+            }
+        }
+    </script>
+</body>
+</html>
