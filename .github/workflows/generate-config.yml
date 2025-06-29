@@ -1,0 +1,44 @@
+name: Generate Config File
+
+on:
+  workflow_dispatch:  # 手動実行のみ
+
+jobs:
+  generate-config:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Create config.php
+      run: |
+        cat > server/config.php << 'EOF'
+        <?php
+        // Auto-generated configuration file
+        // Generated at: $(date)
+        
+        // Amazon Product Advertising API
+        define('AMAZON_ACCESS_KEY', '${{ secrets.AMAZON_ACCESS_KEY }}');
+        define('AMAZON_SECRET_KEY', '${{ secrets.AMAZON_SECRET_KEY }}');
+        define('AMAZON_ASSOCIATE_TAG', '${{ secrets.AMAZON_ASSOCIATE_TAG }}');
+        
+        // Google Gemini API
+        define('GEMINI_API_KEY', '${{ secrets.GEMINI_API_KEY }}');
+        
+        // Return array format for compatibility
+        return [
+            'amazon_access_key' => AMAZON_ACCESS_KEY,
+            'amazon_secret_key' => AMAZON_SECRET_KEY,
+            'amazon_associate_tag' => AMAZON_ASSOCIATE_TAG,
+            'gemini_api_key' => GEMINI_API_KEY
+        ];
+        ?>
+        EOF
+    
+    - name: Upload config.php as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: config-file
+        path: server/config.php
+        retention-days: 1  # 1日で自動削除

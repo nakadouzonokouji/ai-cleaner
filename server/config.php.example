@@ -1,0 +1,20 @@
+<?php
+/**
+ * API設定ファイル
+ * このファイルをconfig.phpにコピーして、実際のAPIキーを設定してください
+ * 
+ * 設置場所: /public_html/tools/ai-cleaner/server/config.php
+ * 
+ * 重要: config.phpは絶対にGitにコミットしないでください！
+ */
+
+return [
+    // Amazon Product Advertising API
+    'amazon_access_key' => 'YOUR_AMAZON_ACCESS_KEY_HERE',
+    'amazon_secret_key' => 'YOUR_AMAZON_SECRET_KEY_HERE',
+    'amazon_associate_tag' => 'asdfghj12-22',
+    
+    // Google Gemini API
+    'gemini_api_key' => 'YOUR_GEMINI_API_KEY_HERE'
+];
+?>
