@@ -13,6 +13,8 @@ class DialogueCleaningAdvisor {
             analysisLog: []
         };
         
+        this.productImages = {}; // PA-APIから取得した画像URLを保存
+        
         this.init();
     }
 
@@ -23,8 +25,28 @@ class DialogueCleaningAdvisor {
         // イベントリスナーの設定
         this.setupEventListeners();
         
+        // PA-APIから商品画像を取得
+        this.loadProductImagesFromAPI();
+        
         // 初期メッセージ
         this.addMessage('ai', 'こんにちは！AI掃除アドバイザーです。掃除でお困りのことがあれば、何でもご相談ください。例えば「キッチンを掃除したい」などとお話しください。');
+    }
+    
+    async loadProductImagesFromAPI() {
+        try {
+            if (window.AmazonImageFetcher) {
+                console.log('PA-APIから商品画像を取得中...');
+                const fetcher = new window.AmazonImageFetcher();
+                const images = await fetcher.updateProductImages();
+                if (images && Object.keys(images).length > 0) {
+                    this.productImages = images;
+                    console.log('✅ PA-APIから商品画像を取得しました:', Object.keys(images).length, '件');
+                }
+            }
+        } catch (error) {
+            console.error('PA-API画像取得エラー:', error);
+            // エラーが発生してもアプリは続行（カテゴリー画像を使用）
+        }
     }
 
     setupEventListeners() {
@@ -984,9 +1006,25 @@ class DialogueCleaningAdvisor {
     }
     
     getProductImageHtml(product) {
-        // カテゴリーベースの商品画像を表示
-        const categoryImage = this.getCategoryImage(product);
+        // PA-APIから取得した画像URLを使用
+        const imageUrl = this.getProductImageUrl(product.asin);
         
+        if (imageUrl) {
+            return `
+                <img src="${imageUrl}" 
+                     alt="${product.name}" 
+                     class="max-h-full max-w-full object-contain"
+                     loading="lazy"
+                     onerror="this.onerror=null; this.parentElement.innerHTML=window.dialogueAdvisor.getCategoryImageHtml('${product.asin}');">
+            `;
+        } else {
+            // PA-APIで画像が取得できない場合はカテゴリー画像を表示
+            return this.getCategoryImageHtml(product.asin);
+        }
+    }
+    
+    getCategoryImageHtml(asin) {
+        const categoryImage = this.getCategoryImage({ asin });
         return `
             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br ${categoryImage.gradient} p-4">
                 <div class="text-center">
@@ -997,6 +1035,11 @@ class DialogueCleaningAdvisor {
                 </div>
             </div>
         `;
+    }
+    
+    getProductImageUrl(asin) {
+        // PA-APIから取得した画像URLを保存するオブジェクト
+        return this.productImages?.[asin] || null;
     }
     
     getCategoryImage(product) {

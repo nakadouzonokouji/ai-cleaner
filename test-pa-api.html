@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Amazon PA-API テスト</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { margin: 20px 0; padding: 10px; border: 1px solid #ddd; }
+        .success { background-color: #e7f5e7; }
+        .error { background-color: #ffe7e7; }
+        .product { margin: 10px 0; padding: 10px; border: 1px solid #ccc; display: flex; align-items: center; }
+        .product img { max-width: 100px; margin-right: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Amazon PA-API 画像取得テスト</h1>
+    
+    <div id="status" class="status">
+        <p>環境変数をチェック中...</p>
+    </div>
+    
+    <button onclick="testAPI()">PA-APIで画像を取得</button>
+    
+    <div id="results"></div>
+
+    <script src="env-loader.js"></script>
+    <script src="amazon-config.js"></script>
+    <script src="get-amazon-images-api.js"></script>
+    
+    <script>
+        // 環境変数の状態を表示
+        window.addEventListener('DOMContentLoaded', async () => {
+            await window.envLoader.loadEnvironmentVariables();
+            const status = window.envLoader.checkStatus();
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `
+                <h3>環境変数ステータス</h3>
+                <p>Amazon Access Key: ${status.amazon.accessKey ? '✅ 設定済み' : '❌ 未設定'}</p>
+                <p>Amazon Secret Key: ${status.amazon.secretKey ? '✅ 設定済み' : '❌ 未設定'}</p>
+                <p>Amazon Associate Tag: ${status.amazon.associateTag ? '✅ 設定済み' : '❌ 未設定'}</p>
+                <p>プロキシURL: ${window.location.hostname.includes('netlify.app') ? 'Netlify Functions' : 'PHP Proxy'}</p>
+            `;
+            
+            if (!status.amazon.accessKey || !status.amazon.secretKey) {
+                statusDiv.classList.add('error');
+                statusDiv.innerHTML += '<p><strong>⚠️ Amazon APIキーが設定されていません。Netlifyの環境変数を設定してください。</strong></p>';
+            } else {
+                statusDiv.classList.add('success');
+            }
+        });
+        
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>⏳ PA-APIを呼び出し中...</p>';
+            
+            try {
+                const fetcher = new AmazonImageFetcher();
+                const testAsins = ['B07C44DM6S', 'B002E1AU3A', 'B07QN4M52D', 'B08KQ5F7MN'];
+                
+                const images = await fetcher.fetchProductImages(testAsins);
+                
+                if (images) {
+                    resultsDiv.innerHTML = '<h3>✅ 取得成功！</h3>';
+                    Object.entries(images).forEach(([asin, url]) => {
+                        resultsDiv.innerHTML += `
+                            <div class="product success">
+                                <img src="${url}" alt="${asin}">
+                                <div>
+                                    <strong>${asin}</strong><br>
+                                    <small>${url}</small>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    resultsDiv.innerHTML = '<p class="error">❌ 画像の取得に失敗しました。</p>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="error">❌ エラー: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
