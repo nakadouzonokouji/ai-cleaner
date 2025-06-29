@@ -29,7 +29,8 @@
       "Bash(done)",
       "Bash(sed:*)",
       "WebFetch(domain:stackoverflow.com)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(gh workflow list:*)"
     ],
     "deny": []
   }
